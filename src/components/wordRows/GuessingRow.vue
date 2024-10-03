@@ -67,10 +67,6 @@ function onKeyDown(e: KeyboardEvent, index: number) {
       clearGuessingWord()
   }
 }
-
-onMounted(() => {
-  inputs.value[0]?.focus()
-})
 </script>
 
 <template>
@@ -78,10 +74,11 @@ onMounted(() => {
     <WordCell v-for="(_, index) in guessingWord" ref="wordCells" :key="index">
       <input
         ref="inputs"
-        :value="guessingWord[index]"
         type="text"
-        class="w-full h-full text-center capitalize bg-transparent border-2 rounded outline-none caret-transparent border-neutral-500 focus:border-neutral-200"
         maxlength="1"
+        :value="guessingWord[index]"
+        :autofocus="index === 0"
+        class="w-full h-full text-center capitalize bg-transparent border-2 rounded outline-none caret-transparent border-neutral-500 focus:border-neutral-200"
         @input="e => onInput(e, index)"
         @keydown="e => onKeyDown(e, index)"
       >

@@ -14,7 +14,7 @@ onMounted(wordleStore.fetchNewWord)
 <template>
   <main class="flex flex-col items-center justify-center h-full gap-12">
     <h1 class="text-2xl">
-      Try to guess the word!
+      Try to guess the word! {{ wordleStore.word }}
     </h1>
 
     <div v-if="wordleStore.isGameOver">
