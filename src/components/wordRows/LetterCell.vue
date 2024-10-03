@@ -15,7 +15,7 @@ defineExpose({ container })
   <div
     ref="container"
     :class="[twMerge(
-      'grid items-center justify-center text-3xl font-bold uppercase rounded-sm w-14 aspect-square bg-neutral-800',
+      'grid items-center transition-colors duration-500 justify-center text-3xl font-bold uppercase rounded-sm w-14 aspect-square bg-neutral-800',
       twClass,
     )]"
   >

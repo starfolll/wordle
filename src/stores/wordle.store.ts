@@ -7,6 +7,12 @@ export enum TMatchingLetterTag {
   NONE = 'none',
 }
 
+export const matchingLetterTagToClass = {
+  exact: 'bg-lime-400 text-lime-900',
+  partial: 'bg-yellow-400 text-yellow-900',
+  none: '',
+} satisfies Record<TMatchingLetterTag, string>
+
 export const useWordleStore = defineStore('wordle', () => {
   const lettersInWord = 5
   const maxGuesses = lettersInWord + 1
@@ -28,6 +34,27 @@ export const useWordleStore = defineStore('wordle', () => {
 
     return TMatchingLetterTag.NONE
   }
+
+  const guessedLettersTag = computed<Record<string, TMatchingLetterTag>>(() => {
+    const guessedLetters: Record<string, TMatchingLetterTag> = {}
+
+    guesses.value.forEach(guess => guess.split('').forEach((letter, index) => {
+      if (guessedLetters[letter] === TMatchingLetterTag.EXACT)
+        return
+
+      const tag = getLetterTag(letter, index)
+
+      if (
+        !guessedLetters[letter]
+        || tag === TMatchingLetterTag.EXACT
+        || (tag === TMatchingLetterTag.PARTIAL && guessedLetters[letter] === TMatchingLetterTag.NONE)
+      ) {
+        guessedLetters[letter] = tag
+      }
+    }))
+
+    return guessedLetters
+  })
 
   const submitGuess = (guess: string): boolean => {
     guesses.value.push(guess)
@@ -65,6 +92,8 @@ export const useWordleStore = defineStore('wordle', () => {
     isGameOver,
 
     getLetterTag,
+    guessedLettersTag,
+
     submitGuess,
     fetchNewWord,
   }

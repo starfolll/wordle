@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TMatchingLetterTag } from '@/stores/wordle.store'
-import { useWordleStore } from '@/stores/wordle.store'
+import { matchingLetterTagToClass, useWordleStore } from '@/stores/wordle.store'
 import LetterCell from './LetterCell.vue'
 import WordContainer from './WordContainer.vue'
 
@@ -9,12 +9,6 @@ defineProps<{
 }>()
 
 const wordleStore = useWordleStore()
-
-const matchingLetterTagToClass = {
-  exact: 'bg-lime-400 text-lime-900',
-  partial: 'bg-yellow-400 text-yellow-900',
-  none: '',
-} satisfies Record<TMatchingLetterTag, string>
 </script>
 
 <template>
