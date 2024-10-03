@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import WordCell from './wordRows/LetterCell.vue'
-import WordsContainer from './wordRows/WordContainer.vue'
+import LetterCell from './wordRows/LetterCell.vue'
+import WordContainer from './wordRows/WordContainer.vue'
 
 const keyboardRow1 = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
 const keyboardRow2 = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
@@ -9,26 +9,26 @@ const keyboardRow3 = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
 
 <template>
   <div class="flex flex-col items-center gap-2">
-    <WordsContainer>
+    <WordContainer>
       <button v-for="letter in keyboardRow1" :key="letter">
-        <WordCell>
+        <LetterCell>
           {{ letter }}
-        </WordCell>
+        </LetterCell>
       </button>
-    </WordsContainer>
-    <WordsContainer>
+    </WordContainer>
+    <WordContainer>
       <button v-for="letter in keyboardRow2" :key="letter">
-        <WordCell>
+        <LetterCell>
           {{ letter }}
-        </WordCell>
+        </LetterCell>
       </button>
-    </WordsContainer>
-    <WordsContainer>
+    </WordContainer>
+    <WordContainer>
       <button v-for="letter in keyboardRow3" :key="letter">
-        <WordCell>
+        <LetterCell>
           {{ letter }}
-        </WordCell>
+        </LetterCell>
       </button>
-    </WordsContainer>
+    </WordContainer>
   </div>
 </template>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { TMatchingLetterTag } from '@/stores/wordle.store'
 import { useWordleStore } from '@/stores/wordle.store'
-import WordCell from './LetterCell.vue'
-import WordsContainer from './WordContainer.vue'
+import LetterCell from './LetterCell.vue'
+import WordContainer from './WordContainer.vue'
 
 defineProps<{
   word: string
@@ -18,8 +18,8 @@ const matchingLetterTagToClass = {
 </script>
 
 <template>
-  <WordsContainer v-if="wordleStore.word">
-    <WordCell
+  <WordContainer v-if="wordleStore.word">
+    <LetterCell
       v-for="(letter, index) in word"
       :key="index"
       class="flip"
@@ -27,8 +27,8 @@ const matchingLetterTagToClass = {
       :tw-class="matchingLetterTagToClass[wordleStore.getLetterTag(letter, index)]"
     >
       {{ letter }}
-    </WordCell>
-  </WordsContainer>
+    </LetterCell>
+  </WordContainer>
 </template>
 
 <style scoped>

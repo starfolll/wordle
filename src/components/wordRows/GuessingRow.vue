@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useWordleStore } from '@/stores/wordle.store'
 import { onMounted, ref } from 'vue'
-import WordCell from './LetterCell.vue'
-import WordsContainer from './WordContainer.vue'
+import LetterCell from './LetterCell.vue'
+import WordContainer from './WordContainer.vue'
 
 const wordleStore = useWordleStore()
 
 const getClearWord = () => Array.from<null>({ length: wordleStore.lettersInWord }).fill(null)
 const inputs = ref<HTMLInputElement[]>([])
-const wordCells = ref<typeof WordCell[]>([])
+const LetterCells = ref<typeof LetterCell[]>([])
 const guessingWord = ref<Array<string | null>>(getClearWord())
 
 const isAllowedLetter = (char: string) => /[a-z]/i.test(char)
@@ -16,8 +16,8 @@ const focusInput = (index: number) => requestAnimationFrame(() => inputs.value[i
 
 function setGuessingWordLetter(letter: string | null, index: number) {
   guessingWord.value[index] = letter ? letter.toLowerCase() : letter
-  wordCells.value[index].container.classList.remove('bounce')
-  requestAnimationFrame(() => wordCells.value[index].container.classList.add('bounce'))
+  LetterCells.value[index].container.classList.remove('bounce')
+  requestAnimationFrame(() => LetterCells.value[index].container.classList.add('bounce'))
 }
 function clearGuessingWord() {
   guessingWord.value = getClearWord()
@@ -70,8 +70,8 @@ function onKeyDown(e: KeyboardEvent, index: number) {
 </script>
 
 <template>
-  <WordsContainer v-if="wordleStore.word">
-    <WordCell v-for="(_, index) in guessingWord" ref="wordCells" :key="index">
+  <WordContainer v-if="wordleStore.word">
+    <LetterCell v-for="(_, index) in guessingWord" ref="LetterCells" :key="index">
       <input
         ref="inputs"
         type="text"
@@ -82,8 +82,8 @@ function onKeyDown(e: KeyboardEvent, index: number) {
         @input="e => onInput(e, index)"
         @keydown="e => onKeyDown(e, index)"
       >
-    </WordCell>
-  </WordsContainer>
+    </LetterCell>
+  </WordContainer>
 </template>
 
 <style scoped>
