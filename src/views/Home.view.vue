@@ -14,27 +14,23 @@ onMounted(wordleStore.fetchNewWord)
 <template>
   <main class="flex flex-col items-center justify-center h-full gap-12">
     <h1 class="text-2xl">
-      Try to guess the word! {{ wordleStore.word }}
+      <template v-if="!wordleStore.isGameOver">
+        Try to guess the word! {{ wordleStore.word }}
+      </template>
+      <template v-else>
+        <template v-if="wordleStore.isWon">
+          Congratulations! You WON!
+        </template>
+        <template v-else>
+          The word was: {{ wordleStore.word?.toUpperCase() }}
+        </template>
+      </template>
     </h1>
-
-    <div v-if="wordleStore.isGameOver">
-      <p v-if="wordleStore.isWon">
-        Congratulations! You WON!
-      </p>
-
-      <p v-if="!wordleStore.isWon">
-        The word was: {{ wordleStore.word?.toUpperCase() }}
-      </p>
-    </div>
 
     <div class="flex flex-col gap-2">
       <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
-
-      <template v-if="!wordleStore.isGameOver">
-        <GuessingRow />
-
-        <RemainingRow v-for="i in wordleStore.remainingGuesses - 1" :key="i" />
-      </template>
+      <GuessingRow v-if="!wordleStore.isGameOver" />
+      <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
     </div>
 
     <Keyboard />
