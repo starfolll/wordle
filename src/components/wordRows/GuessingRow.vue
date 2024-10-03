@@ -37,7 +37,7 @@ function onInput(e: Event, index: number) {
 
 function onKeyDown(e: KeyboardEvent, index: number) {
   if (e.key === 'Backspace') {
-    if (e.shiftKey) {
+    if (e.ctrlKey || e.shiftKey) {
       guessingWord.value = getClearWord()
       focusInput(0)
     }
