@@ -26,21 +26,31 @@ const keyboardRow3 = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
           {{ letter }}
         </LetterCell>
       </button>
+
+      <button>
+        <LetterCell tw-class="pt-1 text-green-300 bg-green-800">
+          <font-awesome-icon :icon="['fas', 'turn-down']" rotation="90" />
+        </LetterCell>
+      </button>
     </WordContainer>
 
-    <WordContainer class="w-full">
-      <button class="w-full px-4 rounded-sm bg-neutral-800">
-        DELETE
-      </button>
-
+    <WordContainer>
       <button v-for="letter in keyboardRow3" :key="letter">
         <LetterCell :tw-class="matchingLetterTagToClass[wordleStore.guessedLettersTag[letter]] || ''">
           {{ letter }}
         </LetterCell>
       </button>
 
-      <button class="w-full px-4 rounded-sm bg-neutral-800">
-        ENTER
+      <button>
+        <LetterCell tw-class="text-yellow-300 bg-yellow-800">
+          <font-awesome-icon :icon="['fas', 'delete-left']" />
+        </LetterCell>
+      </button>
+
+      <button>
+        <LetterCell tw-class="text-yellow-300 bg-yellow-800">
+          <font-awesome-icon :icon="['fas', 'eraser']" />
+        </LetterCell>
       </button>
     </WordContainer>
   </div>
