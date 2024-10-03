@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useWordleStore } from '@/stores/wordle.store'
-import WordCell from './WordCell.vue'
-import WordsContainer from './WordsContainer.vue'
+import WordCell from './LetterCell.vue'
+import WordsContainer from './WordContainer.vue'
 
 const wordleStore = useWordleStore()
 </script>

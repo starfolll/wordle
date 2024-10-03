@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import WordCell from './wordRows/WordCell.vue'
-import WordsContainer from './wordRows/WordsContainer.vue'
+import WordCell from './wordRows/LetterCell.vue'
+import WordsContainer from './wordRows/WordContainer.vue'
 
 const keyboardRow1 = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
 const keyboardRow2 = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
