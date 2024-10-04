@@ -19,13 +19,33 @@ export const useWordleStore = defineStore('wordle', () => {
 
   const loading = ref(false)
   const word = ref<null | string>(null)
+
   const guesses = ref<string[]>([])
   const getClearWord = () => Array.from<null>({ length: lettersInWord }).fill(null)
   const guessingWord = ref<Array<string | null>>(getClearWord())
+  const isGuessSubmittable = computed(() => !guessingWord.value.includes(null))
   const remainingGuesses = computed(() => maxGuesses - guesses.value.length)
 
   const isWon = computed(() => guesses.value.includes(word.value!))
   const isGameOver = computed(() => isWon.value || guesses.value.length >= maxGuesses)
+
+  const addGuessingWordLetter = (letter: string) => {
+    const index = guessingWord.value.indexOf(null)
+
+    if (index !== -1)
+      guessingWord.value[index] = letter
+  }
+  const removeLastGuessingWordLetter = () => {
+    let index = -1
+
+    for (let i = 0; i < guessingWord.value.length; i++) {
+      if (guessingWord.value[i] !== null)
+        index = i
+    }
+
+    if (index !== -1)
+      guessingWord.value[index] = null
+  }
 
   const getLetterTag = (letter: string, index: number): TMatchingLetterTag => {
     if (word.value?.charAt(index) === letter)
@@ -36,7 +56,6 @@ export const useWordleStore = defineStore('wordle', () => {
 
     return TMatchingLetterTag.NONE
   }
-
   const guessedLettersTag = computed<Record<string, TMatchingLetterTag>>(() => {
     const guessedLetters: Record<string, TMatchingLetterTag> = {}
 
@@ -58,18 +77,18 @@ export const useWordleStore = defineStore('wordle', () => {
     return guessedLetters
   })
 
-  const submitGuess = (guess: string): boolean => {
-    guesses.value.push(guess)
-
-    return true
-  }
-
   const clearGuessingWord = () => guessingWord.value = getClearWord()
-
   const clearStore = () => {
     word.value = null
     clearGuessingWord()
     guesses.value = []
+  }
+
+  const submitGuess = (): boolean => {
+    guesses.value.push(guessingWord.value.join(''))
+    clearGuessingWord()
+
+    return true
   }
 
   const fetchNewWord = async () => {
@@ -92,6 +111,7 @@ export const useWordleStore = defineStore('wordle', () => {
     word,
     guesses,
     guessingWord,
+    isGuessSubmittable,
     remainingGuesses,
 
     isWon,
@@ -100,8 +120,11 @@ export const useWordleStore = defineStore('wordle', () => {
     getLetterTag,
     guessedLettersTag,
 
-    submitGuess,
+    addGuessingWordLetter,
+    removeLastGuessingWordLetter,
+
     clearGuessingWord,
+    submitGuess,
     fetchNewWord,
   }
 })

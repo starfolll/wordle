@@ -17,7 +17,11 @@ const letterClassNameExtended = {
 <template>
   <div class="flex flex-col items-center gap-1">
     <div class="flex justify-center w-full gap-1">
-      <button v-for="letter in keyboardRow1" :key="letter">
+      <button
+        v-for="letter in keyboardRow1"
+        :key="letter"
+        @click="wordleStore.addGuessingWordLetter(letter)"
+      >
         <KeyCap :tw-class="letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || ''">
           {{ letter }}
         </KeyCap>
@@ -25,7 +29,11 @@ const letterClassNameExtended = {
     </div>
 
     <div class="flex justify-center w-full gap-1">
-      <button v-for="letter in keyboardRow2" :key="letter">
+      <button
+        v-for="letter in keyboardRow2"
+        :key="letter"
+        @click="wordleStore.addGuessingWordLetter(letter)"
+      >
         <KeyCap :tw-class="letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || ''">
           {{ letter }}
         </KeyCap>
@@ -33,19 +41,23 @@ const letterClassNameExtended = {
     </div>
 
     <div class="flex justify-center w-full gap-1">
-      <button v-for="letter in keyboardRow3" :key="letter">
+      <button
+        v-for="letter in keyboardRow3"
+        :key="letter"
+        @click="wordleStore.addGuessingWordLetter(letter)"
+      >
         <KeyCap :tw-class="letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || ''">
           {{ letter }}
         </KeyCap>
       </button>
 
-      <button class="ml-2">
+      <button class="ml-2" @click="wordleStore.removeLastGuessingWordLetter">
         <KeyCap tw-class="text-neutral-400">
           <font-awesome-icon :icon="['fas', 'delete-left']" />
         </KeyCap>
       </button>
 
-      <button>
+      <button @click="wordleStore.clearGuessingWord">
         <KeyCap tw-class="text-neutral-400">
           <font-awesome-icon :icon="['fas', 'eraser']" />
         </KeyCap>

@@ -4,10 +4,6 @@ import { ref } from 'vue'
 import LetterCell from './LetterCell.vue'
 import WordContainer from './WordContainer.vue'
 
-const props = defineProps<{
-  submitGuess: typeof wordleStore['submitGuess']
-}>()
-
 const wordleStore = useWordleStore()
 
 const inputs = ref<HTMLInputElement[]>([])
@@ -20,10 +16,6 @@ function setGuessingWordLetter(letter: string | null, index: number) {
   wordleStore.guessingWord[index] = letter ? letter.toLowerCase() : letter
   LetterCells.value[index].container.classList.remove('bounce')
   requestAnimationFrame(() => LetterCells.value[index].container.classList.add('bounce'))
-}
-function clearGuessingWord() {
-  wordleStore.clearGuessingWord()
-  focusInput(0)
 }
 
 function onInput(e: Event, index: number) {
@@ -63,10 +55,8 @@ function onKeyDown(e: KeyboardEvent, index: number) {
   }
 
   else if (e.key === 'Enter' && !wordleStore.guessingWord.includes(null)) {
-    const success = props.submitGuess(wordleStore.guessingWord.join(''))
-
-    if (success)
-      clearGuessingWord()
+    wordleStore.submitGuess()
+    focusInput(0)
   }
 }
 </script>
@@ -87,18 +77,3 @@ function onKeyDown(e: KeyboardEvent, index: number) {
     </LetterCell>
   </WordContainer>
 </template>
-
-<style scoped>
-@keyframes bounce {
-  0% { scale: 1; }
-  50% { scale: 1.1; }
-  100% { scale: 1; }
-}
-
-.bounce {
-  animation-name: bounce;
-  animation-duration: 0.2s;
-  animation-timing-function: ease;
-  animation-iteration-count: 1;
-}
-</style>

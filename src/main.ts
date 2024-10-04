@@ -7,7 +7,9 @@ import App from './App.vue'
 
 import * as icons from './icons'
 import router from './router'
-import './assets/base.css'
+
+import './assets/base.scss'
+import './assets/animations.scss'
 
 library.add(icons)
 
