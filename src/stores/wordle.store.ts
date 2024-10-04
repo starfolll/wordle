@@ -7,7 +7,7 @@ export enum TMatchingLetterTag {
   NONE = 'none',
 }
 
-export const matchingLetterTagToClass = {
+export const letterClassName = {
   exact: 'bg-lime-400 text-lime-900',
   partial: 'bg-yellow-400 text-yellow-900',
   none: '',

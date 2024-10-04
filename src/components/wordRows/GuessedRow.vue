@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TMatchingLetterTag } from '@/stores/wordle.store'
-import { matchingLetterTagToClass, useWordleStore } from '@/stores/wordle.store'
+import { letterClassName, useWordleStore } from '@/stores/wordle.store'
 import LetterCell from './LetterCell.vue'
 import WordContainer from './WordContainer.vue'
 
@@ -18,7 +18,7 @@ const wordleStore = useWordleStore()
       :key="index"
       class="flip"
       :style="{ '--index': index }"
-      :tw-class="matchingLetterTagToClass[wordleStore.getLetterTag(letter, index)]"
+      :tw-class="letterClassName[wordleStore.getLetterTag(letter, index)]"
     >
       {{ letter }}
     </LetterCell>

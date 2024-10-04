@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Keyboard from '@/components/Keyboard.vue'
+import Keyboard from '@/components/keyboard/Keyboard.vue'
 import GuessedRow from '@/components/wordRows/GuessedRow.vue'
 import GuessingRow from '@/components/wordRows/GuessingRow.vue'
 import RemainingRow from '@/components/wordRows/RemainingRow.vue'
@@ -34,5 +34,9 @@ onMounted(wordleStore.fetchNewWord)
     </div>
 
     <Keyboard />
+
+    <button class="px-8 py-2 text-3xl font-bold text-green-900 bg-green-400 rounded-full">
+      Submit
+    </button>
   </main>
 </template>

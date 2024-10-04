@@ -1,0 +1,55 @@
+<script setup lang="ts">
+import { letterClassName, useWordleStore } from '@/stores/wordle.store'
+import KeyCap from './KeyCap.vue'
+
+const wordleStore = useWordleStore()
+
+const keyboardRow1 = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
+const keyboardRow2 = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
+const keyboardRow3 = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
+
+const letterClassNameExtended = {
+  ...letterClassName,
+  none: 'bg-neutral-900',
+} satisfies typeof letterClassName
+</script>
+
+<template>
+  <div class="flex flex-col items-center gap-1">
+    <div class="flex justify-center w-full gap-1">
+      <button v-for="letter in keyboardRow1" :key="letter">
+        <KeyCap :tw-class="letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || ''">
+          {{ letter }}
+        </KeyCap>
+      </button>
+    </div>
+
+    <div class="flex justify-center w-full gap-1">
+      <button v-for="letter in keyboardRow2" :key="letter">
+        <KeyCap :tw-class="letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || ''">
+          {{ letter }}
+        </KeyCap>
+      </button>
+    </div>
+
+    <div class="flex justify-center w-full gap-1">
+      <button v-for="letter in keyboardRow3" :key="letter">
+        <KeyCap :tw-class="letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || ''">
+          {{ letter }}
+        </KeyCap>
+      </button>
+
+      <button class="ml-2">
+        <KeyCap tw-class="text-neutral-400">
+          <font-awesome-icon :icon="['fas', 'delete-left']" />
+        </KeyCap>
+      </button>
+
+      <button>
+        <KeyCap tw-class="text-neutral-400">
+          <font-awesome-icon :icon="['fas', 'eraser']" />
+        </KeyCap>
+      </button>
+    </div>
+  </div>
+</template>
