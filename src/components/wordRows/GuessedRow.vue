@@ -25,7 +25,7 @@ const wordleStore = useWordleStore()
   </WordContainer>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 @keyframes flip {
   0% {
     transform: rotateY(0deg);
