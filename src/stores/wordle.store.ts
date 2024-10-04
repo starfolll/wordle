@@ -20,6 +20,8 @@ export const useWordleStore = defineStore('wordle', () => {
   const loading = ref(false)
   const word = ref<null | string>(null)
   const guesses = ref<string[]>([])
+  const getClearWord = () => Array.from<null>({ length: lettersInWord }).fill(null)
+  const guessingWord = ref<Array<string | null>>(getClearWord())
   const remainingGuesses = computed(() => maxGuesses - guesses.value.length)
 
   const isWon = computed(() => guesses.value.includes(word.value!))
@@ -62,8 +64,11 @@ export const useWordleStore = defineStore('wordle', () => {
     return true
   }
 
+  const clearGuessingWord = () => guessingWord.value = getClearWord()
+
   const clearStore = () => {
     word.value = null
+    clearGuessingWord()
     guesses.value = []
   }
 
@@ -86,6 +91,7 @@ export const useWordleStore = defineStore('wordle', () => {
     loading,
     word,
     guesses,
+    guessingWord,
     remainingGuesses,
 
     isWon,
@@ -95,6 +101,7 @@ export const useWordleStore = defineStore('wordle', () => {
     guessedLettersTag,
 
     submitGuess,
+    clearGuessingWord,
     fetchNewWord,
   }
 })

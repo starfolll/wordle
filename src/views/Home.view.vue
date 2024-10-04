@@ -8,6 +8,10 @@ import { onMounted } from 'vue'
 
 const wordleStore = useWordleStore()
 
+const submitGuess: typeof wordleStore['submitGuess'] = (word: string) => {
+  return wordleStore.submitGuess(word)
+}
+
 onMounted(wordleStore.fetchNewWord)
 </script>
 
@@ -29,7 +33,7 @@ onMounted(wordleStore.fetchNewWord)
 
     <div class="flex flex-col gap-2">
       <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
-      <GuessingRow v-if="!wordleStore.isGameOver" />
+      <GuessingRow v-if="!wordleStore.isGameOver" :submit-guess="submitGuess" />
       <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
     </div>
 

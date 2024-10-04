@@ -1,26 +1,28 @@
 <script setup lang="ts">
 import { useWordleStore } from '@/stores/wordle.store'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import LetterCell from './LetterCell.vue'
 import WordContainer from './WordContainer.vue'
 
+const props = defineProps<{
+  submitGuess: typeof wordleStore['submitGuess']
+}>()
+
 const wordleStore = useWordleStore()
 
-const getClearWord = () => Array.from<null>({ length: wordleStore.lettersInWord }).fill(null)
 const inputs = ref<HTMLInputElement[]>([])
 const LetterCells = ref<typeof LetterCell[]>([])
-const guessingWord = ref<Array<string | null>>(getClearWord())
 
 const isAllowedLetter = (char: string) => /[a-z]/i.test(char)
 const focusInput = (index: number) => requestAnimationFrame(() => inputs.value[index]?.focus())
 
 function setGuessingWordLetter(letter: string | null, index: number) {
-  guessingWord.value[index] = letter ? letter.toLowerCase() : letter
+  wordleStore.guessingWord[index] = letter ? letter.toLowerCase() : letter
   LetterCells.value[index].container.classList.remove('bounce')
   requestAnimationFrame(() => LetterCells.value[index].container.classList.add('bounce'))
 }
 function clearGuessingWord() {
-  guessingWord.value = getClearWord()
+  wordleStore.clearGuessingWord()
   focusInput(0)
 }
 
@@ -38,7 +40,7 @@ function onInput(e: Event, index: number) {
 function onKeyDown(e: KeyboardEvent, index: number) {
   if (e.key === 'Backspace') {
     if (e.ctrlKey || e.shiftKey) {
-      guessingWord.value = getClearWord()
+      wordleStore.clearGuessingWord()
       focusInput(0)
     }
     else {
@@ -47,7 +49,7 @@ function onKeyDown(e: KeyboardEvent, index: number) {
     }
   }
 
-  else if (e.key.length === 1 && isAllowedLetter(e.key) && guessingWord.value[index] !== null) {
+  else if (e.key.length === 1 && isAllowedLetter(e.key) && wordleStore.guessingWord[index] !== null) {
     setGuessingWordLetter(e.key, index)
     focusInput(index + 1)
   }
@@ -60,8 +62,8 @@ function onKeyDown(e: KeyboardEvent, index: number) {
     focusInput(index + 1)
   }
 
-  else if (e.key === 'Enter' && !guessingWord.value.includes(null)) {
-    const success = wordleStore.submitGuess(guessingWord.value.join(''))
+  else if (e.key === 'Enter' && !wordleStore.guessingWord.includes(null)) {
+    const success = props.submitGuess(wordleStore.guessingWord.join(''))
 
     if (success)
       clearGuessingWord()
@@ -71,12 +73,12 @@ function onKeyDown(e: KeyboardEvent, index: number) {
 
 <template>
   <WordContainer v-if="wordleStore.word">
-    <LetterCell v-for="(_, index) in guessingWord" ref="LetterCells" :key="index">
+    <LetterCell v-for="(_, index) in wordleStore.guessingWord" ref="LetterCells" :key="index">
       <input
         ref="inputs"
         type="text"
         maxlength="1"
-        :value="guessingWord[index]"
+        :value="wordleStore.guessingWord[index]"
         :autofocus="index === 0"
         class="w-full h-full text-center capitalize bg-transparent border-2 rounded outline-none caret-transparent border-neutral-500 focus:border-neutral-200"
         @input="e => onInput(e, index)"
