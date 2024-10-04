@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { TMatchingLetterTag } from '@/stores/wordle.store'
 import { letterClassName, useWordleStore } from '@/stores/wordle.store'
 import LetterCell from './LetterCell.vue'
 import WordContainer from './WordContainer.vue'
