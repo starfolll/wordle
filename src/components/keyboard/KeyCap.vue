@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { twMerge } from 'tailwind-merge'
-import { defineProps } from 'vue'
 
 defineProps<{
   twClass?: string
