@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { vBounce } from '@/directives/animations/v-bounce'
 import { useWordleStore } from '@/stores/wordle.store'
 import { ref } from 'vue'
 import LetterCell from './LetterCell.vue'
@@ -14,8 +15,8 @@ const focusInput = (index: number) => requestAnimationFrame(() => inputs.value[i
 
 function setGuessingWordLetter(letter: string | null, index: number) {
   wordleStore.guessingWord[index] = letter ? letter.toLowerCase() : letter
-  LetterCells.value[index].container.classList.remove('bounce')
-  requestAnimationFrame(() => LetterCells.value[index].container.classList.add('bounce'))
+  // LetterCells.value[index].container.classList.remove('bounce')
+  // requestAnimationFrame(() => LetterCells.value[index].container.classList.add('bounce'))
 }
 
 function onInput(e: Event, index: number) {
@@ -66,6 +67,7 @@ function onKeyDown(e: KeyboardEvent, index: number) {
     <LetterCell v-for="(_, index) in wordleStore.guessingWord" ref="LetterCells" :key="index">
       <input
         ref="inputs"
+        v-bounce="wordleStore.guessingWord[index]"
         type="text"
         maxlength="1"
         :value="wordleStore.guessingWord[index]"

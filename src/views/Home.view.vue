@@ -3,6 +3,7 @@ import Keyboard from '@/components/keyboard/Keyboard.vue'
 import GuessedRow from '@/components/wordRows/GuessedRow.vue'
 import GuessingRow from '@/components/wordRows/GuessingRow.vue'
 import RemainingRow from '@/components/wordRows/RemainingRow.vue'
+import { vSquashOnClick } from '@/directives/animations/v-squash-on-click'
 import { useWordleStore } from '@/stores/wordle.store'
 import { onMounted } from 'vue'
 
@@ -36,6 +37,7 @@ onMounted(wordleStore.fetchNewWord)
     <Keyboard />
 
     <button
+      v-squash-on-click
       :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver"
       class="px-8 py-2 text-3xl font-bold text-green-900 transition-colors duration-500 bg-green-400 rounded-full disabled:cursor-not-allowed disabled:opacity-40"
       @click="wordleStore.submitGuess"
