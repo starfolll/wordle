@@ -1,13 +1,22 @@
 <script setup lang="ts">
+import LoadingBox from '@/components/LoadingBox.vue'
 import { useWordleStore } from '@/stores/wordle.store'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const wordleStore = useWordleStore()
 
-async function startGame() {
-  await wordleStore.fetchNewWord()
-  router.push('/game')
+const startGame = {
+  classic4Letters: () => {
+    wordleStore.clearStore()
+    wordleStore.setWord('word')
+    router.push('/game')
+  },
+  classic5Letters: () => {
+    wordleStore.clearStore()
+    wordleStore.setWord('hello')
+    router.push('/game')
+  },
 }
 
 // game modes:
@@ -22,7 +31,10 @@ async function startGame() {
         Wordle
       </h1>
 
-      <div class="grid border-2 border-neutral-800 rounded-lg p-2 grid-cols-[1fr,auto] gap-2">
+      <LoadingBox
+        :loading="wordleStore.loading"
+        class="grid border-2 overflow-hidden border-neutral-800 rounded-lg p-2 grid-cols-[1fr,auto] gap-2"
+      >
         <h2 class="text-3xl text-green-400">
           Classic
         </h2>
@@ -33,7 +45,7 @@ async function startGame() {
         <button
           :disabled="wordleStore.loading"
           class="px-4 py-2 text-2xl text-green-900 bg-green-300 rounded"
-          @click="startGame"
+          @click="startGame.classic4Letters"
         >
           Classic 4 letters
         </button>
@@ -44,14 +56,14 @@ async function startGame() {
         <button
           :disabled="wordleStore.loading"
           class="px-4 py-2 text-2xl text-green-900 bg-green-300 rounded"
-          @click="startGame"
+          @click="startGame.classic5Letters"
         >
           Classic 5 letters
         </button>
         <div class="flex items-center justify-center px-4 py-2 text-2xl rounded bg-neutral-800">
           0
         </div>
-      </div>
+      </LoadingBox>
     </main>
   </div>
 </template>

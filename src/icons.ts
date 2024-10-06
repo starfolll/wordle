@@ -1,5 +1,6 @@
 export {
   faArrowLeft,
+  faCircleNotch,
   faDeleteLeft,
   faEraser,
   faHouse,
