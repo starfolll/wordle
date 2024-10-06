@@ -1,50 +1,57 @@
 <script setup lang="ts">
-import Keyboard from '@/components/keyboard/Keyboard.vue'
-import GuessedRow from '@/components/wordRows/GuessedRow.vue'
-import GuessingRow from '@/components/wordRows/GuessingRow.vue'
-import RemainingRow from '@/components/wordRows/RemainingRow.vue'
-import { vGlobalKeyPress } from '@/directives/animations/v-global-key-press'
-import { playSquashAnimation, vSquashOnClick } from '@/directives/animations/v-squash-on-click'
 import { useWordleStore } from '@/stores/wordle.store'
-import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const wordleStore = useWordleStore()
 
-onMounted(wordleStore.fetchNewWord)
+async function startGame() {
+  await wordleStore.fetchNewWord()
+  router.push('/game')
+}
+
+// game modes:
+// 1. regular game (4/5 letters) (with game strick counter)
+// 2. long words with 5+ letters, 3 guesses, but with a hint, separated by english level (A1, A2, B1, B2, C1, C2)
 </script>
 
 <template>
-  <main class="flex flex-col items-center justify-center h-full gap-12">
-    <h1 class="text-2xl">
-      <template v-if="!wordleStore.isGameOver">
-        Try to guess the word! {{ wordleStore.word }}
-      </template>
-      <template v-else>
-        <template v-if="wordleStore.isWon">
-          Congratulations! You WON!
-        </template>
-        <template v-else>
-          The word was: {{ wordleStore.word?.toUpperCase() }}
-        </template>
-      </template>
-    </h1>
+  <div class="flex flex-col items-center justify-center h-full">
+    <main class="grid gap-4">
+      <h1 class="font-mono text-4xl text-left">
+        Wordle
+      </h1>
 
-    <div class="flex flex-col gap-2">
-      <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
-      <GuessingRow v-if="!wordleStore.isGameOver" />
-      <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
-    </div>
+      <div class="grid border-2 border-neutral-800 rounded-lg p-2 grid-cols-[1fr,auto] gap-2">
+        <h2 class="text-3xl text-green-400">
+          Classic
+        </h2>
+        <p class="mt-auto text-center">
+          Strick
+        </p>
 
-    <Keyboard />
+        <button
+          :disabled="wordleStore.loading"
+          class="px-4 py-2 text-2xl text-green-900 bg-green-300 rounded"
+          @click="startGame"
+        >
+          Classic 4 letters
+        </button>
+        <div class="flex items-center justify-center px-4 py-2 text-2xl rounded bg-neutral-800">
+          4
+        </div>
 
-    <button
-      v-squash-on-click
-      v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
-      :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver"
-      class="px-8 py-2 text-3xl font-bold text-green-900 transition-colors duration-500 bg-green-400 rounded-full disabled:cursor-not-allowed disabled:opacity-40"
-      @click="wordleStore.submitGuess"
-    >
-      Submit
-    </button>
-  </main>
+        <button
+          :disabled="wordleStore.loading"
+          class="px-4 py-2 text-2xl text-green-900 bg-green-300 rounded"
+          @click="startGame"
+        >
+          Classic 5 letters
+        </button>
+        <div class="flex items-center justify-center px-4 py-2 text-2xl rounded bg-neutral-800">
+          0
+        </div>
+      </div>
+    </main>
+  </div>
 </template>

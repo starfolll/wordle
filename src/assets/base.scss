@@ -1,3 +1,5 @@
+@import url('./components/buttons.scss');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,7 +7,6 @@
 html, body, #app {
   @apply h-full;
 }
-
 
 body {
   @apply bg-neutral-900 text-neutral-100;

@@ -35,9 +35,14 @@ function onKeyDown(e: KeyboardEvent, index: number) {
     if (e.ctrlKey || e.shiftKey) {
       wordleStore.clearGuessingWord()
       focusInput(0)
+      return
+    }
+
+    if (wordleStore.guessingWord[index] !== null) {
+      setGuessingWordLetter(null, index)
     }
     else {
-      setGuessingWordLetter(null, index)
+      setGuessingWordLetter(null, index - 1)
       focusInput(index - 1)
     }
   }
