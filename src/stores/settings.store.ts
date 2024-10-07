@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 
 export const useSettingsStore = defineStore('settings', () => {
-  // const minLoadTime = 500
+  const language = 'en'
 
   return {
-    // minLoadTime,
+    language,
   }
 })

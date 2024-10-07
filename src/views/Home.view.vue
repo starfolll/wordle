@@ -21,7 +21,8 @@ const startGame = {
 
 // game modes:
 // 1. regular game (4/5 letters) (with game strick counter)
-// 2. long words with 5+ letters, 3 guesses, but with a hint, separated by english level (A1, A2, B1, B2, C1, C2)
+// 2. learning words (A1, A2, B1, B2, C1, C2) (roadmap)
+// 3. long words with 5+ letters, 3 guesses, but with a hint, separated by english level
 </script>
 
 <template>
@@ -44,23 +45,23 @@ const startGame = {
 
         <button
           :disabled="wordleStore.loading"
-          class="px-4 py-2 text-2xl text-green-900 bg-green-300 rounded"
+          class="px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
           @click="startGame.classic4Letters"
         >
           Classic 4 letters
         </button>
-        <div class="flex items-center justify-center px-4 py-2 text-2xl rounded bg-neutral-800">
+        <div class="flex items-center justify-center text-xl rounded aspect-square bg-neutral-800">
           4
         </div>
 
         <button
           :disabled="wordleStore.loading"
-          class="px-4 py-2 text-2xl text-green-900 bg-green-300 rounded"
+          class="px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
           @click="startGame.classic5Letters"
         >
           Classic 5 letters
         </button>
-        <div class="flex items-center justify-center px-4 py-2 text-2xl rounded bg-neutral-800">
+        <div class="flex items-center justify-center text-xl rounded aspect-square bg-neutral-800">
           0
         </div>
       </LoadingBox>
