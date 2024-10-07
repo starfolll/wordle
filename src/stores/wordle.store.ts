@@ -1,6 +1,6 @@
 import type { GameProgress } from './progress.store'
 import { defineStore } from 'pinia'
-import { computed, reactive, readonly, ref, type UnwrapRef } from 'vue'
+import { computed, ref } from 'vue'
 
 export enum TMatchingLetterTag {
   EXACT = 'exact',
@@ -30,6 +30,10 @@ export const useWordleStore = defineStore('wordle', () => {
 
   const isWon = computed<boolean>(() => (word.value && guesses.value.includes(word.value)) || false)
   const isGameOver = computed<boolean>(() => isWon.value || guesses.value.length >= maxGuesses.value)
+
+  const guessedLettersAppearAnimations = ['flip-x', 'flip-y']
+  const getRandomAnimation = (animations: string[]) => animations[Math.floor(Math.random() * animations.length)]
+  const guessedLettersAppearAnimation = ref<string>(getRandomAnimation(guessedLettersAppearAnimations))
 
   const onGuessSubmittedCallback = ref<((guess: string) => void) | null>(null)
   const onGameOverCallback = ref<(() => void) | null>(null)
@@ -100,6 +104,7 @@ export const useWordleStore = defineStore('wordle', () => {
 
   const setGameProgress = (newGameProgressRef: GameProgress | null) => {
     gameProgressRef.value = newGameProgressRef
+    guessedLettersAppearAnimation.value = getRandomAnimation(guessedLettersAppearAnimations)
     clearGuessingWord()
   }
 
@@ -115,6 +120,8 @@ export const useWordleStore = defineStore('wordle', () => {
 
     isWon,
     isGameOver,
+
+    guessedLettersAppearAnimation,
 
     onGuessSubmittedCallback,
     onGameOverCallback,

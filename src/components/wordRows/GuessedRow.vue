@@ -15,7 +15,7 @@ const wordleStore = useWordleStore()
     <LetterCell
       v-for="(letter, index) in word"
       :key="index"
-      class="flip"
+      :class="wordleStore.guessedLettersAppearAnimation"
       :style="{ '--index': index }"
       :tw-class="letterClassName[wordleStore.getLetterTag(letter, index)]"
     >

@@ -24,17 +24,32 @@
   animation-iteration-count: 1;
 }
 
-@keyframes flip {
+@keyframes flip-y {
   0% { transform: rotateY(0deg); @apply text-neutral-100 bg-neutral-800; }
   50% { transform: rotateY(90deg); @apply text-neutral-100 bg-neutral-800; }
   51% { @apply text-inherit bg-inherit; }
   100% { transform: rotateY(0deg); }
 }
 
-.flip {
-  animation-name: flip;
+.flip-y {
+  animation-name: flip-y;
   animation-duration: 0.3s;
-  animation-delay: calc(var(--index) * 0.1s);
+  animation-delay: calc(var(--index) * 0.2s);
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+@keyframes flip-x {
+  0% { transform: rotateX(0deg); @apply text-neutral-100 bg-neutral-800; }
+  50% { transform: rotateX(90deg); @apply text-neutral-100 bg-neutral-800; }
+  51% { @apply text-inherit bg-inherit; }
+  100% { transform: rotateX(0deg); }
+}
+
+.flip-x {
+  animation-name: flip-x;
+  animation-duration: 0.3s;
+  animation-delay: calc(var(--index) * 0.2s);
   animation-timing-function: linear;
   animation-fill-mode: both;
 }
