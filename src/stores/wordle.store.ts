@@ -77,7 +77,7 @@ export const useWordleStore = defineStore('wordle', () => {
     return guessedLetters
   })
 
-  const clearGuessingWord = () => guessingWord.value = []
+  const clearGuessingWord = () => guessingWord.value = getClearWord(lettersInWord.value)
   const clearStore = () => {
     word.value = null
     clearGuessingWord()

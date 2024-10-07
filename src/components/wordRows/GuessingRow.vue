@@ -14,9 +14,7 @@ const isAllowedLetter = (char: string) => /[a-z]/i.test(char)
 const focusInput = (index: number) => requestAnimationFrame(() => inputs.value[index]?.focus())
 
 function setGuessingWordLetter(letter: string | null, index: number) {
-  wordleStore.guessingWord[index] = letter ? letter.toLowerCase() : letter
-  // LetterCells.value[index].container.classList.remove('bounce')
-  // requestAnimationFrame(() => LetterCells.value[index].container.classList.add('bounce'))
+  wordleStore.guessingWord[index] = letter?.toLocaleLowerCase() ?? letter
 }
 
 function onInput(e: Event, index: number) {
