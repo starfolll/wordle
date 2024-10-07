@@ -1,5 +1,6 @@
+import type { GameProgress } from './progress.store'
 import { defineStore } from 'pinia'
-import { computed, ref, type UnwrapRef } from 'vue'
+import { computed, reactive, readonly, ref, type UnwrapRef } from 'vue'
 
 export enum TMatchingLetterTag {
   EXACT = 'exact',
@@ -14,37 +15,41 @@ export const letterClassName = {
 } satisfies Record<TMatchingLetterTag, string>
 
 export const useWordleStore = defineStore('wordle', () => {
-  const lettersInWord = ref(5)
+  const gameProgressRef = ref<GameProgress | null>(null)
+
+  const word = computed<string | null>(() => gameProgressRef.value?.word ?? null)
+  const lettersInWord = computed<number>(() => word.value?.length ?? 0)
   const maxGuesses = computed(() => lettersInWord.value + 1)
 
-  const loading = ref(false)
-  const word = ref<null | string>(null)
+  const guesses = computed<string[]>(() => gameProgressRef.value?.guesses ?? [])
+  const getClearGuess = (length: number) => Array.from<null>({ length }).fill(null)
+  const currentGuess = ref<Array<string | null>>([])
+  const clearGuessingWord = () => currentGuess.value = getClearGuess(lettersInWord.value)
+  const isGuessSubmittable = computed<boolean>(() => !currentGuess.value.includes(null))
+  const remainingGuesses = computed<number>(() => maxGuesses.value - guesses.value.length)
 
-  const guesses = ref<string[]>([])
-  const getClearWord = (length: number) => Array.from<null>({ length }).fill(null)
-  const guessingWord = ref<Array<string | null>>([])
-  const isGuessSubmittable = computed(() => !guessingWord.value.includes(null))
-  const remainingGuesses = computed(() => maxGuesses.value - guesses.value.length)
+  const isWon = computed<boolean>(() => (word.value && guesses.value.includes(word.value)) || false)
+  const isGameOver = computed<boolean>(() => isWon.value || guesses.value.length >= maxGuesses.value)
 
-  const isWon = computed(() => guesses.value.includes(word.value!))
-  const isGameOver = computed(() => isWon.value || guesses.value.length >= maxGuesses.value)
+  const onGuessSubmittedCallback = ref<((guess: string) => void) | null>(null)
+  const onGameOverCallback = ref<(() => void) | null>(null)
 
   const addGuessingWordLetter = (letter: string) => {
-    const index = guessingWord.value.indexOf(null)
+    const index = currentGuess.value.indexOf(null)
 
     if (index !== -1)
-      guessingWord.value[index] = letter
+      currentGuess.value[index] = letter
   }
   const removeLastGuessingWordLetter = () => {
     let index = -1
 
-    for (let i = 0; i < guessingWord.value.length; i++) {
-      if (guessingWord.value[i] !== null)
+    for (let i = 0; i < currentGuess.value.length; i++) {
+      if (currentGuess.value[i] !== null)
         index = i
     }
 
     if (index !== -1)
-      guessingWord.value[index] = null
+      currentGuess.value[index] = null
   }
 
   const getLetterTag = (letter: string, index: number): TMatchingLetterTag => {
@@ -59,7 +64,7 @@ export const useWordleStore = defineStore('wordle', () => {
   const guessedLettersTag = computed<Record<string, TMatchingLetterTag>>(() => {
     const guessedLetters: Record<string, TMatchingLetterTag> = {}
 
-    guesses.value.forEach(guess => guess.split('').forEach((letter, index) => {
+    guesses.value?.forEach(guess => guess.split('').forEach((letter, index) => {
       if (guessedLetters[letter] === TMatchingLetterTag.EXACT)
         return
 
@@ -77,51 +82,42 @@ export const useWordleStore = defineStore('wordle', () => {
     return guessedLetters
   })
 
-  const clearGuessingWord = () => guessingWord.value = getClearWord(lettersInWord.value)
-  const clearStore = () => {
-    word.value = null
-    clearGuessingWord()
-    guesses.value = []
-  }
-
   const submitGuess = (): boolean => {
-    guesses.value.push(guessingWord.value.join(''))
-    guessingWord.value = getClearWord(lettersInWord.value)
+    const guess = currentGuess.value.join('')
+
+    guesses.value?.push(guess)
+    onGuessSubmittedCallback.value?.(guess)
+    isGameOver.value && onGameOverCallback.value?.()
 
     return true
   }
 
-  const setWord = (newWord: string) => {
-    word.value = newWord
-    lettersInWord.value = newWord.length
-    guessingWord.value = getClearWord(lettersInWord.value)
-  }
-
   const fetchNewWord = async () => {
-    clearStore()
-
-    loading.value = true
-
     const response = await fetch(`https://random-word-api.herokuapp.com/word?length=${lettersInWord}`)
     const data = await response.json()
+    return data[0] as string
+  }
 
-    setWord(data[0])
-    loading.value = false
+  const setGameProgress = (newGameProgressRef: GameProgress | null) => {
+    gameProgressRef.value = newGameProgressRef
+    clearGuessingWord()
   }
 
   return {
     lettersInWord,
     maxGuesses,
 
-    loading,
     word,
     guesses,
-    guessingWord,
+    currentGuess,
     isGuessSubmittable,
     remainingGuesses,
 
     isWon,
     isGameOver,
+
+    onGuessSubmittedCallback,
+    onGameOverCallback,
 
     getLetterTag,
     guessedLettersTag,
@@ -130,9 +126,8 @@ export const useWordleStore = defineStore('wordle', () => {
     removeLastGuessingWordLetter,
 
     clearGuessingWord,
-    clearStore,
     submitGuess,
-    setWord,
     fetchNewWord,
+    setGameProgress,
   }
 })

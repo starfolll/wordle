@@ -2,21 +2,39 @@
 import LoadingBox from '@/components/LoadingBox.vue'
 import { useProgressStore } from '@/stores/progress.store'
 import { useWordleStore } from '@/stores/wordle.store'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
 const wordleStore = useWordleStore()
 const progressStore = useProgressStore()
 
+const loading = ref(false)
+
 const startGame = {
   classic4Letters: () => {
-    wordleStore.clearStore()
-    wordleStore.setWord('word')
+    progressStore.classic4Letters.word = 'word'
+    wordleStore.setGameProgress(progressStore.classic4Letters)
+
+    wordleStore.onGameOverCallback = () => {
+      if (wordleStore.isWon)
+        progressStore.classic4Letters.streak += 1
+      else progressStore.classic4Letters.streak = 0
+    }
+
     router.push('/game')
   },
   classic5Letters: () => {
-    wordleStore.clearStore()
-    wordleStore.setWord('hello')
+    progressStore.classic5Letters.word = 'hello'
+    wordleStore.setGameProgress(progressStore.classic5Letters)
+
+    wordleStore.onGameOverCallback = () => {
+      if (wordleStore.isWon)
+        progressStore.classic5Letters.streak += 1
+      else progressStore.classic5Letters.streak = 0
+    }
+
     router.push('/game')
   },
 }
@@ -29,13 +47,13 @@ const startGame = {
 
 <template>
   <div class="flex flex-col items-center justify-center h-full">
-    <main class="grid gap-4">
+    <main class="grid gap-4 min-w-72">
       <h1 class="font-mono text-4xl text-left">
         Wordle
       </h1>
 
       <LoadingBox
-        :loading="wordleStore.loading"
+        :loading="loading"
         class="grid border-2 overflow-hidden border-neutral-800 rounded-lg p-2 grid-cols-[1fr,auto] gap-2"
       >
         <h2 class="text-3xl text-green-400">
@@ -46,22 +64,34 @@ const startGame = {
         </p>
 
         <button
-          :disabled="wordleStore.loading"
-          class="px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
+          :disabled="loading"
+          class="flex items-center content-between px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
           @click="startGame.classic4Letters"
         >
-          Classic 4 letters
+          4 letters
+          <font-awesome-icon
+            v-if="progressStore.classic4Letters.word"
+            class="ml-auto"
+            :icon="['fas', 'arrow-right']"
+            size="sm"
+          />
         </button>
         <div class="flex items-center justify-center text-xl rounded aspect-square bg-neutral-800">
           {{ progressStore.classic4Letters.streak }}
         </div>
 
         <button
-          :disabled="wordleStore.loading"
-          class="px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
+          :disabled="loading"
+          class="flex items-center content-between px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
           @click="startGame.classic5Letters"
         >
-          Classic 5 letters
+          5 letters
+          <font-awesome-icon
+            v-if="progressStore.classic5Letters.word"
+            class="ml-auto"
+            :icon="['fas', 'arrow-right']"
+            size="sm"
+          />
         </button>
         <div class="flex items-center justify-center text-xl rounded aspect-square bg-neutral-800">
           {{ progressStore.classic5Letters.streak }}

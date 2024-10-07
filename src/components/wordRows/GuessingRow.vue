@@ -14,7 +14,7 @@ const isAllowedLetter = (char: string) => /[a-z]/i.test(char)
 const focusInput = (index: number) => requestAnimationFrame(() => inputs.value[index]?.focus())
 
 function setGuessingWordLetter(letter: string | null, index: number) {
-  wordleStore.guessingWord[index] = letter?.toLocaleLowerCase() ?? letter
+  wordleStore.currentGuess[index] = letter?.toLocaleLowerCase() ?? letter
 }
 
 function onInput(e: Event, index: number) {
@@ -36,7 +36,7 @@ function onKeyDown(e: KeyboardEvent, index: number) {
       return
     }
 
-    if (wordleStore.guessingWord[index] !== null) {
+    if (wordleStore.currentGuess[index] !== null) {
       setGuessingWordLetter(null, index)
     }
     else {
@@ -45,7 +45,7 @@ function onKeyDown(e: KeyboardEvent, index: number) {
     }
   }
 
-  else if (e.key.length === 1 && isAllowedLetter(e.key) && wordleStore.guessingWord[index] !== null) {
+  else if (e.key.length === 1 && isAllowedLetter(e.key) && wordleStore.currentGuess[index] !== null) {
     setGuessingWordLetter(e.key, index)
     focusInput(index + 1)
   }
@@ -58,8 +58,9 @@ function onKeyDown(e: KeyboardEvent, index: number) {
     focusInput(index + 1)
   }
 
-  else if (e.key === 'Enter' && !wordleStore.guessingWord.includes(null)) {
+  else if (e.key === 'Enter' && !wordleStore.currentGuess.includes(null)) {
     wordleStore.submitGuess()
+    wordleStore.clearGuessingWord()
     focusInput(0)
   }
 }
@@ -67,13 +68,13 @@ function onKeyDown(e: KeyboardEvent, index: number) {
 
 <template>
   <WordContainer v-if="wordleStore.word">
-    <LetterCell v-for="(_, index) in wordleStore.guessingWord" ref="LetterCells" :key="index">
+    <LetterCell v-for="(_, index) in wordleStore.currentGuess" ref="LetterCells" :key="index">
       <input
         ref="inputs"
-        v-bounce="wordleStore.guessingWord[index]"
+        v-bounce="wordleStore.currentGuess[index]"
         type="text"
         maxlength="1"
-        :value="wordleStore.guessingWord[index]"
+        :value="wordleStore.currentGuess[index]"
         :autofocus="index === 0"
         class="w-full h-full text-center capitalize bg-transparent border-2 rounded outline-none caret-transparent border-neutral-500 focus:border-neutral-200"
         @input="e => onInput(e, index)"

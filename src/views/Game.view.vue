@@ -55,7 +55,7 @@ const navigateHome = () => router.push('/')
       <button
         v-squash-on-click
         v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
-        :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver"
+        :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver || false"
         class="primary"
         @click="wordleStore.submitGuess"
       >
