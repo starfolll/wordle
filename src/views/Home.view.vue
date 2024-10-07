@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import LoadingBox from '@/components/LoadingBox.vue'
+import { useProgressStore } from '@/stores/progress.store'
 import { useWordleStore } from '@/stores/wordle.store'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const wordleStore = useWordleStore()
+const progressStore = useProgressStore()
 
 const startGame = {
   classic4Letters: () => {
@@ -20,7 +22,7 @@ const startGame = {
 }
 
 // game modes:
-// 1. regular game (4/5 letters) (with game strick counter)
+// 1. regular game (4/5 letters) (with game Streak counter)
 // 2. learning words (A1, A2, B1, B2, C1, C2) (roadmap)
 // 3. long words with 5+ letters, 3 guesses, but with a hint, separated by english level
 </script>
@@ -40,7 +42,7 @@ const startGame = {
           Classic
         </h2>
         <p class="mt-auto text-center">
-          Strick
+          Streak
         </p>
 
         <button
@@ -51,7 +53,7 @@ const startGame = {
           Classic 4 letters
         </button>
         <div class="flex items-center justify-center text-xl rounded aspect-square bg-neutral-800">
-          4
+          {{ progressStore.classic4Letters.streak }}
         </div>
 
         <button
@@ -62,7 +64,7 @@ const startGame = {
           Classic 5 letters
         </button>
         <div class="flex items-center justify-center text-xl rounded aspect-square bg-neutral-800">
-          0
+          {{ progressStore.classic5Letters.streak }}
         </div>
       </LoadingBox>
     </main>
