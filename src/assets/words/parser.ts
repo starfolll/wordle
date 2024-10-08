@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 import { parse } from 'node-html-parser'
 
-// TODO: use http://www.wordcyclopedia.com/english/a1
-
-const levels = ['a1', 'a2', 'b1', 'b2', 'c1']
+const levels = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2']
 
 async function fetchWords(level: string) {
   console.log(`Fetching words for level ${level}...`)
@@ -18,7 +16,7 @@ async function fetchWords(level: string) {
 async function saveWords(level: string, words: string[]) {
   const jsonFileContext = JSON.stringify(words, null, 2)
 
-  console.log(`Saving words for level ${level}...`)
+  console.log(`Saving words (${words.length}) for level ${level}...`)
   await Bun.write(`${import.meta.dirname}/${level}.json`, jsonFileContext)
 }
 
