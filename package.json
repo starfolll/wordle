@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
+    "parser:start": "bun ./src/assets/words/parser.ts",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
+    "@types/bun": "^1.1.10",
     "@types/node": "^20.14.5",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
@@ -33,6 +35,7 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^9.11.1",
     "eslint-plugin-vue": "^9.23.0",
+    "node-html-parser": "^6.1.13",
     "npm-run-all2": "^6.2.0",
     "postcss": "^8.4.47",
     "sass-embedded": "^1.79.4",
