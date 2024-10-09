@@ -13,11 +13,17 @@ async function fetchWords(level: string) {
   return Array.from(root.querySelectorAll('.word')).map(word => word.textContent as string)
 }
 
-async function saveWords(level: string, words: string[]) {
-  const jsonFileContext = JSON.stringify(words, null, 2)
+const minWordLength = 3
+function filterWords(words: string[]) {
+  return words.filter(word => word.length >= minWordLength && !word.includes(' '))
+}
 
-  console.log(`Saving words (${words.length}) for level ${level}...`)
-  await Bun.write(`${import.meta.dirname}/${level}.json`, jsonFileContext)
+async function saveWords(level: string, words: string[]) {
+  const filteredWords = filterWords(words)
+  const jsonFileContext = JSON.stringify(filteredWords, null, 2)
+
+  console.log(`Saving words (${filteredWords.length}) for level ${level}...`)
+  await Bun.write(`${import.meta.dirname}/words/${level}.ts`, `export const ${level} = ${jsonFileContext}`)
 }
 
 Promise.all(levels.map(level => fetchWords(level).then(words => saveWords(level, words))))

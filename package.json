@@ -1,15 +1,12 @@
 {
-  "name": "-wordle",
+  "name": "wordle",
   "type": "module",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build --force",
-    "parser:start": "bun ./src/assets/words/parser.ts",
+    "dev": "bun run --cwd services/app dev",
+    "server:start": "bun run --cwd services/backend start",
+    "parser:start": "bun run --cwd services/backend parser:start",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
@@ -18,6 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@vueuse/core": "^11.1.0",
+    "elysia": "^1.1.19",
     "pinia": "^2.1.7",
     "tailwind-merge": "^2.5.2",
     "vue": "^3.4.29",

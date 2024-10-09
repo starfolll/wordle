@@ -1,0 +1,9 @@
+{
+  "name": "wordle-backend",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun --watch server.ts",
+    "parser:start": "bun parser.ts"
+  }
+}
