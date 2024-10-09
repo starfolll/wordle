@@ -19,11 +19,6 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
     progress.word = await wordleStore.fetchNewWord(wordLength)
 
   wordleStore.setGameProgress(progress)
-  wordleStore.onGameOverCallback = () => {
-    if (wordleStore.isWon)
-      progress.streak += 1
-    else progress.streak = 0
-  }
 
   loading.value = false
   router.push('/game')

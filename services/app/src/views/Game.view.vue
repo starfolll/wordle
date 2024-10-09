@@ -1,24 +1,34 @@
 <script setup lang="ts">
 import Keyboard from '@/components/keyboard/Keyboard.vue'
+import LoadingBox from '@/components/LoadingBox.vue'
 import GuessedRow from '@/components/wordRows/GuessedRow.vue'
 import GuessingRow from '@/components/wordRows/GuessingRow.vue'
 import RemainingRow from '@/components/wordRows/RemainingRow.vue'
 import { vGlobalKeyPress } from '@/directives/animations/v-global-key-press'
 import { playSquashAnimation, vSquashOnClick } from '@/directives/animations/v-squash-on-click'
 import { useWordleStore } from '@/stores/wordle.store'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const wordleStore = useWordleStore()
 
 const router = useRouter()
 
+const loading = ref(false)
+
 const navigateBack = () => router.go(-1)
 const navigateHome = () => router.push('/')
+
+async function nextWord() {
+  loading.value = true
+  await wordleStore.nextWord()
+  loading.value = false
+}
 </script>
 
 <template>
   <main class="flex items-center justify-center h-full">
-    <div class="flex flex-col items-center justify-center gap-12 w-min">
+    <div class="flex flex-col items-center justify-center gap-12">
       <nav class="flex items-center justify-between w-full gap-2">
         <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="navigateBack">
           <font-awesome-icon :icon="['fas', 'arrow-left']" />
@@ -50,9 +60,15 @@ const navigateHome = () => router.push('/')
         <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
       </div>
 
-      <Keyboard />
+      <div class="grid gap-1 w-min">
+        <p class="text-neutral-400 w-min text-nowrap">
+          Streak: {{ wordleStore.streak }}
+        </p>
+        <Keyboard />
+      </div>
 
       <button
+        v-if="!wordleStore.isGameOver"
         v-squash-on-click
         v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
         :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver || false"
@@ -61,6 +77,17 @@ const navigateHome = () => router.push('/')
       >
         Submit
       </button>
+      <LoadingBox v-else :loading="loading">
+        <button
+          v-squash-on-click
+          v-global-key-press="(el, e) => e.key === 'Enter' && playSquashAnimation(el)"
+          class="primary"
+          :disabled="loading"
+          @click="nextWord"
+        >
+          {{ wordleStore.isWon ? 'Next word' : 'Restart' }}
+        </button>
+      </LoadingBox>
     </div>
   </main>
 </template>

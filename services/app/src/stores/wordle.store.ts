@@ -17,6 +17,8 @@ export const letterClassName = {
 export const useWordleStore = defineStore('wordle', () => {
   const gameProgressRef = ref<GameProgress | null>(null)
 
+  const streak = computed<number>(() => gameProgressRef.value?.streak ?? 0)
+
   const word = computed<string | null>(() => gameProgressRef.value?.word ?? null)
   const lettersInWord = computed<number>(() => word.value?.length ?? 0)
   const maxGuesses = computed(() => lettersInWord.value + 1)
@@ -34,9 +36,6 @@ export const useWordleStore = defineStore('wordle', () => {
   const guessedLettersAppearAnimations = ['flip-x', 'flip-y']
   const getRandomAnimation = (animations: string[]) => animations[Math.floor(Math.random() * animations.length)]
   const guessedLettersAppearAnimation = ref<string>(getRandomAnimation(guessedLettersAppearAnimations))
-
-  const onGuessSubmittedCallback = ref<((guess: string) => void) | null>(null)
-  const onGameOverCallback = ref<(() => void) | null>(null)
 
   const addGuessingWordLetter = (letter: string) => {
     const index = currentGuess.value.indexOf(null)
@@ -86,17 +85,24 @@ export const useWordleStore = defineStore('wordle', () => {
     return guessedLetters
   })
 
+  const onGameEnd = () => {
+    if (gameProgressRef.value === null)
+      return
+
+    if (isWon)
+      gameProgressRef.value.streak += 1
+    else gameProgressRef.value.streak = 0
+  }
   const submitGuess = (): boolean => {
     const guess = currentGuess.value.join('')
 
     guesses.value?.push(guess)
-    onGuessSubmittedCallback.value?.(guess)
-    isGameOver.value && onGameOverCallback.value?.()
+    isGameOver.value && onGameEnd()
 
     return true
   }
 
-  const fetchNewWord = async (length: 4 | 5) => {
+  const fetchNewWord = async (length: number) => {
     const response = await fetch(`http://localhost:3000/random-word?length=${length}`)
     return await response.text()
   }
@@ -107,11 +113,24 @@ export const useWordleStore = defineStore('wordle', () => {
     clearGuessingWord()
   }
 
+  const nextWord = async () => {
+    if (gameProgressRef.value === null)
+      return
+
+    gameProgressRef.value.word = await fetchNewWord(lettersInWord.value)
+    gameProgressRef.value.streak = streak.value
+    gameProgressRef.value.guesses = []
+
+    clearGuessingWord()
+  }
+
   return {
     lettersInWord,
-    maxGuesses,
+
+    streak,
 
     word,
+    maxGuesses,
     guesses,
     currentGuess,
     isGuessSubmittable,
@@ -121,9 +140,6 @@ export const useWordleStore = defineStore('wordle', () => {
     isGameOver,
 
     guessedLettersAppearAnimation,
-
-    onGuessSubmittedCallback,
-    onGameOverCallback,
 
     getLetterTag,
     guessedLettersTag,
@@ -135,5 +151,6 @@ export const useWordleStore = defineStore('wordle', () => {
     submitGuess,
     fetchNewWord,
     setGameProgress,
+    nextWord,
   }
 })
