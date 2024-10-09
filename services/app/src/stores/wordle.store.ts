@@ -96,10 +96,9 @@ export const useWordleStore = defineStore('wordle', () => {
     return true
   }
 
-  const fetchNewWord = async () => {
-    const response = await fetch(`https://random-word-api.herokuapp.com/word?length=${lettersInWord}`)
-    const data = await response.json()
-    return data[0] as string
+  const fetchNewWord = async (length: 4 | 5) => {
+    const response = await fetch(`http://localhost:3000/random-word?length=${length}`)
+    return await response.text()
   }
 
   const setGameProgress = (newGameProgressRef: GameProgress | null) => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import LoadingBox from '@/components/LoadingBox.vue'
-import { useProgressStore } from '@/stores/progress.store'
+import { type GameProgress, useProgressStore } from '@/stores/progress.store'
 import { useWordleStore } from '@/stores/wordle.store'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -12,31 +12,21 @@ const progressStore = useProgressStore()
 
 const loading = ref(false)
 
-const startGame = {
-  classic4Letters: () => {
-    progressStore.classic4Letters.word = 'word'
-    wordleStore.setGameProgress(progressStore.classic4Letters)
+async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
+  loading.value = true
 
-    wordleStore.onGameOverCallback = () => {
-      if (wordleStore.isWon)
-        progressStore.classic4Letters.streak += 1
-      else progressStore.classic4Letters.streak = 0
-    }
+  if (!progress.word)
+    progress.word = await wordleStore.fetchNewWord(wordLength)
 
-    router.push('/game')
-  },
-  classic5Letters: () => {
-    progressStore.classic5Letters.word = 'hello'
-    wordleStore.setGameProgress(progressStore.classic5Letters)
+  wordleStore.setGameProgress(progress)
+  wordleStore.onGameOverCallback = () => {
+    if (wordleStore.isWon)
+      progress.streak += 1
+    else progress.streak = 0
+  }
 
-    wordleStore.onGameOverCallback = () => {
-      if (wordleStore.isWon)
-        progressStore.classic5Letters.streak += 1
-      else progressStore.classic5Letters.streak = 0
-    }
-
-    router.push('/game')
-  },
+  loading.value = false
+  router.push('/game')
 }
 
 // game modes:
@@ -66,7 +56,7 @@ const startGame = {
         <button
           :disabled="loading"
           class="flex items-center content-between px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
-          @click="startGame.classic4Letters"
+          @click="startClassicGame(4, progressStore.classic4Letters)"
         >
           4 letters
           <font-awesome-icon
@@ -83,7 +73,7 @@ const startGame = {
         <button
           :disabled="loading"
           class="flex items-center content-between px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
-          @click="startGame.classic5Letters"
+          @click="startClassicGame(5, progressStore.classic5Letters)"
         >
           5 letters
           <font-awesome-icon
