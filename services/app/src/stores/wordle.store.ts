@@ -117,9 +117,15 @@ export const useWordleStore = defineStore('wordle', () => {
     if (gameProgressRef.value === null)
       return
 
-    gameProgressRef.value.word = await fetchNewWord(lettersInWord.value)
-    gameProgressRef.value.streak = streak.value
-    gameProgressRef.value.guesses = []
+    if (isWon.value) {
+      gameProgressRef.value.word = await fetchNewWord(lettersInWord.value)
+      gameProgressRef.value.guesses = []
+    }
+    else {
+      gameProgressRef.value.word = await fetchNewWord(lettersInWord.value)
+      gameProgressRef.value.streak = 0
+      gameProgressRef.value.guesses = []
+    }
 
     clearGuessingWord()
   }
@@ -151,6 +157,7 @@ export const useWordleStore = defineStore('wordle', () => {
     submitGuess,
     fetchNewWord,
     setGameProgress,
+
     nextWord,
   }
 })
