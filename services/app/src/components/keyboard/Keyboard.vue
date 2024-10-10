@@ -24,10 +24,16 @@ const letterClassNameExtended = {
         :key="letter"
         v-squash-on-click
         v-global-key-press="(el, e) => e.key.toLocaleLowerCase() === letter && playSquashAnimation(el)"
+        class="relative"
         @click="wordleStore.addGuessingWordLetter(letter)"
       >
         <KeyCap :tw-class="letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || ''">
           {{ letter }}
+
+          <span
+            v-if="wordleStore.guessedLettersCount[letter] > 1"
+            class="absolute text-base lowercase -translate-x-1/2 left-1/2 -bottom-1"
+          >x{{ wordleStore.guessedLettersCount[letter] }}</span>
         </KeyCap>
       </button>
     </div>
@@ -38,10 +44,16 @@ const letterClassNameExtended = {
         :key="letter"
         v-squash-on-click
         v-global-key-press="(el, e) => e.key.toLocaleLowerCase() === letter && playSquashAnimation(el)"
+        class="relative"
         @click="wordleStore.addGuessingWordLetter(letter)"
       >
         <KeyCap :tw-class="letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || ''">
           {{ letter }}
+
+          <span
+            v-if="wordleStore.guessedLettersCount[letter] > 1"
+            class="absolute text-base lowercase -translate-x-1/2 left-1/2 -bottom-1"
+          >x{{ wordleStore.guessedLettersCount[letter] }}</span>
         </KeyCap>
       </button>
     </div>
@@ -52,10 +64,16 @@ const letterClassNameExtended = {
         :key="letter"
         v-squash-on-click
         v-global-key-press="(el, e) => e.key.toLocaleLowerCase() === letter && playSquashAnimation(el)"
+        class="relative"
         @click="wordleStore.addGuessingWordLetter(letter)"
       >
         <KeyCap :tw-class="letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || ''">
           {{ letter }}
+
+          <span
+            v-if="wordleStore.guessedLettersCount[letter] > 1"
+            class="absolute text-base lowercase -translate-x-1/2 left-1/2 -bottom-1"
+          >x{{ wordleStore.guessedLettersCount[letter] }}</span>
         </KeyCap>
       </button>
 

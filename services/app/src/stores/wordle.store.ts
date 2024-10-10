@@ -55,6 +55,7 @@ export const useWordleStore = defineStore('wordle', () => {
       currentGuess.value[index] = null
   }
 
+  // todo: refactor this. (move letters metadata to a separate record)
   const getLetterTag = (letter: string, index: number): TMatchingLetterTag => {
     if (word.value?.charAt(index) === letter)
       return TMatchingLetterTag.EXACT
@@ -83,6 +84,15 @@ export const useWordleStore = defineStore('wordle', () => {
     }))
 
     return guessedLetters
+  })
+  const guessedLettersCount = computed<Record<string, number>>(() => {
+    if (word.value === null)
+      return {}
+
+    return Object.keys(guessedLettersTag.value).reduce((acc, letter) => {
+      acc[letter] = word.value!.split(letter).length - 1
+      return acc
+    }, {} as Record<string, number>)
   })
 
   const onGameEnd = () => {
@@ -149,6 +159,7 @@ export const useWordleStore = defineStore('wordle', () => {
 
     getLetterTag,
     guessedLettersTag,
+    guessedLettersCount,
 
     addGuessingWordLetter,
     removeLastGuessingWordLetter,
