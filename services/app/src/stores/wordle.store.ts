@@ -89,7 +89,7 @@ export const useWordleStore = defineStore('wordle', () => {
     if (gameProgressRef.value === null)
       return
 
-    if (isWon)
+    if (isWon.value)
       gameProgressRef.value.streak += 1
     else gameProgressRef.value.streak = 0
   }

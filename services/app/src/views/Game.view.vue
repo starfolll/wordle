@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Keyboard from '@/components/keyboard/Keyboard.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
+import Streak from '@/components/Streak.vue'
 import GuessedRow from '@/components/wordRows/GuessedRow.vue'
 import GuessingRow from '@/components/wordRows/GuessingRow.vue'
 import RemainingRow from '@/components/wordRows/RemainingRow.vue'
@@ -60,10 +61,8 @@ async function nextWord() {
         <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
       </div>
 
-      <div class="grid gap-1 w-min">
-        <p class="text-neutral-400 w-min text-nowrap">
-          Streak: {{ wordleStore.streak }}
-        </p>
+      <div class="grid gap-2">
+        <Streak />
         <Keyboard />
       </div>
 
