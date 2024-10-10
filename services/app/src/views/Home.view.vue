@@ -54,52 +54,61 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
 
       <LoadingBox
         :loading="loading"
-        class="grid border-2 overflow-hidden border-neutral-800 rounded-lg p-2 grid-cols-[1fr,auto] gap-2"
+        class="grid gap-2 p-2 overflow-hidden border-2 rounded-lg border-neutral-800"
       >
         <h2 class="text-3xl text-green-400">
           Classic
         </h2>
-        <div class="relative m-auto text-center">
-          <font-awesome-icon
-            :icon="['fas', 'fire']"
-            size="lg"
-          />
-          <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
-        </div>
 
         <button
           :disabled="loading"
-          class="flex items-center content-between px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
+          class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl rounded bg-neutral-800"
           @click="startClassicGame(4, progressStore.classic4Letters)"
         >
           4 letters
+
+          <div
+            v-if="progressStore.classic4Letters.streak"
+            class="relative flex items-center justify-center gap-2 px-2 py-1 text-xl text-white rounded bg-neutral-900"
+          >
+            <font-awesome-icon :icon="['fas', 'fire']" />
+            {{ progressStore.classic4Letters.streak }}
+
+            <div class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
+          </div>
+
           <font-awesome-icon
-            v-if="progressStore.classic4Letters.word"
-            class="ml-auto"
+            v-else
+            class="mr-2 text-green-400"
             :icon="['fas', 'arrow-right']"
             size="sm"
           />
         </button>
-        <div class="flex items-center justify-center text-xl rounded aspect-square bg-neutral-800">
-          {{ progressStore.classic4Letters.streak }}
-        </div>
 
         <button
           :disabled="loading"
-          class="flex items-center content-between px-4 py-1 text-2xl text-green-900 bg-green-400 rounded"
+          class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl rounded bg-neutral-800"
           @click="startClassicGame(5, progressStore.classic5Letters)"
         >
           5 letters
+
+          <div
+            v-if="progressStore.classic5Letters.streak"
+            class="relative flex items-center justify-center gap-2 px-2 py-1 text-xl text-white rounded bg-neutral-900"
+          >
+            <font-awesome-icon :icon="['fas', 'fire']" />
+            {{ progressStore.classic5Letters.streak }}
+
+            <div class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
+          </div>
+
           <font-awesome-icon
-            v-if="progressStore.classic5Letters.word"
-            class="ml-auto"
+            v-else
+            class="mr-2 text-green-400"
             :icon="['fas', 'arrow-right']"
             size="sm"
           />
         </button>
-        <div class="flex items-center justify-center text-xl rounded aspect-square bg-neutral-800">
-          {{ progressStore.classic5Letters.streak }}
-        </div>
       </LoadingBox>
     </main>
   </div>
