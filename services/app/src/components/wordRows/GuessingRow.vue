@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { vBounce } from '@/directives/animations/v-bounce'
 import { useWordleStore } from '@/stores/wordle.store'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import LetterCell from './LetterCell.vue'
 import WordContainer from './WordContainer.vue'
 
@@ -64,6 +64,10 @@ function onKeyDown(e: KeyboardEvent, index: number) {
     focusInput(0)
   }
 }
+
+onMounted(() => {
+  focusInput(0)
+})
 </script>
 
 <template>
@@ -75,7 +79,6 @@ function onKeyDown(e: KeyboardEvent, index: number) {
         type="text"
         maxlength="1"
         :value="wordleStore.currentGuess[index]"
-        :autofocus="index === 0"
         class="w-full h-full text-center capitalize bg-transparent border-2 rounded outline-none caret-transparent border-neutral-500 focus:border-neutral-200"
         @input="e => onInput(e, index)"
         @keydown="e => onKeyDown(e, index)"

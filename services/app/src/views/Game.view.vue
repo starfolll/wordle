@@ -11,9 +11,9 @@ import { useWordleStore } from '@/stores/wordle.store'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const wordleStore = useWordleStore()
-
 const router = useRouter()
+
+const wordleStore = useWordleStore()
 
 const loading = ref(false)
 
@@ -72,14 +72,14 @@ async function nextWord() {
         v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
         :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver || false"
         class="primary"
-        @click="wordleStore.submitGuess"
+        @click="() => { wordleStore.submitGuess(); wordleStore.clearGuessingWord(); }"
       >
         Submit
       </button>
       <LoadingBox v-else :loading="loading">
         <button
           v-squash-on-click
-          v-global-key-press="(el, e) => e.key === 'Enter' && playSquashAnimation(el)"
+          v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
           class="primary"
           :disabled="loading"
           @click="nextWord"

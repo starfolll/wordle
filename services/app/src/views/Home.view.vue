@@ -44,9 +44,13 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
         <h2 class="text-3xl text-green-400">
           Classic
         </h2>
-        <p class="mt-auto text-center">
-          Streak
-        </p>
+        <div class="relative m-auto text-center">
+          <font-awesome-icon
+            :icon="['fas', 'fire']"
+            size="lg"
+          />
+          <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
+        </div>
 
         <button
           :disabled="loading"
