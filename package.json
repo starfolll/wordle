@@ -15,6 +15,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.1.0",
     "elysia": "^1.1.19",
     "pinia": "^2.1.7",

@@ -21,7 +21,10 @@ new Elysia()
     const words = level ? levels[level] : allWords
     const filteredWords = length ? words.filter(word => word.length === length) : words
 
-    return filteredWords[Math.floor(Math.random() * filteredWords.length)]
+    const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)]
+
+    console.log(`Random word: ${randomWord}`)
+    return randomWord
   }, {
     query: t.Object({
       level: t.Optional(t.String()),

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import HowToPlay from '@/components/HowToPlay.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
 import { type GameProgress, useProgressStore } from '@/stores/progress.store'
 import { useWordleStore } from '@/stores/wordle.store'
@@ -11,6 +12,9 @@ const wordleStore = useWordleStore()
 const progressStore = useProgressStore()
 
 const loading = ref(false)
+
+const isShowingHowToPlay = ref(false)
+const closeHowToPlay = () => isShowingHowToPlay.value = false
 
 async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
   loading.value = true
@@ -33,9 +37,20 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
 <template>
   <div class="flex flex-col items-center justify-center h-full">
     <main class="grid gap-4 min-w-72">
-      <h1 class="font-mono text-4xl text-left">
-        Wordle
-      </h1>
+      <div class="flex items-center justify-between px-2 border-transparent border-x-2">
+        <h1 class="text-4xl text-left">
+          Wordle
+        </h1>
+
+        <button
+          class="w-10 h-10 rounded-full bg-neutral-800 hover:bg-neutral-700"
+          @click="(e) => isShowingHowToPlay = !isShowingHowToPlay"
+        >
+          <font-awesome-icon :icon="['fas', 'question']" />
+        </button>
+
+        <HowToPlay v-if="isShowingHowToPlay" :close="closeHowToPlay" />
+      </div>
 
       <LoadingBox
         :loading="loading"
