@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "bun --watch server.ts",
-    "parser:start": "bun parser.ts"
+    "parser:start": "bun parser.ts",
+    "db:prepare": "bun db.prepare.ts"
   }
 }

@@ -7,6 +7,7 @@
     "dev": "bun run --cwd services/app dev",
     "server:start": "bun run --cwd services/backend start",
     "parser:start": "bun run --cwd services/backend parser:start",
+    "server:db:prepare": "bun run --cwd services/backend db:prepare",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
