@@ -1,33 +1,30 @@
+import type { TExtendedWordInfo } from './db.prepare'
 /* eslint-disable no-console */
 import { cors } from '@elysiajs/cors'
+import { Database } from 'bun:sqlite'
 import { Elysia, t } from 'elysia'
 
-import { a1 } from './words/a1'
-import { a2 } from './words/a2'
-import { b1 } from './words/b1'
-import { b2 } from './words/b2'
-import { c1 } from './words/c1'
-import { c2 } from './words/c2'
+const db = new Database('./words/words.sqlite')
 
-const allWords = [a1, a2, b1, b2, c1, c2].flat()
-const levels = { a1, a2, b1, b2, c1, c2 } as Record<string, string[]>
+const randomWordQuery = db.prepare<TExtendedWordInfo, []>('SELECT word FROM words ORDER BY RANDOM() LIMIT 1')
+const randomWordQueryWithLengthLimit = db.prepare<TExtendedWordInfo, [number]>('SELECT word FROM words WHERE LENGTH(word) = ? ORDER BY RANDOM() LIMIT 1')
 
 new Elysia()
   .use(cors({ origin: '*' }))
-  .get('/random-word', ({ query: { level, length } }) => {
-    if (level && !levels[level])
-      return 'Invalid level'
+  .get('/random-word', ({ query: { length } }) => {
+    const data = length
+      ? randomWordQueryWithLengthLimit.get(length)
+      : randomWordQuery.get()
 
-    const words = level ? levels[level] : allWords
-    const filteredWords = length ? words.filter(word => word.length === length) : words
+    if (!data)
+      throw new Error('No word found')
 
-    const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)]
+    const { word } = data
 
-    console.log(`Random word: ${randomWord}`)
-    return randomWord
+    console.log(`Sending word: ${word}`)
+    return word
   }, {
     query: t.Object({
-      level: t.Optional(t.String()),
       length: t.Optional(t.Number({ minimum: 4, maximum: 5 })),
     }),
   })
