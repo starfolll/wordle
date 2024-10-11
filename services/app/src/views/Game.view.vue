@@ -30,67 +30,65 @@ async function nextWord() {
 </script>
 
 <template>
-  <main class="flex items-center justify-center h-full">
-    <div class="flex flex-col items-center justify-center gap-12">
-      <nav class="flex items-center justify-between w-full gap-2">
-        <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="navigateBack">
-          <font-awesome-icon :icon="['fas', 'arrow-left']" />
-        </button>
+  <main class="flex flex-col items-center justify-center gap-12">
+    <nav class="flex items-center justify-between w-full gap-2">
+      <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="navigateBack">
+        <font-awesome-icon :icon="['fas', 'arrow-left']" />
+      </button>
 
-        <h1 class="text-xl">
-          <template v-if="!wordleStore.isGameOver">
-            Try to guess the word!
+      <h1 class="text-xl">
+        <template v-if="!wordleStore.isGameOver">
+          Try to guess the word!
+        </template>
+        <template v-else>
+          <template v-if="wordleStore.isWon">
+            Congratulations! You WON!
           </template>
           <template v-else>
-            <template v-if="wordleStore.isWon">
-              Congratulations! You WON!
-            </template>
-            <template v-else>
-              The word was:
-              <span class="text-green-400">{{ wordleStore.word?.toUpperCase() }}</span>
-            </template>
+            The word was:
+            <span class="text-green-400">{{ wordleStore.word?.toUpperCase() }}</span>
           </template>
-        </h1>
+        </template>
+      </h1>
 
-        <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="isShowingHowToPlay = true">
-          <font-awesome-icon :icon="['fas', 'question']" />
-        </button>
+      <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="isShowingHowToPlay = true">
+        <font-awesome-icon :icon="['fas', 'question']" />
+      </button>
 
-        <HowToPlay v-if="isShowingHowToPlay" :close="closeHowToPlay" />
-      </nav>
+      <HowToPlay v-if="isShowingHowToPlay" :close="closeHowToPlay" />
+    </nav>
 
-      <div class="flex flex-col gap-2">
-        <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
-        <GuessingRow v-if="!wordleStore.isGameOver" />
-        <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
-      </div>
+    <div class="flex flex-col gap-2">
+      <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
+      <GuessingRow v-if="!wordleStore.isGameOver" />
+      <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
+    </div>
 
-      <div class="grid gap-2">
-        <Streak />
-        <Keyboard />
-      </div>
+    <div class="grid gap-2">
+      <Streak />
+      <Keyboard />
+    </div>
 
+    <button
+      v-if="!wordleStore.isGameOver"
+      v-squash-on-click
+      v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
+      :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver || false"
+      class="primary"
+      @click="() => { wordleStore.submitGuess(); wordleStore.clearGuessingWord(); }"
+    >
+      Submit
+    </button>
+    <LoadingBox v-else :loading="loading">
       <button
-        v-if="!wordleStore.isGameOver"
         v-squash-on-click
         v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
-        :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver || false"
         class="primary"
-        @click="() => { wordleStore.submitGuess(); wordleStore.clearGuessingWord(); }"
+        :disabled="loading"
+        @click="nextWord"
       >
-        Submit
+        {{ wordleStore.isWon ? 'Next word' : 'Restart' }}
       </button>
-      <LoadingBox v-else :loading="loading">
-        <button
-          v-squash-on-click
-          v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
-          class="primary"
-          :disabled="loading"
-          @click="nextWord"
-        >
-          {{ wordleStore.isWon ? 'Next word' : 'Restart' }}
-        </button>
-      </LoadingBox>
-    </div>
+    </LoadingBox>
   </main>
 </template>

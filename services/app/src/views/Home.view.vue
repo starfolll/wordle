@@ -35,81 +35,79 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center h-full">
-    <main class="grid gap-4 min-w-72">
-      <div class="flex items-center justify-between px-2 border-transparent border-x-2">
-        <h1 class="text-4xl text-left">
-          Wordle
-        </h1>
+  <main class="grid gap-4 min-w-72">
+    <div class="flex items-center justify-between px-2 border-transparent border-x-2">
+      <h1 class="text-4xl text-left">
+        Wordle
+      </h1>
 
-        <button
-          class="w-10 h-10 rounded-full bg-neutral-800 hover:bg-neutral-700"
-          @click="(e) => isShowingHowToPlay = !isShowingHowToPlay"
-        >
-          <font-awesome-icon :icon="['fas', 'question']" />
-        </button>
-
-        <HowToPlay v-if="isShowingHowToPlay" :close="closeHowToPlay" />
-      </div>
-
-      <LoadingBox
-        :loading="loading"
-        class="grid gap-2 p-2 overflow-hidden border-2 rounded-lg border-neutral-800"
+      <button
+        class="w-10 h-10 rounded-full bg-neutral-800 hover:bg-neutral-700"
+        @click="(e) => isShowingHowToPlay = !isShowingHowToPlay"
       >
-        <h2 class="text-3xl text-green-400">
-          Classic
-        </h2>
+        <font-awesome-icon :icon="['fas', 'question']" />
+      </button>
 
-        <button
-          :disabled="loading"
-          class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl rounded bg-neutral-800"
-          @click="startClassicGame(4, progressStore.classic4Letters)"
+      <HowToPlay v-if="isShowingHowToPlay" :close="closeHowToPlay" />
+    </div>
+
+    <LoadingBox
+      :loading="loading"
+      class="grid gap-2 p-2 overflow-hidden border-2 rounded-lg border-neutral-800"
+    >
+      <h2 class="text-3xl text-green-400">
+        Classic
+      </h2>
+
+      <button
+        :disabled="loading"
+        class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl rounded bg-neutral-800"
+        @click="startClassicGame(4, progressStore.classic4Letters)"
+      >
+        4 letters
+
+        <div
+          v-if="progressStore.classic4Letters.streak"
+          class="relative flex items-center justify-center gap-2 px-2 py-1 text-xl text-white rounded bg-neutral-900"
         >
-          4 letters
+          <font-awesome-icon :icon="['fas', 'fire']" />
+          {{ progressStore.classic4Letters.streak }}
 
-          <div
-            v-if="progressStore.classic4Letters.streak"
-            class="relative flex items-center justify-center gap-2 px-2 py-1 text-xl text-white rounded bg-neutral-900"
-          >
-            <font-awesome-icon :icon="['fas', 'fire']" />
-            {{ progressStore.classic4Letters.streak }}
+          <div class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
+        </div>
 
-            <div class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
-          </div>
+        <font-awesome-icon
+          v-else
+          class="mr-2 text-green-400"
+          :icon="['fas', 'arrow-right']"
+          size="sm"
+        />
+      </button>
 
-          <font-awesome-icon
-            v-else
-            class="mr-2 text-green-400"
-            :icon="['fas', 'arrow-right']"
-            size="sm"
-          />
-        </button>
+      <button
+        :disabled="loading"
+        class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl rounded bg-neutral-800"
+        @click="startClassicGame(5, progressStore.classic5Letters)"
+      >
+        5 letters
 
-        <button
-          :disabled="loading"
-          class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl rounded bg-neutral-800"
-          @click="startClassicGame(5, progressStore.classic5Letters)"
+        <div
+          v-if="progressStore.classic5Letters.streak"
+          class="relative flex items-center justify-center gap-2 px-2 py-1 text-xl text-white rounded bg-neutral-900"
         >
-          5 letters
+          <font-awesome-icon :icon="['fas', 'fire']" />
+          {{ progressStore.classic5Letters.streak }}
 
-          <div
-            v-if="progressStore.classic5Letters.streak"
-            class="relative flex items-center justify-center gap-2 px-2 py-1 text-xl text-white rounded bg-neutral-900"
-          >
-            <font-awesome-icon :icon="['fas', 'fire']" />
-            {{ progressStore.classic5Letters.streak }}
+          <div class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
+        </div>
 
-            <div class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
-          </div>
-
-          <font-awesome-icon
-            v-else
-            class="mr-2 text-green-400"
-            :icon="['fas', 'arrow-right']"
-            size="sm"
-          />
-        </button>
-      </LoadingBox>
-    </main>
-  </div>
+        <font-awesome-icon
+          v-else
+          class="mr-2 text-green-400"
+          :icon="['fas', 'arrow-right']"
+          size="sm"
+        />
+      </button>
+    </LoadingBox>
+  </main>
 </template>
