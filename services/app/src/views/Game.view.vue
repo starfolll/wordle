@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import HowToPlay from '@/components/HowToPlay.vue'
 import Keyboard from '@/components/keyboard/Keyboard.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
 import Streak from '@/components/Streak.vue'
@@ -16,9 +17,10 @@ const router = useRouter()
 const wordleStore = useWordleStore()
 
 const loading = ref(false)
+const isShowingHowToPlay = ref(false)
+const closeHowToPlay = () => isShowingHowToPlay.value = false
 
 const navigateBack = () => router.go(-1)
-const navigateHome = () => router.push('/')
 
 async function nextWord() {
   loading.value = true
@@ -50,9 +52,11 @@ async function nextWord() {
           </template>
         </h1>
 
-        <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="navigateHome">
-          <font-awesome-icon :icon="['fas', 'house']" />
+        <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="isShowingHowToPlay = true">
+          <font-awesome-icon :icon="['fas', 'question']" />
         </button>
+
+        <HowToPlay v-if="isShowingHowToPlay" :close="closeHowToPlay" />
       </nav>
 
       <div class="flex flex-col gap-2">

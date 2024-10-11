@@ -14,7 +14,7 @@ defineProps<{
     <div class="flex flex-col items-center justify-center">
       <div
         v-on-click-outside="close"
-        class="relative flex flex-col gap-8 p-6 border-2 rounded border-neutral-800 bg-neutral-900/90"
+        class="relative flex flex-col gap-8 p-6 border-2 rounded backdrop-blur border-neutral-800 bg-neutral-900/90"
       >
         <p class="text-3xl text-center">
           How to play?
