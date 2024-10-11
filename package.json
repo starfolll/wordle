@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "bun run --cwd services/app dev",
+    "app:dev": "bun run --cwd services/app dev",
+    "app:build": "bun run --cwd services/app build",
     "server:start": "bun run --cwd services/backend start",
     "parser:start": "bun run --cwd services/backend parser:start",
     "server:db:prepare": "bun run --cwd services/backend db:prepare",
@@ -12,6 +13,10 @@
   },
   "dependencies": {
     "@antfu/eslint-config": "^3.7.3",
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/ios": "^6.1.2",
     "@elysiajs/cors": "^1.1.1",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
