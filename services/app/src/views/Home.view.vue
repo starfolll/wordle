@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HowToPlay from '@/components/HowToPlay.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
+import Wallet from '@/components/Wallet.vue'
 import { type GameProgress, useProgressStore } from '@/stores/progress.store'
 import { useWordleStore } from '@/stores/wordle.store'
 import { ref } from 'vue'
@@ -42,7 +43,7 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
       </h1>
 
       <button
-        class="w-10 h-10 rounded-full bg-neutral-800 hover:bg-neutral-700"
+        class="w-10 h-10 transition-colors rounded-full bg-neutral-800 hover:bg-neutral-700"
         @click="(e) => isShowingHowToPlay = !isShowingHowToPlay"
       >
         <font-awesome-icon :icon="['fas', 'question']" />
@@ -109,5 +110,13 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
         />
       </button>
     </LoadingBox>
+
+    <RouterLink to="/store" class="flex gap-2 px-2 ml-auto border-2 border-transparent rounded-lg w-min group">
+      <Wallet />
+
+      <div class="flex items-center justify-center h-full text-xl transition-colors rounded-lg aspect-square bg-amber-900 text-amber-400 group-hover:bg-amber-800">
+        <font-awesome-icon :icon="['fas', 'store']" size="lg" />
+      </div>
+    </RouterLink>
   </main>
 </template>

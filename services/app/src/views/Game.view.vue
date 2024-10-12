@@ -20,8 +20,6 @@ const loading = ref(false)
 const isShowingHowToPlay = ref(false)
 const closeHowToPlay = () => isShowingHowToPlay.value = false
 
-const navigateBack = () => router.go(-1)
-
 async function nextWord() {
   loading.value = true
   await wordleStore.nextWord()
@@ -32,7 +30,7 @@ async function nextWord() {
 <template>
   <main class="flex flex-col items-center justify-center gap-12">
     <nav class="flex items-center justify-between w-full gap-2">
-      <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="navigateBack">
+      <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="router.go(-1)">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </button>
 

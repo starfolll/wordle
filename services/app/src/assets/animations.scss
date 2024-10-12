@@ -73,8 +73,12 @@
 
 .fade-enter-active {
   animation: fade 0.3s;
+  animation-delay: var(--animation-delay, 0);
+  animation-fill-mode: both;
 }
 
 .fade-leave-active {
   animation: fade 0.3s reverse;
+  animation-delay: var(--animation-delay, 0);
+  animation-fill-mode: both;
 }
