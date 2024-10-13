@@ -41,12 +41,12 @@ onMounted(() => {
 <template>
   <main class="grid gap-8">
     <nav class="flex items-center w-full gap-4">
-      <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="router.push('/')">
+      <button class="rounded-full min-w-12 bg-neutral-800 aspect-square" @click="router.push('/')">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </button>
 
       <h1 class="text-xl text-left grow">
-        Store
+        Store: {{ activeCategory }}s
       </h1>
 
       <Wallet />

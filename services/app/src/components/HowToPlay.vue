@@ -11,10 +11,10 @@ defineProps<{
 
 <template>
   <section class="fixed top-0 left-0 z-10 grid bg-neutral-900/70 w-dvw h-dvh">
-    <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center p-4 max-h-dvh">
       <div
         v-on-click-outside="close"
-        class="relative flex flex-col gap-8 p-6 border-2 rounded backdrop-blur border-neutral-800 bg-neutral-900/90"
+        class="relative flex flex-col gap-8 p-6 overflow-auto border-2 rounded backdrop-blur border-neutral-800 bg-neutral-900/90"
       >
         <p class="text-3xl text-center">
           How to play?
@@ -34,6 +34,10 @@ defineProps<{
         <p>
           You have 5 attempts to guess the word with length of 4 letters. <br>
           And 6 attempts to guess the word with length of 5 letters.
+        </p>
+
+        <p>
+          Unlike the original game, you can enter any sequence of letters.
         </p>
 
         <hr class="border-2 rounded-full border-neutral-800">
