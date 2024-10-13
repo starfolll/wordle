@@ -20,7 +20,7 @@ const streakFillPercentage = computed(() => (streak.value / maxSteak) * 100)
     </p>
 
     <div
-      class="relative grid w-full"
+      class="relative grid invisible w-full"
       :style="{ '--streak-fill-percentage': `clamp(0, ${streakFillPercentage}, 100)` }"
     >
       <div class="flex items-center justify-between w-full gap-1">

@@ -1,40 +1,33 @@
 import { defineStore } from 'pinia'
 import { computed, readonly, ref } from 'vue'
 
-export const StoreCategories = ['background', 'font', 'button'] as const
-export type TSoreCategory = {
-  [_key in typeof StoreCategories[number]]: Extract<typeof StoreCategories[number], _key>
-}
+export const StoreCategories = {
+  background: 'background',
+  font: 'font',
+  // button: 'button',
+} as const
+export type TSoreCategory = typeof StoreCategories
 
-export const StoreBackgroundCategory = ['color', 'gradient', 'image'] as const
-export type TStoreBackgroundCategory = {
-  [_key in typeof StoreBackgroundCategory[number]]: Extract<typeof StoreBackgroundCategory[number], _key>
-}
-
-export type TStoreItemBackground = {
+export interface TStoreItemBackground {
   category: TSoreCategory['background']
-} & ({
-  backgroundCategory: TStoreBackgroundCategory['color']
-  color: string
-})
-//  | {
-//   backgroundCategory: TStoreBackgroundCategory['gradient']
-//   gradient: string
-// } | {
-//   backgroundCategory: TStoreBackgroundCategory['image']
-//   image: string
-// })
+  background: string
+}
+export interface TStoreItemFont {
+  category: TSoreCategory['font']
+  fontUrl: string
+  fontName: string
+}
 
 export type TStoreItem = {
   id: number
   name: string
   price: number
   purchased: boolean
-  subCategory: string
-} & TStoreItemBackground
+  subCategory?: string
+} & (TStoreItemBackground | TStoreItemFont)
 
 export const useStoreStore = defineStore('store', () => {
-  const coins = ref(13)
+  const coins = ref(100)
 
   // wordle store categories:
   //
@@ -49,24 +42,71 @@ export const useStoreStore = defineStore('store', () => {
   // - - click animations
 
   const allItems = ref<Record<TStoreItem['id'], TStoreItem>>({
-    1: { id: 1, name: 'Default', price: 0, category: 'background', subCategory: '', purchased: true, backgroundCategory: 'color', color: '#171717' },
-    2: { id: 2, name: 'Fall', price: 10, category: 'background', subCategory: '4 seasons', purchased: false, backgroundCategory: 'color', color: '#451a03' },
-    3: { id: 3, name: 'Winter', price: 10, category: 'background', subCategory: '4 seasons', purchased: false, backgroundCategory: 'color', color: '#172554' },
-    4: { id: 4, name: 'Spring', price: 10, category: 'background', subCategory: '4 seasons', purchased: false, backgroundCategory: 'color', color: '#1a2e05' },
-    5: { id: 5, name: 'Summer', price: 10, category: 'background', subCategory: '4 seasons', purchased: false, backgroundCategory: 'color', color: '#fff' },
-    // { name: 'Default', price: 10, category: 'font', purchased: true },
-    // { name: 'Custom', price: 20, category: 'font', purchased: true },
-    // { name: 'Border', price: 10, category: 'button', purchased: true },
-    // { name: 'Click', price: 20, category: 'button', purchased: false },
+    1: {
+      id: 1,
+      name: 'Default',
+      price: 0,
+      category: 'background',
+      purchased: true,
+      background: '#171717',
+    },
+    2: {
+      id: 2,
+      name: 'Fall',
+      price: 10,
+      category: 'background',
+      subCategory: '4 seasons',
+      purchased: false,
+      background: 'linear-gradient(to left top, #e9b91c, #ae1324)',
+    },
+    3: {
+      id: 3,
+      name: 'Winter',
+      price: 10,
+      category: 'background',
+      subCategory: '4 seasons',
+      purchased: false,
+      background: 'linear-gradient(to left top, #E6DADA, #272846)',
+    },
+    4: {
+      id: 4,
+      name: 'Spring',
+      price: 10,
+      category: 'background',
+      subCategory: '4 seasons',
+      purchased: false,
+      background: `linear-gradient(to left top, #fad0c4, #fad0c4, #ffd1ff)`,
+    },
+    5: {
+      id: 5,
+      name: 'Summer',
+      price: 10,
+      category: 'background',
+      subCategory: '4 seasons',
+      purchased: false,
+      background: 'linear-gradient(to left top, #22c1c3, #fdbb2d)',
+    },
+    6: {
+      id: 6,
+      name: 'Default',
+      price: 10,
+      category: 'font',
+      purchased: true,
+      fontUrl: 'https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&display=swap',
+      fontName: '""',
+    },
+    7: {
+      id: 7,
+      name: 'Bubbles',
+      price: 10,
+      category: 'font',
+      subCategory: 'fuzzy',
+      purchased: false,
+      fontUrl: 'https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&display=swap',
+      fontName: '"Fuzzy Bubbles"',
+    },
   })
   const allItemsArray = computed(() => Object.values(allItems.value))
-
-  const chosenCategoryItem = ref<Record<keyof TSoreCategory, TStoreItem['id'] | null>>({
-    background: 1,
-    button: null,
-    font: null,
-  })
-  const choseCategoryItem = (category: keyof TSoreCategory, id: TStoreItem['id']) => chosenCategoryItem.value[category] = id
 
   const purchasedItems = computed(() => allItemsArray.value.filter(item => item.purchased))
   const availableItems = computed(() => allItemsArray.value.filter(item => !item.purchased))
@@ -75,13 +115,17 @@ export const useStoreStore = defineStore('store', () => {
   function selectPurchasingItem(item: TStoreItem) {
     purchasingItem.value = item
   }
-  function purchaseItem() {
+  function purchaseItem(): TStoreItem | null {
     if (!purchasingItem.value)
-      return
+      return null
 
-    allItems.value[purchasingItem.value.id].purchased = true
-    coins.value -= purchasingItem.value.price
+    const item = purchasingItem.value
+
+    allItems.value[item.id].purchased = true
+    coins.value -= item.price
     purchasingItem.value = null
+
+    return item
   }
   function cancelPurchase() {
     purchasingItem.value = null
@@ -93,9 +137,6 @@ export const useStoreStore = defineStore('store', () => {
     allItems,
     purchasedItems,
     availableItems,
-
-    chosenCategoryItem,
-    choseCategoryItem,
 
     purchasingItem: readonly(purchasingItem),
     selectPurchasingItem,

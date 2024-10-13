@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { type TStoreItem, useStoreStore } from '@/stores/store.store'
+import { useStoreStore } from '@/stores/store.store'
+import { useThemeStore } from '@/stores/theme.store'
 import { vOnClickOutside } from '@vueuse/components'
-import { computed } from 'vue'
 import StoreItem from './StoreItem.vue'
 
 const storeStore = useStoreStore()
+const themeStore = useThemeStore()
+
+function purchaseItem() {
+  const item = storeStore.purchaseItem()
+
+  if (item)
+    themeStore.setChosenItem(item)
+}
 </script>
 
 <template>
@@ -43,15 +51,15 @@ const storeStore = useStoreStore()
         </div>
 
         <button
-          class="py-2 font-bold rounded-lg bg-rose-300 text-rose-900 hover:bg-rose-500"
+          class="py-2 font-bold transition-colors border-2 rounded-lg border-rose-400 text-rose-400 hover:bg-rose-900"
           @click="storeStore.cancelPurchase"
         >
           Cancel
         </button>
 
         <button
-          class="py-2 font-bold rounded-lg bg-lime-300 text-lime-900 hover:bg-lime-500"
-          @click="storeStore.purchaseItem"
+          class="py-2 font-bold transition-colors rounded-lg bg-lime-300 text-lime-900 hover:bg-lime-500"
+          @click="purchaseItem"
         >
           Purchase
         </button>

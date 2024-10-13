@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { type TStoreItem, useStoreStore } from '@/stores/store.store'
+import { useThemeStore } from '@/stores/theme.store'
 import { computed } from 'vue'
 import StoreBackgroundItem from './StoreBackgroundItem.vue'
+import StoreFontItem from './StoreFontItem.vue'
 
 const props = defineProps<{
   item: TStoreItem
@@ -9,20 +11,16 @@ const props = defineProps<{
 }>()
 
 const bankStore = useStoreStore()
+const themeStore = useThemeStore()
 
 const affordable = computed(() => bankStore.coins >= props.item.price)
+const isChosen = computed(() => themeStore.chosenItemsIds.has(props.item.id))
 </script>
 
 <template>
-  <div
-    class="relative flex flex-col overflow-hidden text-left transition-transform border-2 rounded-lg"
-    :class="bankStore.chosenCategoryItem[props.item.category] === props.item.id
-      ? 'border-lime-600'
-      : 'border-neutral-800'
-    "
-  >
+  <div class="relative flex flex-col h-full overflow-hidden text-left transition-transform rounded-lg">
     <div
-      v-if="item.purchased"
+      v-if="isChosen"
       class="absolute top-0 right-0 py-0.5 px-2 text-green-400 rounded-bl-lg bg-neutral-800"
     >
       <font-awesome-icon :icon="['fas', 'circle-check']" />
@@ -30,6 +28,7 @@ const affordable = computed(() => bankStore.coins >= props.item.price)
 
     <div class="w-full h-auto overflow-hidden aspect-square bg-neutral-400">
       <StoreBackgroundItem v-if="item.category === 'background'" :item="item" />
+      <StoreFontItem v-else-if="item.category === 'font'" :item="item" />
     </div>
 
     <div

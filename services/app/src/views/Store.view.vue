@@ -3,14 +3,16 @@ import PurchaseConfirmation from '@/components/store/PurchaseConfirmation.vue'
 import StoreItem from '@/components/store/StoreItem.vue'
 import Wallet from '@/components/Wallet.vue'
 import { StoreCategories, type TSoreCategory, type TStoreItem, useStoreStore } from '@/stores/store.store'
+import { useThemeStore } from '@/stores/theme.store'
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
 const storeStore = useStoreStore()
+const themeStore = useThemeStore()
 
-const activeCategory = ref<keyof TSoreCategory>(StoreCategories[0])
+const activeCategory = ref<keyof TSoreCategory>(StoreCategories.background)
 
 const activeCategoryPurchasedItems = computed(() => storeStore.purchasedItems.filter(item => item.category === activeCategory.value))
 const activeCategoryAvailableItems = computed(() => storeStore.availableItems.filter(item => item.category === activeCategory.value))
@@ -26,10 +28,12 @@ function setActiveCategory(category: keyof TSoreCategory) {
   isItemsAnimating.value = true
 }
 
+const getIsChosen = (item: TStoreItem) => themeStore.chosenItemsIds.has(item.id)
+
 onMounted(() => {
   setTimeout(
     () => isItemsAnimating.value = false,
-    getAnimationDelay(activeCategoryPurchasedItems.value.length + activeCategoryPurchasedItems.value.length),
+    getAnimationDelay(activeCategoryPurchasedItems.value.length + activeCategoryAvailableItems.value.length),
   )
 })
 </script>
@@ -37,7 +41,7 @@ onMounted(() => {
 <template>
   <main class="grid gap-8">
     <nav class="flex items-center w-full gap-4">
-      <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="router.go(-1)">
+      <button class="w-12 rounded-full bg-neutral-800 aspect-square" @click="router.push('/')">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </button>
 
@@ -74,7 +78,12 @@ onMounted(() => {
           appear
           name="fade"
         >
-          <StoreItem :item="item" hide-price />
+          <button
+            :disabled="getIsChosen(item)"
+            @click="() => themeStore.setChosenItem(item)"
+          >
+            <StoreItem :item="item" hide-price />
+          </button>
         </Transition>
       </div>
 

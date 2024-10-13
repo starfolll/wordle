@@ -54,7 +54,7 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
 
     <LoadingBox
       :loading="loading"
-      class="grid gap-2 p-2 overflow-hidden border-2 rounded-lg border-neutral-800"
+      class="grid gap-2 p-2 overflow-hidden border-2 rounded-lg bg-neutral-900 border-neutral-800"
     >
       <h2 class="text-3xl text-green-400">
         Classic

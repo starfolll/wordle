@@ -7,8 +7,8 @@ const props = defineProps<{
 }>()
 
 const styles = computed<StyleValue>(() => {
-  if (props.item.backgroundCategory === 'color') {
-    return { background: props.item.color }
+  if (props.item.category === 'background') {
+    return { background: props.item.background }
   }
 
   return ''
