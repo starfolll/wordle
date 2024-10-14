@@ -29,4 +29,4 @@ coverage
 
 *.tsbuildinfo
 
-services/backend/words
+services/backend/words/words.sqlite
