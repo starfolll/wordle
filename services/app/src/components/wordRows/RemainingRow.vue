@@ -8,6 +8,9 @@ const wordleStore = useWordleStore()
 
 <template>
   <WordContainer>
-    <LetterCell v-for="i in wordleStore.lettersInWord" :key="i" />
+    <LetterCell
+      v-for="i in wordleStore.lettersInWord"
+      :key="i"
+    />
   </WordContainer>
 </template>

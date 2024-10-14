@@ -72,14 +72,19 @@ onMounted(() => {
 
 <template>
   <WordContainer v-if="wordleStore.word">
-    <LetterCell v-for="(_, index) in wordleStore.currentGuess" ref="LetterCells" :key="index">
+    <LetterCell
+      v-for="(_, index) in wordleStore.currentGuess"
+      :key="index"
+      ref="LetterCells"
+      tw-class="bg-current-800"
+    >
       <input
         ref="inputs"
         v-bounce="wordleStore.currentGuess[index]"
         type="text"
         maxlength="1"
         :value="wordleStore.currentGuess[index]"
-        class="w-full h-full text-center capitalize bg-transparent border-2 rounded outline-none caret-transparent border-neutral-500 focus:border-neutral-200"
+        class="w-full h-full text-center capitalize bg-transparent border-2 rounded outline-none caret-transparent border-current-500 focus:border-current-200"
         @input="e => onInput(e, index)"
         @keydown="e => onKeyDown(e, index)"
       >

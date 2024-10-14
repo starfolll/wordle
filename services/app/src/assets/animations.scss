@@ -25,8 +25,8 @@
 }
 
 @keyframes flip-y {
-  0% { transform: rotateY(0deg); @apply text-neutral-100 bg-neutral-800; }
-  50% { transform: rotateY(90deg); @apply text-neutral-100 bg-neutral-800; }
+  0% { transform: rotateY(0deg); @apply text-current-100 bg-current-800; }
+  50% { transform: rotateY(90deg); @apply text-current-100 bg-current-800; }
   51% { @apply text-inherit bg-inherit; }
   100% { transform: rotateY(0deg); }
 }
@@ -40,8 +40,8 @@
 }
 
 @keyframes flip-x {
-  0% { transform: rotateX(0deg); @apply text-neutral-100 bg-neutral-800; }
-  50% { transform: rotateX(90deg); @apply text-neutral-100 bg-neutral-800; }
+  0% { transform: rotateX(0deg); @apply text-current-100 bg-current-800; }
+  50% { transform: rotateX(90deg); @apply text-current-100 bg-current-800; }
   51% { @apply text-inherit bg-inherit; }
   100% { transform: rotateX(0deg); }
 }

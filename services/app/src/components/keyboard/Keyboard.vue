@@ -12,12 +12,12 @@ const keyboardRow3 = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
 
 const letterClassNameExtended = {
   ...letterClassName,
-  none: 'bg-neutral-900',
+  none: 'bg-transparent',
 } satisfies typeof letterClassName
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-1">
+  <div class="flex flex-col items-center gap-1 p-2 rounded-lg bg-neutral-900">
     <div class="flex justify-center w-full gap-1">
       <button
         v-for="letter in keyboardRow1"
@@ -83,7 +83,7 @@ const letterClassNameExtended = {
         class="ml-2"
         @click="wordleStore.removeLastGuessingWordLetter"
       >
-        <KeyCap tw-class="text-neutral-400">
+        <KeyCap tw-class="text-current-400">
           <font-awesome-icon :icon="['fas', 'delete-left']" />
         </KeyCap>
       </button>
@@ -93,7 +93,7 @@ const letterClassNameExtended = {
         v-global-key-press="(el, e) => (e.shiftKey || e.ctrlKey) && e.key === 'Backspace' && playSquashAnimation(el)"
         @click="wordleStore.clearGuessingWord"
       >
-        <KeyCap tw-class="text-neutral-400">
+        <KeyCap tw-class="text-current-400">
           <font-awesome-icon :icon="['fas', 'eraser']" />
         </KeyCap>
       </button>

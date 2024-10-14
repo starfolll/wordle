@@ -9,8 +9,10 @@ export {
   faDollarSign,
   faEraser,
   faFire,
+  faFireFlameSimple,
   faHouse,
   faQuestion,
+  faSquareFull,
   faStore,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons'

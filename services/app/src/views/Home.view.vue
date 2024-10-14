@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HowToPlay from '@/components/HowToPlay.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
+import Streak from '@/components/Streak.vue'
 import Wallet from '@/components/Wallet.vue'
 import { type GameProgress, useProgressStore } from '@/stores/progress.store'
 import { useWordleStore } from '@/stores/wordle.store'
@@ -36,14 +37,14 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
 </script>
 
 <template>
-  <main class="grid gap-4 min-w-72">
-    <div class="flex items-center justify-between px-2 border-transparent border-x-2">
-      <h1 class="text-4xl text-left">
+  <main class="flex flex-col items-center justify-center h-full gap-4 min-w-72">
+    <div class="flex items-center justify-between w-full px-2 border-transparent border-x-2">
+      <h1 class="text-4xl text-left text-current-100">
         Wordle
       </h1>
 
       <button
-        class="w-10 h-10 transition-colors rounded-full bg-neutral-800 hover:bg-neutral-700"
+        class="w-10 h-10 transition-colors rounded-full bg-current-800 hover:bg-current-700"
         @click="(e) => isShowingHowToPlay = !isShowingHowToPlay"
       >
         <font-awesome-icon :icon="['fas', 'question']" />
@@ -54,32 +55,28 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
 
     <LoadingBox
       :loading="loading"
-      class="grid gap-2 p-2 overflow-hidden border-2 rounded-lg bg-neutral-900 border-neutral-800"
+      class="grid w-full gap-2 p-2 overflow-hidden rounded-lg bg-neutral-800"
     >
-      <h2 class="text-3xl text-green-400">
+      <h2 class="mb-2 text-3xl text-current-400">
         Classic
       </h2>
 
       <button
         :disabled="loading"
-        class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl rounded bg-neutral-800"
+        class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl transition-colors rounded bg-current-700 hover:bg-current-600"
         @click="startClassicGame(4, progressStore.classic4Letters)"
       >
         4 letters
 
-        <div
+        <Streak
           v-if="progressStore.classic4Letters.streak"
-          class="relative flex items-center justify-center gap-2 px-2 py-1 text-xl text-white rounded bg-neutral-900"
-        >
-          <font-awesome-icon :icon="['fas', 'fire']" />
-          {{ progressStore.classic4Letters.streak }}
-
-          <div class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
-        </div>
+          class="text-xl"
+          :streak="progressStore.classic4Letters.streak"
+        />
 
         <font-awesome-icon
           v-else
-          class="mr-2 text-green-400"
+          class="mr-2 text-current-400"
           :icon="['fas', 'arrow-right']"
           size="sm"
         />
@@ -87,24 +84,20 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
 
       <button
         :disabled="loading"
-        class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl rounded bg-neutral-800"
+        class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl transition-colors rounded bg-current-700 hover:bg-current-600"
         @click="startClassicGame(5, progressStore.classic5Letters)"
       >
         5 letters
 
-        <div
+        <Streak
           v-if="progressStore.classic5Letters.streak"
-          class="relative flex items-center justify-center gap-2 px-2 py-1 text-xl text-white rounded bg-neutral-900"
-        >
-          <font-awesome-icon :icon="['fas', 'fire']" />
-          {{ progressStore.classic5Letters.streak }}
-
-          <div class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-r from-red-500 to-orange-400 mix-blend-darken" />
-        </div>
+          class="text-xl"
+          :streak="progressStore.classic5Letters.streak"
+        />
 
         <font-awesome-icon
           v-else
-          class="mr-2 text-green-400"
+          class="mr-2 text-current-400"
           :icon="['fas', 'arrow-right']"
           size="sm"
         />

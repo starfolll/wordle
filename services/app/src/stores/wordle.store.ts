@@ -1,6 +1,7 @@
 import type { GameProgress } from './progress.store'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { useStoreStore } from './store.store'
 
 export enum TMatchingLetterTag {
   EXACT = 'exact',
@@ -15,6 +16,8 @@ export const letterClassName = {
 } satisfies Record<TMatchingLetterTag, string>
 
 export const useWordleStore = defineStore('wordle', () => {
+  const storeStore = useStoreStore()
+
   const gameProgressRef = ref<GameProgress | null>(null)
 
   const streak = computed<number>(() => gameProgressRef.value?.streak ?? 0)
@@ -99,9 +102,13 @@ export const useWordleStore = defineStore('wordle', () => {
     if (gameProgressRef.value === null)
       return
 
-    if (isWon.value)
+    if (isWon.value) {
       gameProgressRef.value.streak += 1
-    else gameProgressRef.value.streak = 0
+      storeStore.coins += 1
+    }
+    else {
+      gameProgressRef.value.streak = 0
+    }
   }
   const submitGuess = (): boolean => {
     const guess = currentGuess.value.join('')

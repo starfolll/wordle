@@ -16,11 +16,11 @@ function purchaseItem() {
 </script>
 
 <template>
-  <section v-if="storeStore.purchasingItem" class="fixed top-0 left-0 z-10 grid bg-neutral-900/70 w-dvw h-dvh">
+  <section v-if="storeStore.purchasingItem" class="fixed top-0 left-0 z-50 grid bg-neutral-900/90 w-dvw h-dvh">
     <div class="flex flex-col items-center justify-center">
       <div
         v-on-click-outside="storeStore.cancelPurchase"
-        class="relative grid w-full grid-cols-2 gap-4 p-6 border-2 rounded max-w-96 backdrop-blur border-neutral-800 bg-neutral-900/90"
+        class="relative grid w-full grid-cols-2 gap-8 p-6 rounded max-w-[400px] backdrop-blur bg-neutral-900/90"
       >
         <StoreItem :item="{ ...storeStore.purchasingItem, price: 0 }" />
 
@@ -31,20 +31,20 @@ function purchaseItem() {
             </p>
 
             <button
-              class="w-10 h-10 rounded-full bg-neutral-800 hover:bg-neutral-700"
+              class="w-10 h-10 rounded-full bg-current-800 hover:bg-current-700"
               @click="storeStore.cancelPurchase"
             >
               <font-awesome-icon :icon="['fas', 'xmark']" />
             </button>
           </div>
 
-          <p class="text-neutral-400">
+          <p class="text-current-400">
             Are you sure you want to purchase this
-            <span class="text-neutral-100">{{ storeStore.purchasingItem.category }}</span>?
+            <span class="text-current-100">{{ storeStore.purchasingItem.category }}</span>?
           </p>
 
           <p class="text-2xl text-amber-400">
-            <span class="text-base text-neutral-400">for</span>
+            <span class="text-base text-current-400">for</span>
             {{ storeStore.purchasingItem.price }}
             <font-awesome-icon :icon="['fas', 'dollar-sign']" />
           </p>

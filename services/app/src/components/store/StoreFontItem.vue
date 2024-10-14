@@ -30,7 +30,7 @@ const fontStyle = computed(() => h('style', {}, `@import url(${props.item.fontUr
 </script>
 
 <template>
-  <div class="flex items-center justify-center w-full h-full p-2 text-xl text-center bg-neutral-700 text-neutral-100">
+  <div class="flex items-center justify-center w-full h-full p-2 text-xl text-center text-current-100">
     <component :is="fontStyle" />
 
     <span :style="`font-family: ${props.item.fontName}, system-ui;`">

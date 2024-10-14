@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <div
     :class="twMerge([
-      'px-2 py-2 font-mono text-3xl uppercase rounded w-min aspect-square bg-neutral-800',
+      'px-2 py-2 font-mono text-3xl uppercase rounded w-min aspect-square bg-current-800',
       twClass,
     ])"
   >

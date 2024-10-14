@@ -17,7 +17,7 @@ const wordleStore = useWordleStore()
       :key="index"
       :class="wordleStore.guessedLettersAppearAnimation"
       :style="{ '--index': index }"
-      :tw-class="letterClassName[wordleStore.getLetterTag(letter, index)]"
+      :tw-class="letterClassName[wordleStore.getLetterTag(letter, index)] || 'bg-neutral-800'"
     >
       {{ letter }}
     </LetterCell>

@@ -14,14 +14,14 @@ defineProps<{
     <div class="flex flex-col items-center justify-center p-4 max-h-dvh">
       <div
         v-on-click-outside="close"
-        class="relative flex flex-col gap-8 p-6 overflow-auto border-2 rounded backdrop-blur border-neutral-800 bg-neutral-900/90"
+        class="relative flex flex-col gap-8 p-6 overflow-auto border-2 rounded backdrop-blur border-current-800 bg-current-900/90"
       >
         <p class="text-3xl text-center">
           How to play?
         </p>
 
         <button
-          class="absolute w-10 h-10 rounded-full right-4 top-4 bg-neutral-800 hover:bg-neutral-700"
+          class="absolute w-10 h-10 rounded-full right-4 top-4 bg-current-800 hover:bg-current-700"
           @click="close"
         >
           <font-awesome-icon :icon="['fas', 'xmark']" />
@@ -40,7 +40,7 @@ defineProps<{
           Unlike the original game, you can enter any sequence of letters.
         </p>
 
-        <hr class="border-2 rounded-full border-neutral-800">
+        <hr class="border-2 rounded-full border-current-800">
 
         <p class="text-xl">
           Example:
@@ -60,7 +60,7 @@ defineProps<{
             Letter
             <span :class="letterClassName.exact" class="px-1 font-bold rounded">C</span>
             in word
-            <span class="px-1 font-bold tracking-widest rounded bg-neutral-800">COSY</span>
+            <span class="px-1 font-bold tracking-widest rounded bg-current-800">COSY</span>
             is a exact match of a letter.<br>
             Meaning it is in the correct position.
           </p>
@@ -78,16 +78,16 @@ defineProps<{
             Letter
             <span :class="letterClassName.partial" class="px-1 font-bold rounded">D</span>
             in word
-            <span class="px-1 font-bold tracking-widest rounded bg-neutral-800">DEMO</span>
+            <span class="px-1 font-bold tracking-widest rounded bg-current-800">DEMO</span>
             is a partial match of a letter.<br>
             Meaning it is in the word but not in the correct position.
           </p>
 
           <p>
             Other letters like
-            <span class="px-1 mr-1 font-bold tracking-widest rounded bg-neutral-800">O</span>
-            <span class="px-1 mr-1 font-bold tracking-widest rounded bg-neutral-800">S</span>
-            <span class="px-1 font-bold tracking-widest rounded bg-neutral-800">Y</span>
+            <span class="px-1 mr-1 font-bold tracking-widest rounded bg-current-800">O</span>
+            <span class="px-1 mr-1 font-bold tracking-widest rounded bg-current-800">S</span>
+            <span class="px-1 font-bold tracking-widest rounded bg-current-800">Y</span>
             etc. are not in the word.
           </p>
         </div>

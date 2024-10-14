@@ -39,39 +39,50 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="grid gap-8">
-    <nav class="flex items-center w-full gap-4">
-      <button class="rounded-full min-w-12 bg-neutral-800 aspect-square" @click="router.push('/')">
-        <font-awesome-icon :icon="['fas', 'arrow-left']" />
-      </button>
-
-      <h1 class="text-xl text-left grow">
-        Store: {{ activeCategory }}s
-      </h1>
-
-      <Wallet />
-    </nav>
-
+  <main class="flex flex-col h-full gap-4">
     <PurchaseConfirmation v-if="storeStore.purchasingItem" />
 
-    <div class="flex justify-between gap-4">
-      <button
-        v-for="category in StoreCategories"
-        :key="category"
-        :disabled="category === activeCategory"
-        class="px-4 py-1 text-lg capitalize transition-colors border-2 rounded-full"
-        :class="[category === activeCategory
-          ? ' bg-transparent border-amber-900 cursor-not-allowed text-amber-400'
-          : 'bg-amber-900 text-amber-400 hover:bg-amber-800 border-amber-900 hover:border-amber-800',
-        ]"
-        @click="() => setActiveCategory(category)"
-      >
-        {{ category }}
-      </button>
+    <div class="sticky z-10 grid gap-8 p-4 rounded-lg top-4 bg-neutral-900">
+      <nav class="flex items-center w-full gap-4">
+        <button class="rounded-full min-w-12 bg-current-800 aspect-square" @click="router.push('/')">
+          <font-awesome-icon :icon="['fas', 'arrow-left']" />
+        </button>
+
+        <h1 class="flex items-center gap-4 text-left grow">
+          <font-awesome-icon :icon="['fas', 'store']" size="xl" />
+          <span class="text-3xl">Store</span>
+        </h1>
+
+        <Wallet />
+      </nav>
+
+      <div class="flex justify-between gap-4">
+        <button
+          v-for="category in StoreCategories"
+          :key="category"
+          :disabled="category === activeCategory"
+          class="px-4 py-1 text-lg capitalize transition-colors border-2 rounded-full"
+          :class="[category === activeCategory
+            ? ' bg-transparent border-current-800 cursor-not-allowed text-current-400'
+            : 'bg-current-800 text-current-100 hover:bg-current-700 border-current-800 hover:border-current-700',
+          ]"
+          @click="() => setActiveCategory(category)"
+        >
+          {{ category }}
+        </button>
+      </div>
     </div>
 
-    <div class="grid gap-4">
-      <div class="grid grid-cols-3 gap-3">
+    <div class="relative flex flex-col items-start gap-4 pt-4 pb-16 pl-4 pr-2 overflow-x-visible overflow-y-scroll grow">
+      <div class="flex items-center w-full gap-4">
+        <hr class="border-2 grow border-neutral-800">
+        <p class="px-2 py-1 text-xl rounded text-current-400 bg-neutral-900">
+          Purchased
+        </p>
+        <hr class="border-2 grow border-neutral-800">
+      </div>
+
+      <div class="grid w-full grid-cols-3 gap-3">
         <Transition
           v-for="(item, index) in activeCategoryPurchasedItems" :key="item.name"
           :style="{ '--animation-delay': `${getAnimationDelay(index)}ms` }"
@@ -87,9 +98,15 @@ onMounted(() => {
         </Transition>
       </div>
 
-      <hr v-if="activeCategoryAvailableItems.length" class="border-2 border-neutral-800">
+      <div v-if="activeCategoryAvailableItems.length" class="flex items-center w-full gap-4">
+        <hr class="border-2 grow border-neutral-800">
+        <p class="px-2 py-1 text-xl rounded text-current-400 bg-neutral-900">
+          Offers
+        </p>
+        <hr class="border-2 grow border-neutral-800">
+      </div>
 
-      <div class="grid grid-cols-3 gap-3">
+      <div class="grid w-full grid-cols-3 gap-3">
         <Transition
           v-for="(item, index) in activeCategoryAvailableItems" :key="item.name"
           :style="{ '--animation-delay': `${getAnimationDelay(index + activeCategoryPurchasedItems.length)}ms` }"

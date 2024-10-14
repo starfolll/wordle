@@ -24,8 +24,11 @@ const backgroundId = computed(() => themeStore.theme.background.id || Math.rando
 
   <component :is="fontStyle" />
 
-  <div class="flex items-center justify-center h-full">
-    <div class="w-full max-w-96">
+  <div
+    class="flex items-center justify-center h-full"
+    :style="themeStore.theme.theme.themeVariables"
+  >
+    <div class="w-full h-full px-2 py-4 max-w-[520px] text-current-100">
       <RouterView v-slot="{ Component }">
         <Transition name="fade" mode="out-in">
           <component :is="Component" />

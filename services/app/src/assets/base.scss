@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --color-current-100: 245 245 245;
+    --color-current-200: 229 229 229;
+    --color-current-300: 212 212 212;
+    --color-current-400: 163 163 163;
+    --color-current-500: 115 115 115;
+    --color-current-600: 82 82 82;
+    --color-current-700: 64 64 64;
+    --color-current-800: 38 38 38;
+    --color-current-900: 23 23 23;
+  }
+}
+
 html, body, #app {
   @apply h-full;
 }
@@ -13,13 +27,13 @@ html {
 }
 
 ::-webkit-scrollbar {
-  @apply w-1;
+  @apply w-2;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-neutral-700 rounded;
+  @apply bg-transparent rounded;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-neutral-400 rounded;
+  @apply bg-neutral-700 rounded;
 }
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-neutral-500;
