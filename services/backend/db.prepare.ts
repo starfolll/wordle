@@ -12,8 +12,15 @@ import { c2 } from './words/c2'
 export type TExtendedWordInfo = TWordInfo & { learnLevel: TLearnLevel }
 
 const db = new Database('./words/words.sqlite')
-db.prepare('CREATE TABLE IF NOT EXISTS words (word TEXT PRIMARY KEY, definition TEXT, learnLevel TEXT)').run()
-db.prepare('CREATE INDEX IF NOT EXISTS words_word_index ON words (word)').run()
+db.run('CREATE TABLE IF NOT EXISTS words (word TEXT PRIMARY KEY, definition TEXT, learnLevel TEXT)')
+db.run('CREATE INDEX IF NOT EXISTS words_word_index ON words (word)')
+const isWordExistsQuery = db.prepare('SELECT * FROM words WHERE word = ?')
+const insertQuery = db.prepare('INSERT INTO words (word, definition, learnLevel) VALUES (?, ?, ?)')
+
+const bannedWords = ['sex']
+function isAppropriateWord(wordInfo: TWordInfo): boolean {
+  return !bannedWords.some(bannedWord => wordInfo.definition.includes(bannedWord) && wordInfo.word.includes(bannedWord))
+}
 
 function extendWordInfo(learnLevel: TLearnLevel, words: TWordInfo[]): TExtendedWordInfo[] {
   return words.map(word => ({ ...word, learnLevel }))
@@ -25,14 +32,14 @@ const allWords = [
   extendWordInfo('b2', b2),
   extendWordInfo('c1', c1),
   extendWordInfo('c2', c2),
-].flat()
-
-const insertQuery = db.prepare('INSERT INTO words (word, definition, learnLevel) VALUES (?, ?, ?)')
+].flat().filter(isAppropriateWord)
 
 console.log(`Inserting words into the database... ${allWords.length}`)
+const logInsertion = (index: number) => console.log(`Inserted ${index.toString().padStart(allWords.length.toString().length, ' ')}/${allWords.length} words`)
 allWords.forEach(({ word, definition, learnLevel }, index) => {
   if (index % 100 === 0)
-    console.log(`Inserted ${index}/${allWords.length} words`)
+    logInsertion(index)
 
-  insertQuery.run(word, definition, learnLevel)
+  if (!isWordExistsQuery.get(word))
+    insertQuery.run(word, definition, learnLevel)
 })

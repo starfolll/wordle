@@ -6,12 +6,12 @@ import { Elysia, t } from 'elysia'
 
 const db = new Database('./words/words.sqlite')
 
-const randomWordQuery = db.prepare<TExtendedWordInfo, []>('SELECT word FROM words ORDER BY RANDOM() LIMIT 1')
-const randomWordQueryWithLengthLimit = db.prepare<TExtendedWordInfo, [number]>('SELECT word FROM words WHERE LENGTH(word) = ? ORDER BY RANDOM() LIMIT 1')
+const randomWordQuery = db.prepare<TExtendedWordInfo, []>('SELECT * FROM words ORDER BY RANDOM() LIMIT 1')
+const randomWordQueryWithLengthLimit = db.prepare<TExtendedWordInfo, [number]>('SELECT * FROM words WHERE LENGTH(word) = ? ORDER BY RANDOM() LIMIT 1')
 
 new Elysia()
   .use(cors({ origin: '*' }))
-  .get('/random-word', ({ query: { length } }) => {
+  .get('/', ({ query: { length } }) => {
     const data = length
       ? randomWordQueryWithLengthLimit.get(length)
       : randomWordQuery.get()
@@ -19,10 +19,8 @@ new Elysia()
     if (!data)
       throw new Error('No word found')
 
-    const { word } = data
-
-    console.log(`Sending word: ${word}`)
-    return word
+    console.log(`Sending word data: ${data}`)
+    return data
   }, {
     query: t.Object({
       length: t.Optional(t.Number({ minimum: 4, maximum: 5 })),
