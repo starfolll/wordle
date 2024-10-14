@@ -36,10 +36,16 @@ const allWords = [
 
 console.log(`Inserting words into the database... ${allWords.length}`)
 const logInsertion = (index: number) => console.log(`Inserted ${index.toString().padStart(allWords.length.toString().length, ' ')}/${allWords.length} words`)
+const formatDefinition = (definition: string) => definition.replace('.', '').toLowerCase()
 allWords.forEach(({ word, definition, learnLevel }, index) => {
   if (index % 100 === 0)
     logInsertion(index)
 
-  if (!isWordExistsQuery.get(word))
-    insertQuery.run(word, definition, learnLevel)
+  if (!isWordExistsQuery.get(word)) {
+    insertQuery.run(
+      word,
+      formatDefinition(definition),
+      learnLevel,
+    )
+  }
 })
