@@ -1,4 +1,4 @@
-import type { GameProgress } from './progress.store'
+import type { GameProgress, TWordInfo } from './progress.store'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { useStoreStore } from './store.store'
@@ -22,7 +22,10 @@ export const useWordleStore = defineStore('wordle', () => {
 
   const streak = computed<number>(() => gameProgressRef.value?.streak ?? 0)
 
-  const word = computed<string | null>(() => gameProgressRef.value?.word ?? null)
+  const word = computed<string | null>(() => gameProgressRef.value?.wordInfo?.word ?? null)
+  const wordDefinition = computed<string | null>(() => gameProgressRef.value?.wordInfo?.definition ?? null)
+  const wordLearnLevel = computed<string | null>(() => gameProgressRef.value?.wordInfo?.learnLevel ?? null)
+
   const lettersInWord = computed<number>(() => word.value?.length ?? 0)
   const maxGuesses = computed(() => lettersInWord.value + 1)
 
@@ -119,9 +122,9 @@ export const useWordleStore = defineStore('wordle', () => {
     return true
   }
 
-  const fetchNewWord = async (length: number) => {
+  const fetchNewWord = async (length: number): Promise<TWordInfo> => {
     const response = await fetch(`http://localhost:3000/random-word?length=${length}`)
-    return await response.text()
+    return await response.json()
   }
 
   const setGameProgress = (newGameProgressRef: GameProgress | null) => {
@@ -135,11 +138,11 @@ export const useWordleStore = defineStore('wordle', () => {
       return
 
     if (isWon.value) {
-      gameProgressRef.value.word = await fetchNewWord(lettersInWord.value)
+      gameProgressRef.value.wordInfo = await fetchNewWord(lettersInWord.value)
       gameProgressRef.value.guesses = []
     }
     else {
-      gameProgressRef.value.word = await fetchNewWord(lettersInWord.value)
+      gameProgressRef.value.wordInfo = await fetchNewWord(lettersInWord.value)
       gameProgressRef.value.streak = 0
       gameProgressRef.value.guesses = []
     }
@@ -153,6 +156,9 @@ export const useWordleStore = defineStore('wordle', () => {
     streak,
 
     word,
+    wordDefinition,
+    wordLearnLevel,
+
     maxGuesses,
     guesses,
     currentGuess,

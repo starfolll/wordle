@@ -21,8 +21,8 @@ const closeHowToPlay = () => isShowingHowToPlay.value = false
 async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
   loading.value = true
 
-  if (!progress.word)
-    progress.word = await wordleStore.fetchNewWord(wordLength)
+  if (!progress.wordInfo)
+    progress.wordInfo = await wordleStore.fetchNewWord(wordLength)
 
   wordleStore.setGameProgress(progress)
 
