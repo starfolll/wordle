@@ -65,10 +65,12 @@ watchEffect(() => {
       <HowToPlay v-if="isShowingHowToPlay" :close="closeHowToPlay" />
     </nav>
 
-    <div class="flex flex-col gap-2 p-2 rounded-lg bg-neutral-900">
-      <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
-      <GuessingRow v-if="!wordleStore.isGameOver" />
-      <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
+    <div class="grow">
+      <div class="flex flex-col gap-2 p-2 rounded-lg bg-neutral-900">
+        <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
+        <GuessingRow v-if="!wordleStore.isGameOver" />
+        <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
+      </div>
     </div>
 
     <Keyboard />

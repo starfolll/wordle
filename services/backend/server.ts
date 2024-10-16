@@ -21,7 +21,10 @@ new Elysia()
       throw new Error('No word found')
 
     console.log(`Sending word data: ${data.word}`)
-    return data
+    return {
+      ...data,
+      hint: data.hint.replaceAll(data.word, '...'),
+    }
   }, {
     query: t.Object({
       length: t.Optional(t.Number({ minimum: 4, maximum: 5 })),
@@ -36,7 +39,7 @@ new Elysia()
       return error(404, 'Word not found')
 
     console.log(`Sending word hint: ${data.word}`)
-    return data.definition.replace(word, '...')
+    return data.hint.replaceAll(word, '...')
   }, {
     params: t.Object({
       word: t.String(),

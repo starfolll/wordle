@@ -12,7 +12,7 @@ const router = createRouter({
     },
     {
       path: '/game',
-      name: 'game',
+      name: 'game-classic',
       beforeEnter: () => {
         const wordleStore = useWordleStore()
 
@@ -25,6 +25,11 @@ const router = createRouter({
       path: '/store',
       name: 'store',
       component: () => import('@/views/Store.view.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('@/views/NotFound.view.vue'),
     },
   ],
 })

@@ -3,7 +3,7 @@ import HowToPlay from '@/components/HowToPlay.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
 import Streak from '@/components/Streak.vue'
 import Wallet from '@/components/Wallet.vue'
-import { type GameProgress, useProgressStore } from '@/stores/progress.store'
+import { type GameProgress, GameType, useProgressStore } from '@/stores/progress.store'
 import { useWordleStore } from '@/stores/wordle.store'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -18,26 +18,23 @@ const loading = ref(false)
 const isShowingHowToPlay = ref(false)
 const closeHowToPlay = () => isShowingHowToPlay.value = false
 
-async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
+async function startGame(progress: GameProgress) {
   loading.value = true
 
-  if (!progress.wordInfo)
+  if (!progress.wordInfo) {
+    const wordLength = progress.gameType === GameType.classic ? progress.wordLength : undefined
     progress.wordInfo = await wordleStore.fetchNewWord(wordLength)
+  }
 
   wordleStore.setGameProgress(progress)
 
   loading.value = false
   router.push('/game')
 }
-
-// game modes:
-// 1. regular game (4/5 letters) (with game Streak counter)
-// 2. learning words (A1, A2, B1, B2, C1, C2) (roadmap)
-// 3. long words with 5+ letters, 3 guesses, but with a hint, separated by english level
 </script>
 
 <template>
-  <main class="flex flex-col items-center justify-center h-full gap-4 min-w-72">
+  <main class="grid content-center h-full gap-4 min-w-72">
     <div class="flex items-center justify-between w-full px-2 border-transparent border-x-2">
       <h1 class="text-4xl text-left text-current-100">
         Wordle
@@ -63,8 +60,8 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
 
       <button
         :disabled="loading"
-        class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl transition-colors rounded bg-current-700 hover:bg-current-600"
-        @click="startClassicGame(4, progressStore.classic4Letters)"
+        class="flex items-center justify-between py-1 pl-3 pr-1 text-2xl transition-colors rounded bg-neutral-700 hover:bg-neutral-600"
+        @click="startGame(progressStore.classic4Letters)"
       >
         4 letters
 
@@ -84,8 +81,8 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
 
       <button
         :disabled="loading"
-        class="flex items-center justify-between py-1 pl-4 pr-1 text-2xl transition-colors rounded bg-current-700 hover:bg-current-600"
-        @click="startClassicGame(5, progressStore.classic5Letters)"
+        class="flex items-center justify-between py-1 pl-3 pr-1 text-2xl transition-colors rounded bg-neutral-700 hover:bg-neutral-600"
+        @click="startGame(progressStore.classic5Letters)"
       >
         5 letters
 
@@ -104,12 +101,46 @@ async function startClassicGame(wordLength: 4 | 5, progress: GameProgress) {
       </button>
     </LoadingBox>
 
-    <RouterLink to="/store" class="flex gap-2 px-2 ml-auto border-2 border-transparent rounded-lg w-min group">
-      <Wallet />
+    <div class="flex gap-4">
+      <LoadingBox
+        :loading="loading"
+        class="grid w-full gap-2 p-2 overflow-hidden rounded-lg grow bg-neutral-800"
+      >
+        <h2 class="mb-2 text-3xl text-current-400">
+          With hints
+        </h2>
 
-      <div class="flex items-center justify-center h-full text-xl transition-colors rounded-lg aspect-square bg-amber-900 text-amber-400 group-hover:bg-amber-800">
-        <font-awesome-icon :icon="['fas', 'store']" size="lg" />
-      </div>
-    </RouterLink>
+        <button
+          :disabled="loading"
+          class="flex items-center justify-between py-1 pl-3 pr-1 text-2xl transition-colors rounded bg-neutral-700 hover:bg-neutral-600"
+          @click="startGame(progressStore.withHints)"
+        >
+          Play
+
+          <Streak
+            v-if="progressStore.withHints.streak"
+            class="text-xl"
+            :streak="progressStore.withHints.streak"
+          />
+
+          <font-awesome-icon
+            v-else
+            class="mr-2 text-current-400"
+            :icon="['fas', 'arrow-right']"
+            size="sm"
+          />
+        </button>
+      </LoadingBox>
+
+      <RouterLink
+        to="/store"
+        class="text-xl aspect-square group"
+      >
+        <div class="flex flex-col items-center justify-center h-full gap-4 transition-colors rounded-lg bg-amber-400 group-hover:bg-amber-500">
+          <font-awesome-icon class="text-amber-800" :icon="['fas', 'store']" size="lg" />
+          <Wallet class="transition-colors group-hover:border-amber-500" />
+        </div>
+      </RouterLink>
+    </div>
   </main>
 </template>

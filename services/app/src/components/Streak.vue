@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <section class="relative flex items-center self-center gap-2 px-2 py-1 text-white rounded bg-neutral-900">
+  <section class="relative flex items-center self-center gap-2 px-4 py-1 text-white rounded bg-neutral-900">
     <span
       v-bounce="streak"
       :class="streak === 0 ? 'text-neutral-700' : 'text-white'"

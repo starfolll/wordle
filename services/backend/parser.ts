@@ -6,7 +6,7 @@ export type TLearnLevel = 'a1' | 'a2' | 'b1' | 'b2' | 'c1' | 'c2'
 
 export interface TWordInfo {
   word: string
-  definition: string
+  hint: string
 }
 
 async function fetchWordInfo(word: string): Promise<TWordInfo> {
@@ -14,12 +14,12 @@ async function fetchWordInfo(word: string): Promise<TWordInfo> {
   const html = await vocabulary.text()
   const root = parse(html)
 
-  const definition = (
+  const hint = (
     root.querySelector('.entryDY .definition.hasThermo .value')
     || root.querySelector('.definition .value')
   )?.textContent.trim() || ''
 
-  return { word, definition }
+  return { word, hint }
 }
 
 function filterWords(words: string[]) {

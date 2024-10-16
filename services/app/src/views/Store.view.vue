@@ -75,11 +75,11 @@ onMounted(() => {
 
     <div class="relative flex flex-col items-start gap-4 pt-4 pb-16 pl-4 pr-2 overflow-x-visible overflow-y-scroll grow">
       <div class="flex items-center w-full gap-4">
-        <hr class="border-2 grow border-neutral-800">
+        <hr class="border-2 rounded-full grow border-neutral-800">
         <p class="px-2 py-1 text-xl rounded text-current-400 bg-neutral-900">
           Purchased
         </p>
-        <hr class="border-2 grow border-neutral-800">
+        <hr class="border-2 rounded-full grow border-neutral-800">
       </div>
 
       <div class="grid w-full grid-cols-3 gap-3">
@@ -99,11 +99,11 @@ onMounted(() => {
       </div>
 
       <div v-if="activeCategoryAvailableItems.length" class="flex items-center w-full gap-4">
-        <hr class="border-2 grow border-neutral-800">
+        <hr class="border-2 rounded-full grow border-neutral-800">
         <p class="px-2 py-1 text-xl rounded text-current-400 bg-neutral-900">
           Offers
         </p>
-        <hr class="border-2 grow border-neutral-800">
+        <hr class="border-2 rounded-full grow border-neutral-800">
       </div>
 
       <div class="grid w-full grid-cols-3 gap-3">

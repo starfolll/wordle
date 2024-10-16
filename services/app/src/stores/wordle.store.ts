@@ -1,6 +1,6 @@
-import type { GameProgress, TWordInfo } from './progress.store'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { type GameProgress, GameType, type TGameType, type TWordInfo } from './progress.store'
 import { useStoreStore } from './store.store'
 
 export enum TMatchingLetterTag {
@@ -21,13 +21,19 @@ export const useWordleStore = defineStore('wordle', () => {
   const gameProgressRef = ref<GameProgress | null>(null)
 
   const streak = computed<number>(() => gameProgressRef.value?.streak ?? 0)
+  const gameType = computed<TGameType | null>(() => gameProgressRef.value?.gameType ?? null)
 
-  const word = computed<string | null>(() => gameProgressRef.value?.wordInfo?.word ?? null)
-  const wordDefinition = computed<string | null>(() => gameProgressRef.value?.wordInfo?.definition ?? null)
-  const wordLearnLevel = computed<string | null>(() => gameProgressRef.value?.wordInfo?.learnLevel ?? null)
+  const word = computed<TWordInfo['word'] | null>(() => gameProgressRef.value?.wordInfo?.word ?? null)
+  const wordHint = computed<TWordInfo['hint'] | null>(() => gameProgressRef.value?.wordInfo?.hint ?? null)
+  const wordLearnLevel = computed<TWordInfo['learnLevel'] | null>(() => gameProgressRef.value?.wordInfo?.learnLevel ?? null)
 
   const lettersInWord = computed<number>(() => word.value?.length ?? 0)
-  const maxGuesses = computed(() => lettersInWord.value + 1)
+  const maxGuesses = computed(() => {
+    if (gameType.value === GameType.withHint)
+      return 3
+
+    return lettersInWord.value + 1
+  })
 
   const guesses = computed<string[]>(() => gameProgressRef.value?.guesses ?? [])
   const getClearGuess = (length: number) => Array.from<null>({ length }).fill(null)
@@ -122,8 +128,9 @@ export const useWordleStore = defineStore('wordle', () => {
     return true
   }
 
-  const fetchNewWord = async (length: number): Promise<TWordInfo> => {
-    const response = await fetch(`http://localhost:3000/random-word?length=${length}`)
+  const fetchNewWord = async (length?: number): Promise<TWordInfo> => {
+    const requestParams = length ? `?length=${length}` : ''
+    const response = await fetch(`http://localhost:3000/random-word${requestParams}`)
     return await response.json()
   }
 
@@ -137,15 +144,9 @@ export const useWordleStore = defineStore('wordle', () => {
     if (gameProgressRef.value === null)
       return
 
-    if (isWon.value) {
-      gameProgressRef.value.wordInfo = await fetchNewWord(lettersInWord.value)
-      gameProgressRef.value.guesses = []
-    }
-    else {
-      gameProgressRef.value.wordInfo = await fetchNewWord(lettersInWord.value)
-      gameProgressRef.value.streak = 0
-      gameProgressRef.value.guesses = []
-    }
+    const lettersLimit = gameProgressRef.value.gameType === GameType.classic ? lettersInWord.value : undefined
+    gameProgressRef.value.wordInfo = await fetchNewWord(lettersLimit)
+    gameProgressRef.value.guesses = []
 
     clearGuessingWord()
   }
@@ -154,9 +155,10 @@ export const useWordleStore = defineStore('wordle', () => {
     lettersInWord,
 
     streak,
+    gameType,
 
     word,
-    wordDefinition,
+    wordHint,
     wordLearnLevel,
 
     maxGuesses,

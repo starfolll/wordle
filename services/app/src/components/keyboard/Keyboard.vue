@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { vGlobalKeyPress } from '@/directives/animations/v-global-key-press'
 import { playSquashAnimation, vSquashOnClick } from '@/directives/animations/v-squash-on-click'
+import { GameType } from '@/stores/progress.store'
 import { letterClassName, useWordleStore } from '@/stores/wordle.store'
 import KeyCap from './KeyCap.vue'
 
@@ -17,7 +18,15 @@ const letterClassNameExtended = {
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-1 p-2 rounded-lg bg-neutral-900">
+  <div class="flex flex-col items-center gap-1 p-2 rounded-lg w-min bg-neutral-900">
+    <div
+      v-if="wordleStore.gameType === GameType.withHint"
+      class="px-2 py-1 mb-2 text-xl text-center rounded text-current-100 text-balance"
+    >
+      <span class="uppercase text-current-400">{{ wordleStore.wordLearnLevel }}</span>
+      {{ wordleStore.wordHint }}
+    </div>
+
     <div class="flex justify-center w-full gap-1">
       <button
         v-for="letter in keyboardRow1"
