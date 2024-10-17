@@ -2,6 +2,7 @@
 import HowToPlay from '@/components/HowToPlay.vue'
 import Keyboard from '@/components/keyboard/Keyboard.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
+import MiniWallet from '@/components/MiniWallet.vue'
 import Streak from '@/components/Streak.vue'
 import GuessedRow from '@/components/wordRows/GuessedRow.vue'
 import GuessingRow from '@/components/wordRows/GuessingRow.vue'
@@ -39,8 +40,8 @@ watchEffect(() => {
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
       </button>
 
-      <div class="flex flex-col justify-center gap-2">
-        <h1 class="text-xl">
+      <div class="flex flex-col justify-center gap-2 text-xl">
+        <h1>
           <template v-if="!wordleStore.isGameOver">
             Try to guess the word!
           </template>
@@ -55,7 +56,10 @@ watchEffect(() => {
           </template>
         </h1>
 
-        <Streak class="text-xl" :streak="wordleStore.streak" />
+        <div class="flex items-center justify-center gap-4">
+          <Streak :streak="wordleStore.streak" />
+          <MiniWallet />
+        </div>
       </div>
 
       <button class="w-12 rounded-full bg-current-800 aspect-square" @click="isShowingHowToPlay = true">
