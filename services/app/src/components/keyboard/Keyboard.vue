@@ -21,10 +21,19 @@ const letterClassNameExtended = {
   <div class="flex flex-col items-center gap-1 p-2 rounded-lg w-min bg-neutral-900">
     <div
       v-if="wordleStore.gameType === GameType.withHint"
-      class="px-2 py-1 mb-2 text-xl text-center rounded text-current-100 text-balance"
+      class="flex items-center w-full gap-4 px-2 py-1 mb-2"
     >
-      <span class="uppercase text-current-400">{{ wordleStore.wordLearnLevel }}</span>
-      {{ wordleStore.wordHint }}
+      <div class="flex flex-col gap-2 text-lg text-center text-current-400">
+        level
+
+        <span class="px-1 uppercase rounded bg-neutral-800">
+          {{ wordleStore.wordLearnLevel }}
+        </span>
+      </div>
+
+      <div class="text-xl text-center rounded grow text-current-100 text-balance">
+        {{ wordleStore.wordHint?.[0].toUpperCase() }}{{ wordleStore.wordHint?.slice(1) }}
+      </div>
     </div>
 
     <div class="flex justify-center w-full gap-1">
