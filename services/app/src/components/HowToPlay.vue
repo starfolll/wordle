@@ -14,7 +14,7 @@ defineProps<{
     <div class="flex flex-col items-center justify-center p-4 max-h-dvh">
       <div
         v-on-click-outside="close"
-        class="relative flex flex-col gap-8 p-6 overflow-auto border-2 rounded backdrop-blur border-current-800 bg-current-900/90"
+        class="relative flex flex-col gap-8 p-6 overflow-auto border-2 rounded backdrop-blur border-current-800 bg-neutral-900/90"
       >
         <p class="text-3xl text-center">
           How to play?
@@ -60,7 +60,7 @@ defineProps<{
             Letter
             <span :class="letterClassName.exact" class="px-1 font-bold rounded">C</span>
             in word
-            <span class="px-1 font-bold tracking-widest rounded bg-current-800">COSY</span>
+            <span class="px-1 font-bold tracking-widest rounded bg-neutral-800">COSY</span>
             is a exact match of a letter.<br>
             Meaning it is in the correct position.
           </p>
@@ -78,7 +78,7 @@ defineProps<{
             Letter
             <span :class="letterClassName.partial" class="px-1 font-bold rounded">D</span>
             in word
-            <span class="px-1 font-bold tracking-widest rounded bg-current-800">DEMO</span>
+            <span class="px-1 font-bold tracking-widest rounded bg-neutral-800">DEMO</span>
             is a partial match of a letter.<br>
             Meaning it is in the word but not in the correct position.
           </p>
