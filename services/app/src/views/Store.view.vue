@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import PurchaseConfirmation from '@/components/store/PurchaseConfirmation.vue'
 import StoreItem from '@/components/store/StoreItem.vue'
-import Wallet from '@/components/Wallet.vue'
+import CoinWallet from '@/components/wallets/CoinWallet.vue'
+import DollarWallet from '@/components/wallets/DollarWallet.vue'
 import { StoreCategories, type TSoreCategory, type TStoreItem, useStoreStore } from '@/stores/store.store'
 import { useThemeStore } from '@/stores/theme.store'
 import { computed, onMounted, ref } from 'vue'
@@ -53,7 +54,8 @@ onMounted(() => {
           <span class="text-3xl">Store</span>
         </h1>
 
-        <Wallet />
+        <DollarWallet />
+        <CoinWallet />
       </nav>
 
       <div class="flex justify-between gap-4">

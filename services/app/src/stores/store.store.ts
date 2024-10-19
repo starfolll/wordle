@@ -33,7 +33,8 @@ export type TStoreItem = {
 } & (TStoreItemBackground | TStoreItemTheme | TStoreItemFont)
 
 export const useStoreStore = defineStore('store', () => {
-  const coins = ref(14)
+  const dollars = ref(3)
+  const coins = ref(34)
 
   const allItemsArray = computed(() => Object.values(allStoreItems.value))
 
@@ -61,6 +62,7 @@ export const useStoreStore = defineStore('store', () => {
   }
 
   return {
+    dollars,
     coins,
 
     allItems: allStoreItems,

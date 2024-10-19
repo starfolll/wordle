@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import DailyChallenge from '@/components/DailyChallenge.vue'
 import HowToPlay from '@/components/HowToPlay.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
 import Streak from '@/components/Streak.vue'
-import Wallet from '@/components/Wallet.vue'
+import CoinWallet from '@/components/wallets/CoinWallet.vue'
+import DollarWallet from '@/components/wallets/DollarWallet.vue'
 import { type GameProgress, GameType, useProgressStore } from '@/stores/progress.store'
 import { useWordleStore } from '@/stores/wordle.store'
 import { ref } from 'vue'
@@ -34,7 +36,7 @@ async function startGame(progress: GameProgress) {
 </script>
 
 <template>
-  <main class="grid content-center h-full gap-4 min-w-72">
+  <main class="grid content-center h-full gap-8 min-w-72">
     <div class="flex items-center justify-between w-full px-2 border-transparent border-x-2">
       <h1 class="text-4xl text-left text-current-100">
         Wordle
@@ -101,7 +103,29 @@ async function startGame(progress: GameProgress) {
       </button>
     </LoadingBox>
 
-    <div class="flex gap-4">
+    <LoadingBox
+      :loading="loading"
+      class="grid w-full gap-2 p-2 overflow-hidden rounded-lg grow"
+    >
+      <div class="flex items-center gap-2">
+        <h2 class="mb-2 text-3xl text-current-400">
+          Daily challenge
+        </h2>
+
+        <DollarWallet class="ml-auto" />
+
+        <button
+          class="transition-colors rounded-full size-12 bg-current-800 hover:bg-current-700"
+          @click="(e) => isShowingHowToPlay = !isShowingHowToPlay"
+        >
+          <font-awesome-icon :icon="['fas', 'question']" />
+        </button>
+      </div>
+
+      <DailyChallenge />
+    </LoadingBox>
+
+    <div class="flex gap-8">
       <LoadingBox
         :loading="loading"
         class="grid w-full gap-2 p-2 overflow-hidden rounded-lg grow bg-neutral-800"
@@ -138,7 +162,7 @@ async function startGame(progress: GameProgress) {
       >
         <div class="flex flex-col items-center justify-center h-full gap-4 transition-colors rounded-lg bg-amber-400 group-hover:bg-amber-500">
           <font-awesome-icon class="text-amber-800" :icon="['fas', 'store']" size="lg" />
-          <Wallet class="transition-colors group-hover:border-amber-500" />
+          <CoinWallet class="transition-colors group-hover:border-amber-500" />
         </div>
       </RouterLink>
     </div>
