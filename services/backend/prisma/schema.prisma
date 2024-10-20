@@ -13,6 +13,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ************************
+// *   Game Data Models   *
+// ************************
 enum LearnLevel {
   a1
   a2
@@ -22,10 +25,114 @@ enum LearnLevel {
   c2
 }
 
-model Words {
+model Word {
   word   String  @id @unique
   length Int
   
-  hint  String
   learnLevel LearnLevel
+
+  hints  WordHint[]
+
+  dailyChallengeWord DailyChallengeWord[]
+
+  classicFourLettersGameProgress ClassicFourLettersGameProgress[]
+  classicFiveLettersGameProgress ClassicFiveLettersGameProgress[]
+  withHintGameProgress WithHintGameProgress[]
+}
+
+model WordHint {
+  id Int @id @default(autoincrement())
+  
+  word Word @relation(fields: [wordId], references: [word])
+  wordId String
+  
+  hint String
+
+  classicFourLettersGameProgress ClassicFourLettersGameProgress[]
+  classicFiveLettersGameProgress ClassicFiveLettersGameProgress[]
+  withHintGameProgress WithHintGameProgress[]
+}
+
+// ************************
+// *   User Data Models   *
+// ************************
+model User {
+  id  String  @id @default(cuid())
+  token String @unique @default(cuid())
+
+  name String
+
+  diamonds Int @default(0)
+  coins   Int @default(0)
+
+  guessedDailyChallengeWord DailyChallengeWord[]
+
+  classicFourLettersGameProgress ClassicFourLettersGameProgress @relation(fields: [classicFourLettersGameProgressId], references: [id])
+  classicFourLettersGameProgressId Int @unique
+
+  classicFiveLettersGameProgress ClassicFiveLettersGameProgress @relation(fields: [classicFiveLettersGameProgressId], references: [id])
+  classicFiveLettersGameProgressId Int @unique
+
+  withHintGameProgress WithHintGameProgress @relation(fields: [withHintGameProgressId], references: [id])
+  withHintGameProgressId Int @unique
+}
+
+// ************************
+// * Game Progress Models *
+// ************************
+model DailyChallengeWord {
+  id Int @id @default(autoincrement())
+  
+  date DateTime @unique
+
+  word Word @relation(fields: [wordId], references: [word])
+  wordId String
+  
+  guessedBy User[]
+}
+
+
+model ClassicFourLettersGameProgress {
+  id Int @id @default(autoincrement())
+  user User?
+  
+  streak Int @default(0)
+  
+  word Word @relation(fields: [wordId], references: [word])
+  wordId String
+
+  hint WordHint? @relation(fields: [hintId], references: [id])
+  hintId Int?
+  
+  guesses String[]
+}
+
+model ClassicFiveLettersGameProgress {
+  id Int @id @default(autoincrement())
+  user User?
+  
+  streak Int @default(0)
+  
+  word Word @relation(fields: [wordId], references: [word])
+  wordId String
+
+  hint WordHint? @relation(fields: [hintId], references: [id])
+  hintId Int?
+  
+  guesses String[]
+}
+
+model WithHintGameProgress {
+  id Int @id @default(autoincrement())
+  user User?
+  
+  streak Int @default(0)
+  
+  word Word @relation(fields: [wordId], references: [word])
+  wordId String
+
+  hint WordHint @relation(fields: [hintId], references: [id])
+  hintId Int
+  
+  guesses String[]
 }
