@@ -1,0 +1,12 @@
+services:
+  postgres:
+    container_name: wordle_postgres
+    image: postgres:latest
+    hostname: localhost
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: wordle
+    restart: unless-stopped
