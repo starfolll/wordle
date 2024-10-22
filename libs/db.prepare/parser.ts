@@ -1,9 +1,9 @@
 /* eslint-disable antfu/no-top-level-await */
 /* eslint-disable no-console */
-import type { learnLevel, Words } from '@prisma/client'
+import type { LearnLevel, Word } from '@prisma/client'
 import { parse } from 'node-html-parser'
 
-async function fetchWordInfo(word: string): Promise<Pick<Words, 'hint' | 'word'>> {
+async function fetchWordInfo(word: string): Promise<any> {
   const vocabulary = await fetch(`http://www.wordcyclopedia.com/english?${word}`)
   const html = await vocabulary.text()
   const root = parse(html)
@@ -28,18 +28,18 @@ async function fetchWords(level: string) {
   return Array.from(root.querySelectorAll('.word')).map(word => word.textContent as string)
 }
 
-async function saveWords(level: string, words: Words[]) {
+async function saveWords(level: string, words: Word[]) {
   const jsonFileContext = JSON.stringify(words, null, 2)
 
   await Bun.write(`${import.meta.dirname}/words/${level}.ts`, `export const ${level} = ${jsonFileContext}`)
 }
 
-const levels = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2'] as learnLevel[]
+const levels = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2'] as LearnLevel[]
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 for (const level of levels) {
   const words = await fetchWords(level).then(filterWords)
-  const detailedWordsInfo = [] as Words[]
+  const detailedWordsInfo = [] as Word[]
 
   for (let index = 0; index < words.length; index++) {
     const word = words[index]
