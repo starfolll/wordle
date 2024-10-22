@@ -25,6 +25,9 @@
     "noPropertyAccessFromIndexSignature": true
   },
   "include": [
+    "libs/prisma-client/**/*.ts",
+    "libs/db.prepare/**/*.ts",
+
     "services/app/vite.config.ts",
     "services/backend/**/*.ts"
   ]

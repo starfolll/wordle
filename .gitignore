@@ -15,6 +15,9 @@ coverage
 *.local
 
 .env
+*.pem
+.nitro
+.output
 
 /cypress/videos/
 /cypress/screenshots/

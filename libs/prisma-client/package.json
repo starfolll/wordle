@@ -1,0 +1,12 @@
+{
+  "name": "prisma-client",
+  "main": "index.ts",
+  "dependencies": {
+    "@prisma/client": "^5.21.1",
+    "prisma": "^5.21.1",
+    "prisma-extension-random": "^0.2.2"
+  },
+  "scripts": {
+    "postinstall": "bunx prisma generate"
+  }
+}
