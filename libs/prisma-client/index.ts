@@ -1,6 +1,8 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import prismaRandom from 'prisma-extension-random'
 
 export const prismaClient = new PrismaClient()
+  .$extends(prismaRandom())
 
 export async function prismaHealthCheck() {
   try {
