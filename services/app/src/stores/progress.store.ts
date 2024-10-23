@@ -11,6 +11,7 @@ export interface TWordInfo {
 export const GameType = {
   classic: 'classic',
   withHint: 'withHint',
+  dailyChallenge: 'dailyChallenge',
 } as const
 export type TGameType = keyof typeof GameType
 
@@ -23,6 +24,8 @@ export type GameProgress = {
   wordLength: 4 | 5
 } | {
   gameType: typeof GameType['withHint']
+} | {
+  gameType: typeof GameType['dailyChallenge']
 })
 
 const serializer: Serializer<TWordInfo | null> = {
@@ -63,9 +66,20 @@ export const useProgressStore = defineStore('progress', () => {
     gameType: GameType.withHint,
   } satisfies Record<keyof GameProgress, any>
 
+  const dailyChallengeWord = useLocalStorage<GameProgress['wordInfo']>('progressStore.dailyChallenge.wordInfo', null, { serializer })
+  const dailyChallengeGuesses = useLocalStorage<GameProgress['guesses']>('progressStore.dailyChallenge.guesses', [])
+  const dailyChallengeStreak = useLocalStorage<GameProgress['streak']>('progressStore.dailyChallenge.streak', 0)
+  const dailyChallenge = {
+    wordInfo: dailyChallengeWord,
+    guesses: dailyChallengeGuesses,
+    streak: dailyChallengeStreak,
+    gameType: GameType.dailyChallenge,
+  } satisfies Record<keyof GameProgress, any>
+
   return {
     classic4Letters,
     classic5Letters,
     withHints,
+    dailyChallenge,
   }
 })

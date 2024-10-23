@@ -1,7 +1,4 @@
 {
-  "name": "prisma-client",
-  "main": "index.ts",
-  "scripts": {
-    "postinstall": "bunx prisma generate"
-  }
+  "name": "db-prepare",
+  "main": "index.ts"
 }

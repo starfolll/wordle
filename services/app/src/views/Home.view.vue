@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CircleButton from '@/components/CircleButton.vue'
 import DailyChallenge from '@/components/DailyChallenge.vue'
 import HowToPlay from '@/components/HowToPlay.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
@@ -33,6 +34,17 @@ async function startGame(progress: GameProgress) {
   loading.value = false
   router.push('/game')
 }
+
+async function startDailyChallenge() {
+  loading.value = true
+
+  const wordInfo = await wordleStore.fetchDailyChallengeWord()
+  progressStore.dailyChallenge.wordInfo = wordInfo
+  wordleStore.setGameProgress(progressStore.dailyChallenge)
+
+  loading.value = false
+  router.push('/game')
+}
 </script>
 
 <template>
@@ -42,12 +54,9 @@ async function startGame(progress: GameProgress) {
         Wordle
       </h1>
 
-      <button
-        class="w-10 h-10 transition-colors rounded-full bg-current-800 hover:bg-current-700"
-        @click="(e) => isShowingHowToPlay = !isShowingHowToPlay"
-      >
+      <CircleButton @click="(e) => isShowingHowToPlay = !isShowingHowToPlay">
         <font-awesome-icon :icon="['fas', 'question']" />
-      </button>
+      </CircleButton>
 
       <HowToPlay v-if="isShowingHowToPlay" :close="closeHowToPlay" />
     </div>
@@ -114,15 +123,12 @@ async function startGame(progress: GameProgress) {
 
         <DollarWallet class="ml-auto" />
 
-        <button
-          class="transition-colors rounded-full size-12 bg-current-800 hover:bg-current-700"
-          @click="(e) => isShowingHowToPlay = !isShowingHowToPlay"
-        >
+        <CircleButton>
           <font-awesome-icon :icon="['fas', 'question']" />
-        </button>
+        </CircleButton>
       </div>
 
-      <DailyChallenge />
+      <DailyChallenge :start-daily-challenge="startDailyChallenge" />
     </LoadingBox>
 
     <div class="flex gap-8">

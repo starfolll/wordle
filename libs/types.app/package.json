@@ -1,0 +1,11 @@
+{
+  "name": "types.app",
+  "main": "index.ts",
+  "dependencies": {
+    "prisma-client": "workspace:*",
+    "types.utility": "workspace:*"
+  },
+  "devDependencies": {
+    "nitropack": "latest"
+  }
+}

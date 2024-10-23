@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useUserData } from '@/api/useUserData'
+import CircleButton from '@/components/CircleButton.vue'
 import PurchaseConfirmation from '@/components/store/PurchaseConfirmation.vue'
 import StoreItem from '@/components/store/StoreItem.vue'
 import CoinWallet from '@/components/wallets/CoinWallet.vue'
@@ -45,9 +47,9 @@ onMounted(() => {
 
     <div class="sticky z-10 grid gap-8 p-4 rounded-lg top-4 bg-neutral-900">
       <nav class="flex items-center w-full gap-4">
-        <button class="rounded-full min-w-12 bg-current-800 aspect-square" @click="router.push('/')">
+        <CircleButton @click="router.push('/')">
           <font-awesome-icon :icon="['fas', 'arrow-left']" />
-        </button>
+        </CircleButton>
 
         <h1 class="flex items-center gap-4 text-left grow">
           <font-awesome-icon :icon="['fas', 'store']" size="xl" />

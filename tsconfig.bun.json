@@ -27,6 +27,8 @@
   "include": [
     "libs/prisma-client/**/*.ts",
     "libs/db.prepare/**/*.ts",
+    "libs/types.app/**/*.ts",
+    "libs/types.utility/**/*.ts",
 
     "services/app/vite.config.ts",
     "services/backend/**/*.ts"

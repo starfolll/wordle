@@ -3,8 +3,23 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "bun --watch server.ts",
+    "dev": "bun --watch main.ts",
     "parser:start": "bun parser.ts",
     "db:prepare": "bun db.prepare.ts"
+  },
+  "dependencies": {
+    "@trpc/server": "^10.45.2",
+    "cookie": "^1.0.1",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^9.0.2",
+    "prisma-client": "workspace:*",
+    "trpc-bun-adapter": "^1.2.0",
+    "types.app": "workspace:*",
+    "types.utility": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/cookie": "^0.6.0",
+    "@types/cors": "^2.8.17",
+    "@types/jsonwebtoken": "^9.0.7"
   }
 }

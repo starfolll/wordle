@@ -134,6 +134,11 @@ export const useWordleStore = defineStore('wordle', () => {
     return await response.json()
   }
 
+  const fetchDailyChallengeWord = async (): Promise<TWordInfo> => {
+    const response = await fetch('http://localhost:3000/daily-challenge')
+    return await response.json()
+  }
+
   const setGameProgress = (newGameProgressRef: GameProgress | null) => {
     gameProgressRef.value = newGameProgressRef
     guessedLettersAppearAnimation.value = getRandomAnimation(guessedLettersAppearAnimations)
@@ -181,9 +186,10 @@ export const useWordleStore = defineStore('wordle', () => {
 
     clearGuessingWord,
     submitGuess,
-    fetchNewWord,
     setGameProgress,
 
+    fetchDailyChallengeWord,
+    fetchNewWord,
     nextWord,
   }
 })

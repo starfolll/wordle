@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, h } from 'vue'
 import { RouterView } from 'vue-router'
+import { useUserData } from './api/useUserData'
 import { useThemeStore } from './stores/theme.store'
 
 const themeStore = useThemeStore()
@@ -11,6 +12,8 @@ const fontStyle = computed(() => h('style', {}, `
 `))
 
 const backgroundId = computed(() => themeStore.theme.background.id || Math.random())
+
+const user = useUserData()
 </script>
 
 <template>

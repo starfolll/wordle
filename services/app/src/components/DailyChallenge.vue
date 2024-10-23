@@ -1,4 +1,8 @@
 <script setup lang="ts">
+defineProps<{
+  startDailyChallenge: () => void
+}>()
+
 const today = new Date()
 
 function getMonday(date: Date) {
@@ -13,7 +17,7 @@ const daysInWeek = Array.from({ length: 7 }, (_, i) => {
   return nextDay
 })
 
-const completedDays = [daysInWeek[0], daysInWeek[1], daysInWeek[2]]
+const completedDays = [] as Date[]
 
 function isToday(date: Date) {
   return date.getFullYear() === today.getFullYear()
@@ -27,17 +31,18 @@ function isCompleted(date: Date) {
 </script>
 
 <template>
-  <div class="flex justify-between w-full gap-2 font-mono">
+  <div class="flex justify-between w-full gap-1 font-mono">
     <button
       v-for="dayInWeek in daysInWeek"
       :key="dayInWeek.toDateString()"
       :disabled="!isToday(dayInWeek)"
-      class="flex flex-col items-center gap-2 p-2 transition-colors border-2 rounded-lg grow"
+      class="flex flex-col items-center gap-2 py-2 transition-colors border-2 rounded-lg grow"
       :class="[
         isToday(dayInWeek) && !isCompleted(dayInWeek)
           ? 'border-current-700 bg-current-700 hover:bg-current-600 hover:border-current-600 text-current-100'
           : 'border-neutral-700 text-neutral-600',
       ]"
+      @click="startDailyChallenge"
     >
       <p :class="{ 'font-bold': isToday(dayInWeek) }">
         {{ dayInWeek.toLocaleDateString('en-US', { weekday: 'short' }) }}

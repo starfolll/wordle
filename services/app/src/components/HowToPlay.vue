@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { letterClassName } from '@/stores/wordle.store'
 import { vOnClickOutside } from '@vueuse/components'
+import CircleButton from './CircleButton.vue'
 import LetterCell from './wordRows/LetterCell.vue'
 import WordContainer from './wordRows/WordContainer.vue'
 
@@ -16,16 +17,17 @@ defineProps<{
         v-on-click-outside="close"
         class="relative flex flex-col gap-8 p-6 overflow-auto border-2 rounded backdrop-blur border-current-800 bg-neutral-900/90"
       >
-        <p class="text-3xl text-center">
-          How to play?
-        </p>
+        <div class="flex items-center">
+          <div class="size-12" />
 
-        <button
-          class="absolute w-10 h-10 rounded-full right-4 top-4 bg-current-800 hover:bg-current-700"
-          @click="close"
-        >
-          <font-awesome-icon :icon="['fas', 'xmark']" />
-        </button>
+          <p class="text-3xl text-center grow">
+            How to play?
+          </p>
+
+          <CircleButton @click="close">
+            <font-awesome-icon :icon="['fas', 'xmark']" />
+          </CircleButton>
+        </div>
 
         <p>
           The goal of the game is to guess the word.<br>
