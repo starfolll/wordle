@@ -8,11 +8,9 @@
     "libs/*"
   ],
   "scripts": {
-    "app:dev": "bun run --cwd services/app dev",
-    "app:build": "bun run --cwd services/app build",
-    "server:start": "bun run --cwd services/backend start",
-    "parser:start": "bun run --cwd services/backend parser:start",
-    "server:db:prepare": "bun run --cwd services/backend db:prepare",
+    "dev": "concurrently --names dev:app,dev:server -c green,blue 'bun run dev:app' 'bun run dev:server'",
+    "dev:app": "bun run --cwd services/app dev",
+    "dev:server": "bun run --cwd services/backend dev",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
@@ -25,6 +23,7 @@
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.1.0",
     "axios": "^1.7.7",
+    "concurrently": "^9.0.1",
     "pinia": "^2.1.7",
     "tailwind-merge": "^2.5.2",
     "vue": "^3.4.29",
