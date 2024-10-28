@@ -33,7 +33,7 @@ model Word {
 
   hints  WordHint[]
 
-  dailyChallengeWord DailyChallengeWord[]
+  dailyChallengeWordGameProgress DailyChallengeWordGameProgress[]
 
   classicFourLettersGameProgress ClassicFourLettersGameProgress[]
   classicFiveLettersGameProgress ClassicFiveLettersGameProgress[]
@@ -50,6 +50,7 @@ model WordHint {
 
   classicFourLettersGameProgress ClassicFourLettersGameProgress[]
   classicFiveLettersGameProgress ClassicFiveLettersGameProgress[]
+  dailyChallengeWordGameProgress DailyChallengeWordGameProgress[]
   withHintGameProgress WithHintGameProgress[]
 }
 
@@ -65,14 +66,13 @@ model User {
   diamonds Int @default(0)
   coins   Int @default(0)
 
-  guessedDailyChallengeWord DailyChallengeWord[]
-
   classicFourLettersGameProgress ClassicFourLettersGameProgress @relation(fields: [classicFourLettersGameProgressId], references: [id])
   classicFourLettersGameProgressId Int @unique
-
   classicFiveLettersGameProgress ClassicFiveLettersGameProgress @relation(fields: [classicFiveLettersGameProgressId], references: [id])
   classicFiveLettersGameProgressId Int @unique
-
+  
+  dailyChallengeWordGameProgress DailyChallengeWordGameProgress[]
+  
   withHintGameProgress WithHintGameProgress @relation(fields: [withHintGameProgressId], references: [id])
   withHintGameProgressId Int @unique
 }
@@ -80,18 +80,6 @@ model User {
 // ************************
 // * Game Progress Models *
 // ************************
-model DailyChallengeWord {
-  id Int @id @default(autoincrement())
-  
-  date DateTime @unique
-
-  word Word @relation(fields: [wordId], references: [word])
-  wordId String
-  
-  guessedBy User[]
-}
-
-
 model ClassicFourLettersGameProgress {
   id Int @id @default(autoincrement())
   user User?
@@ -105,6 +93,7 @@ model ClassicFourLettersGameProgress {
   hintId Int?
   
   guesses String[]
+  maxGuesses Int
 }
 
 model ClassicFiveLettersGameProgress {
@@ -120,6 +109,25 @@ model ClassicFiveLettersGameProgress {
   hintId Int?
   
   guesses String[]
+  maxGuesses Int
+}
+
+model DailyChallengeWordGameProgress {
+  id Int @id @default(autoincrement())
+  user User? @relation(fields: [userId], references: [id])
+  userId String
+
+  date DateTime @unique
+  guessed Boolean @default(false)
+
+  word Word @relation(fields: [wordId], references: [word])
+  wordId String
+
+  hint WordHint? @relation(fields: [hintId], references: [id])
+  hintId Int?
+
+  guesses String[]
+  maxGuesses Int
 }
 
 model WithHintGameProgress {
@@ -135,4 +143,5 @@ model WithHintGameProgress {
   hintId Int
   
   guesses String[]
+  maxGuesses Int
 }
