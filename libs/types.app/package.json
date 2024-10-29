@@ -4,8 +4,5 @@
   "dependencies": {
     "prisma-client": "workspace:*",
     "types.utility": "workspace:*"
-  },
-  "devDependencies": {
-    "nitropack": "latest"
   }
 }

@@ -49,6 +49,9 @@ export interface DailyChallengeGameProgressData {
 
   date: string
 
+  isCompleted: boolean
+  isWon: boolean
+
   word: GuessingWordData
   hint: WordHintData | null
 
@@ -78,7 +81,7 @@ export type GameProgressData =
 export interface GamesProgressData {
   classicFourLettersGameProgress: ClassicFourLettersGameProgressData
   classicFiveLettersGameProgress: ClassicFiveLettersGameProgressData
-  dailyChallengesGameProgress: DailyChallengeGameProgressData[]
+  dailyChallengesGameProgress: Record<DailyChallengeGameProgressData['date'], DailyChallengeGameProgressData>
   withHintGameProgress: WithHintGameProgressData
 }
 
