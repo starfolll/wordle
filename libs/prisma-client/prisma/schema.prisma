@@ -118,7 +118,9 @@ model DailyChallengeWordGameProgress {
   userId String
 
   date DateTime @unique
-  guessed Boolean @default(false)
+  
+  isCompleted Boolean @default(false)
+  isWon Boolean @default(false)
 
   word Word @relation(fields: [wordId], references: [word])
   wordId String
