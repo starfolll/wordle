@@ -24,12 +24,15 @@ export async function createUserData(): Promise<UserLoginData> {
       coins: 24,
 
       classicFourLettersGameProgress: { create: {
+        maxGuesses: 5,
         word: { connect: { word: wordWithLength4.word } },
       } },
       classicFiveLettersGameProgress: { create: {
+        maxGuesses: 6,
         word: { connect: { word: wordWithLength5.word } },
       } },
       withHintGameProgress: { create: {
+        maxGuesses: 3,
         word: { connect: { word: anyRandomWord.word } },
         hint: { connect: { id: randomWordHint.id } },
       } },
@@ -37,6 +40,7 @@ export async function createUserData(): Promise<UserLoginData> {
 
     select: {
       id: true,
+      token: true,
       name: true,
     },
   })

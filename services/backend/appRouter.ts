@@ -1,12 +1,18 @@
-import { getDailyChallenge } from './src/api/getDailyChallenge'
+import { getDailyChallengeWord } from './src/api/getDailyChallengeWord'
+import { getGamesProgress } from './src/api/getGamesProgress'
+import { getNextWord } from './src/api/getNextWord'
 import { login } from './src/api/login'
-import { submit4LetterGuess } from './src/api/submit4LettersGuess'
+import { submitDailyChallengeGuess } from './src/api/submitDailyChallengeGuess'
+import { submitGuess } from './src/api/submitGuess'
 import { router } from './trpc'
 
 export const appRouter = router({
-  getDailyChallengeProcedure: getDailyChallenge,
-
   login,
 
-  submit4LetterGuess,
+  getGamesProgress,
+  getNextWord,
+  getDailyChallengeWord,
+
+  submitGuess,
+  submitDailyChallengeGuess,
 })
