@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useUserData } from '@/api/useUserData'
 import CircleButton from '@/components/CircleButton.vue'
 import PurchaseConfirmation from '@/components/store/PurchaseConfirmation.vue'
 import StoreItem from '@/components/store/StoreItem.vue'

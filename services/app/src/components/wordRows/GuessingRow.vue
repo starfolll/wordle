@@ -5,6 +5,10 @@ import { onMounted, ref } from 'vue'
 import LetterCell from './LetterCell.vue'
 import WordContainer from './WordContainer.vue'
 
+const props = defineProps<{
+  submitGuess: () => void
+}>()
+
 const wordleStore = useWordleStore()
 
 const inputs = ref<HTMLInputElement[]>([])
@@ -59,8 +63,7 @@ function onKeyDown(e: KeyboardEvent, index: number) {
   }
 
   else if (e.key === 'Enter' && !wordleStore.currentGuess.includes(null)) {
-    wordleStore.submitGuess()
-    wordleStore.clearGuessingWord()
+    props.submitGuess()
     focusInput(0)
   }
 }

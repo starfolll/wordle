@@ -1,7 +1,8 @@
+import { decryptWord } from 'encryption'
 import { defineStore } from 'pinia'
+import { type GameProgressData, GameProgressType, type TGameProgressType, type WordHintData } from 'types.app'
 import { computed, ref } from 'vue'
-import { type GameProgress, GameType, type TGameType, type TWordInfo } from './progress.store'
-import { useStoreStore } from './store.store'
+import { useUserStore } from './userStore'
 
 export enum TMatchingLetterTag {
   EXACT = 'exact',
@@ -16,29 +17,36 @@ export const letterClassName = {
 } satisfies Record<TMatchingLetterTag, string>
 
 export const useWordleStore = defineStore('wordle', () => {
-  const storeStore = useStoreStore()
+  const userStore = useUserStore()
 
-  const gameProgressRef = ref<GameProgress | null>(null)
+  const gameProgressRef = ref<GameProgressData | null>(null)
 
-  const streak = computed<number>(() => gameProgressRef.value?.streak ?? 0)
-  const gameType = computed<TGameType | null>(() => gameProgressRef.value?.gameType ?? null)
+  const gameType = computed<keyof TGameProgressType | null>(() => gameProgressRef.value?.gameType ?? null)
 
-  const word = computed<TWordInfo['word'] | null>(() => gameProgressRef.value?.wordInfo?.word ?? null)
-  const wordHint = computed<TWordInfo['hint'] | null>(() => gameProgressRef.value?.wordInfo?.hint ?? null)
-  const wordLearnLevel = computed<TWordInfo['learnLevel'] | null>(() => gameProgressRef.value?.wordInfo?.learnLevel ?? null)
+  const streak = computed<number | null>(() => {
+    if (gameProgressRef.value?.gameType !== GameProgressType.dailyChallengeGameProgress)
+      return gameProgressRef.value?.streak ?? null
 
-  const lettersInWord = computed<number>(() => word.value?.length ?? 0)
-  const maxGuesses = computed(() => {
-    if (gameType.value === GameType.withHint)
-      return 3
-
-    return lettersInWord.value + 1
+    return null
   })
+
+  const word = computed<GameProgressData['word']['word'] | null>(() => {
+    if (!gameProgressRef.value?.word.word || !userStore.userData?.token)
+      return null
+
+    return decryptWord(gameProgressRef.value.word.word, userStore.userData.token)
+  })
+  const wordLength = computed<GameProgressData['word']['length']>(() => gameProgressRef.value?.word.length ?? 0)
+  const wordLearnLevel = computed<GameProgressData['word']['learnLevel'] | null>(() => gameProgressRef.value?.word.learnLevel ?? null)
+
+  const wordHint = computed<WordHintData['hint'] | null>(() => gameProgressRef.value?.hint?.hint ?? null)
+
+  const maxGuesses = computed<GameProgressData['maxGuesses']>(() => gameProgressRef.value?.maxGuesses ?? 0)
 
   const guesses = computed<string[]>(() => gameProgressRef.value?.guesses ?? [])
   const getClearGuess = (length: number) => Array.from<null>({ length }).fill(null)
   const currentGuess = ref<Array<string | null>>([])
-  const clearGuessingWord = () => currentGuess.value = getClearGuess(lettersInWord.value)
+  const clearGuessingWord = () => currentGuess.value = getClearGuess(wordLength.value)
   const isGuessSubmittable = computed<boolean>(() => !currentGuess.value.includes(null))
   const remainingGuesses = computed<number>(() => maxGuesses.value - guesses.value.length)
 
@@ -107,62 +115,21 @@ export const useWordleStore = defineStore('wordle', () => {
     }, {} as Record<string, number>)
   })
 
-  const onGameEnd = () => {
-    if (gameProgressRef.value === null)
-      return
-
-    if (isWon.value) {
-      gameProgressRef.value.streak += 1
-      storeStore.coins += 1
-    }
-    else {
-      gameProgressRef.value.streak = 0
-    }
-  }
-  const submitGuess = (): boolean => {
-    const guess = currentGuess.value.join('')
-
-    guesses.value?.push(guess)
-    isGameOver.value && onGameEnd()
-
-    return true
-  }
-
-  const fetchNewWord = async (length?: number): Promise<TWordInfo> => {
-    const requestParams = length ? `?length=${length}` : ''
-    const response = await fetch(`http://localhost:3000/random-word${requestParams}`)
-    return await response.json()
-  }
-
-  const fetchDailyChallengeWord = async (): Promise<TWordInfo> => {
-    const response = await fetch('http://localhost:3000/daily-challenge')
-    return await response.json()
-  }
-
-  const setGameProgress = (newGameProgressRef: GameProgress | null) => {
+  const setGameProgress = (newGameProgressRef: GameProgressData | null) => {
     gameProgressRef.value = newGameProgressRef
     guessedLettersAppearAnimation.value = getRandomAnimation(guessedLettersAppearAnimations)
     clearGuessingWord()
   }
 
-  const nextWord = async () => {
-    if (gameProgressRef.value === null)
-      return
-
-    const lettersLimit = gameProgressRef.value.gameType === GameType.classic ? lettersInWord.value : undefined
-    gameProgressRef.value.wordInfo = await fetchNewWord(lettersLimit)
-    gameProgressRef.value.guesses = []
-
-    clearGuessingWord()
-  }
-
   return {
-    lettersInWord,
+    gameProgress: gameProgressRef,
 
-    streak,
     gameType,
 
+    streak,
+
     word,
+    wordLength,
     wordHint,
     wordLearnLevel,
 
@@ -171,6 +138,10 @@ export const useWordleStore = defineStore('wordle', () => {
     currentGuess,
     isGuessSubmittable,
     remainingGuesses,
+
+    addGuessingWordLetter,
+    removeLastGuessingWordLetter,
+    clearGuessingWord,
 
     isWon,
     isGameOver,
@@ -181,15 +152,6 @@ export const useWordleStore = defineStore('wordle', () => {
     guessedLettersTag,
     guessedLettersCount,
 
-    addGuessingWordLetter,
-    removeLastGuessingWordLetter,
-
-    clearGuessingWord,
-    submitGuess,
     setGameProgress,
-
-    fetchDailyChallengeWord,
-    fetchNewWord,
-    nextWord,
   }
 })

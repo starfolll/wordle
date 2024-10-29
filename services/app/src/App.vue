@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { computed, h } from 'vue'
+import { computed, h, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import { useUserData } from './api/useUserData'
+import { useGamesProgressStore } from './stores/gamesProgress.store'
 import { useThemeStore } from './stores/theme.store'
+import { useUserStore } from './stores/userStore'
 
 const themeStore = useThemeStore()
+const userStore = useUserStore()
+const gamesProgressStore = useGamesProgressStore()
 
 const fontStyle = computed(() => h('style', {}, `
   @import url(${themeStore.theme.font.fontUrl});
@@ -13,7 +16,10 @@ const fontStyle = computed(() => h('style', {}, `
 
 const backgroundId = computed(() => themeStore.theme.background.id || Math.random())
 
-const user = useUserData()
+onMounted(async () => {
+  await userStore.login()
+  await gamesProgressStore.loadGameProgress()
+})
 </script>
 
 <template>

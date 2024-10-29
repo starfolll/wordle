@@ -25,8 +25,12 @@
     "noPropertyAccessFromIndexSignature": true
   },
   "include": [
+    "tmp/scripts/**/*.ts",
+
+    "libs/dates/**/*.ts",
     "libs/prisma-client/**/*.ts",
     "libs/db.prepare/**/*.ts",
+    "libs/encryption/**/*.ts",
     "libs/types.app/**/*.ts",
     "libs/types.utility/**/*.ts",
 

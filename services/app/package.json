@@ -6,12 +6,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "type-check": "vue-tsc --build --force"
+    "type-check": "vue-tsc --build --force",
+    "dates": "workspace:*"
   },
   "devDependencies": {
-    "types.app": "workspace:*"
-  },
-  "dependencies": {
-    "@trpc/client": "^10.45.2"
+    "encryption": "workspace:*",
+    "types.app": "workspace:*",
+    "types.utility": "workspace:*"
   }
 }

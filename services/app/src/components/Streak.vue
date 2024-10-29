@@ -21,6 +21,6 @@ defineProps<{
       :icon="['fas', streak < 10 ? 'fire-flame-simple' : 'fire']"
     />
 
-    <div v-if="streak > 0" class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-r from-purple-400 via-red-500 to-orange-400 mix-blend-darken" />
+    <div v-if="streak > 0" class="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-t from-purple-400 via-red-500 to-yellow-400 mix-blend-darken" />
   </section>
 </template>
