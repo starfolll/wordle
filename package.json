@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "env:prepare": "sudo service nginx restart",
-    "dev": "concurrently --names dev:app,dev:server -c green,blue 'bun run dev:app' 'bun run dev:server'",
+    "dev": "concurrently --names app,server -c green,blue 'bun run dev:app' 'bun run dev:server'",
     "dev:app": "bun run --cwd services/app dev",
     "dev:server": "bun run --cwd services/backend dev",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
