@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { TStoreItemFont } from '@/stores/store.store'
+import type { StoreItemFontData } from 'libs/types.app'
 import { computed, h } from 'vue'
 
 const props = defineProps<{
-  item: TStoreItemFont
+  item: StoreItemFontData
 }>()
 
 const content = [
@@ -18,22 +18,20 @@ const content = [
   'Freedom feels priceless',
   'Always stay curious',
   'Time is illusion',
-  'Wakanda foreva!',
   'Roger Roger',
-  '🍰 Cake is a lie?',
-  '💀 By the power of Grayskull!',
+  'Cake is a lie',
 ]
 
 const randomContent = content[Math.floor(Math.random() * content.length)]
 
-const fontStyle = computed(() => h('style', {}, `@import url(${props.item.fontUrl});`))
+const fontStyle = computed(() => h('style', {}, `@import url(${props.item.data.fontUrl});`))
 </script>
 
 <template>
   <div class="flex items-center justify-center w-full h-full p-2 text-xl text-center text-current-100">
     <component :is="fontStyle" />
 
-    <span :style="`font-family: ${props.item.fontName}, system-ui;`">
+    <span :style="`font-family: ${props.item.data.fontName}, system-ui;`">
       {{ randomContent }}
     </span>
   </div>

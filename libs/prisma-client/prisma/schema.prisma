@@ -120,7 +120,7 @@ model DailyChallengeWordGameProgress {
   user User? @relation(fields: [userId], references: [id])
   userId String
 
-  date DateTime @unique
+  date DateTime
   
   isCompleted Boolean @default(false)
   isWon Boolean @default(false)
@@ -133,6 +133,8 @@ model DailyChallengeWordGameProgress {
 
   guesses String[]
   maxGuesses Int
+
+  @@unique([userId, date])
 }
 
 model WithHintGameProgress {
@@ -165,7 +167,7 @@ enum StoreItemCategory {
 }
 
 model StoreItem {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
   category StoreItemCategory
 
   name String
@@ -187,5 +189,5 @@ model SelectedStoreItemByUser {
   userId String
 
   storeItem StoreItem @relation(fields: [storeItemId], references: [id])
-  storeItemId Int
+  storeItemId String
 }

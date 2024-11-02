@@ -7,6 +7,7 @@
     "prisma-extension-random": "^0.2.2"
   },
   "scripts": {
+    "dev": "bunx prisma studio --browser none",
     "postinstall": "bunx prisma generate"
   }
 }

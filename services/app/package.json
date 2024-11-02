@@ -7,11 +7,14 @@
     "build": "vite build",
     "preview": "vite preview",
     "type-check": "vue-tsc --build --force",
-    "dates": "workspace:*"
+    "dates": "workspace:*",
+    "encryption": "workspace:*"
   },
   "devDependencies": {
-    "encryption": "workspace:*",
     "types.app": "workspace:*",
     "types.utility": "workspace:*"
+  },
+  "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^6.6.0"
   }
 }

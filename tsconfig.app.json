@@ -9,6 +9,9 @@
       "@/*": ["services/app/src/*"]
     }
   },
-  "include": ["services/app/env.d.ts", "services/app/src/**/*", "services/app/src/**/*.vue"],
-  "exclude": ["services/app/src/**/__tests__/*"]
+  "include": [
+    "services/app/env.d.ts",
+    "services/app/src/**/*", 
+    "services/app/src/**/*.vue"
+  ]
 }

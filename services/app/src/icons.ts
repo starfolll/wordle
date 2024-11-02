@@ -1,4 +1,8 @@
 export {
+  faGem,
+} from '@fortawesome/free-regular-svg-icons'
+
+export {
   faArrowLeft,
   faArrowRight,
   faCaretDown,
@@ -6,10 +10,10 @@ export {
   faCircleNotch,
   faCoins,
   faDeleteLeft,
-  faDollarSign,
   faEraser,
   faFire,
   faFireFlameSimple,
+  faGem as fasGem,
   faHouse,
   faQuestion,
   faSquareFull,

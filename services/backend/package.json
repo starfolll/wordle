@@ -11,15 +11,16 @@
     "@trpc/server": "^10.45.2",
     "cookie": "^1.0.1",
     "cors": "^2.8.5",
+    "dates": "workspace:*",
+    "encryption": "workspace:*",
     "jsonwebtoken": "^9.0.2",
     "prisma-client": "workspace:*",
     "trpc-bun-adapter": "^1.2.0",
     "types.app": "workspace:*",
-    "types.utility": "workspace:*",
-    "encryption": "workspace:*",
-    "dates": "workspace:*"
+    "types.utility": "workspace:*"
   },
   "devDependencies": {
+    "@types/bun": "^1.1.12",
     "@types/cookie": "^0.6.0",
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.7"

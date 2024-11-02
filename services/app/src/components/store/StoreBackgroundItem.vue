@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { TStoreItemBackground } from '@/stores/store.store'
+import type { StoreItemBackgroundData } from 'types.app'
 import { computed, type StyleValue } from 'vue'
 
 const props = defineProps<{
-  item: TStoreItemBackground
+  item: StoreItemBackgroundData
 }>()
 
 const styles = computed<StyleValue>(() => {
   if (props.item.category === 'background') {
-    return { background: props.item.background }
+    return { background: props.item.data.background }
   }
 
   return ''

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { TStoreItemTheme } from '@/stores/store.store'
+import type { StoreItemThemeData } from 'libs/types.app'
 
 const props = defineProps<{
-  item: TStoreItemTheme
+  item: StoreItemThemeData
 }>()
 </script>
 
@@ -10,7 +10,7 @@ const props = defineProps<{
   <div class="flex items-center p-1 size-full">
     <div
       class="flex flex-col justify-between gap-1 p-2 rounded text-current-100 size-full bg-current-800"
-      :style="props.item.themeVariables"
+      :style="props.item.data.themeVariables"
     >
       Theme
 

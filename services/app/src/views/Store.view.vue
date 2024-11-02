@@ -3,40 +3,57 @@ import CircleButton from '@/components/CircleButton.vue'
 import PurchaseConfirmation from '@/components/store/PurchaseConfirmation.vue'
 import StoreItem from '@/components/store/StoreItem.vue'
 import CoinWallet from '@/components/wallets/CoinWallet.vue'
-import DollarWallet from '@/components/wallets/DollarWallet.vue'
-import { StoreCategories, type TSoreCategory, type TStoreItem, useStoreStore } from '@/stores/store.store'
-import { useThemeStore } from '@/stores/theme.store'
-import { computed, onMounted, ref } from 'vue'
+import DollarWallet from '@/components/wallets/DiamondWallet.vue'
+import { useStoreStore } from '@/stores/store/store.store'
+import { type AnyStoreItemData, StoreItemCategoryData, type TStoreItemCategoryData } from 'types.app'
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
 const storeStore = useStoreStore()
-const themeStore = useThemeStore()
 
-const activeCategory = ref<keyof TSoreCategory>(StoreCategories.background)
+const activeCategory = ref<keyof TStoreItemCategoryData>('background')
+const setActiveCategory = (category: keyof TStoreItemCategoryData) => activeCategory.value = category
 
-const activeCategoryPurchasedItems = computed(() => storeStore.purchasedItems.filter(item => item.category === activeCategory.value))
-const activeCategoryAvailableItems = computed(() => storeStore.availableItems.filter(item => item.category === activeCategory.value))
+const activeCategoryPurchasedItems = computed<AnyStoreItemData[]>(() => {
+  return Object.values(storeStore.purchasedItems)
+    .filter(item => item.category === activeCategory.value)
+    .sort((a, b) => a.name.localeCompare(b.name))
+})
+const activeCategoryAvailableItems = computed<AnyStoreItemData[]>(() => {
+  return storeStore.availableItems
+    .filter(item => item.category === activeCategory.value)
+    .sort((a, b) => a.name.localeCompare(b.name))
+})
 
-const availableToPurchase = (item: TStoreItem) => storeStore.coins >= item.price
+const isAffordable = (item: AnyStoreItemData) => storeStore.coins >= item.price
+function isItemSelected(item: AnyStoreItemData) {
+  if (item.category === StoreItemCategoryData.sticker)
+    return
 
+  return storeStore.selectedItems[item.category].id === item.id
+}
+
+let itemsAnimationTimeout: number | null = null
 const maxAnimationDelayedItems = 9
 const isItemsAnimating = ref(true)
 const getAnimationDelay = (index: number) => isItemsAnimating.value ? Math.min(index, maxAnimationDelayedItems) * 100 + 100 : 0
+function startAnimatingItems() {
+  if (itemsAnimationTimeout)
+    clearTimeout(itemsAnimationTimeout)
 
-function setActiveCategory(category: keyof TSoreCategory) {
-  activeCategory.value = category
   isItemsAnimating.value = true
-}
-
-const getIsChosen = (item: TStoreItem) => themeStore.chosenItemsIds.has(item.id)
-
-onMounted(() => {
-  setTimeout(
+  itemsAnimationTimeout = window.setTimeout(
     () => isItemsAnimating.value = false,
     getAnimationDelay(activeCategoryPurchasedItems.value.length + activeCategoryAvailableItems.value.length),
   )
+}
+
+watch(activeCategory, startAnimatingItems)
+
+onMounted(() => {
+  if (!storeStore.isStoreLoaded)
+    storeStore.loadStore()
 })
 </script>
 
@@ -61,7 +78,7 @@ onMounted(() => {
 
       <div class="flex justify-between gap-4">
         <button
-          v-for="category in StoreCategories"
+          v-for="category in StoreItemCategoryData"
           :key="category"
           :disabled="category === activeCategory"
           class="px-4 py-1 text-lg capitalize transition-colors border-2 rounded-full"
@@ -76,7 +93,10 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="relative flex flex-col items-start gap-4 pt-4 pb-16 pl-4 pr-2 overflow-x-visible overflow-y-scroll grow">
+    <div
+      v-if="storeStore.isStoreLoaded"
+      class="relative flex flex-col items-start gap-4 pt-4 pb-16 pl-4 pr-2 overflow-x-visible overflow-y-scroll grow"
+    >
       <div class="flex items-center w-full gap-4">
         <hr class="border-2 rounded-full grow border-neutral-800">
         <p class="px-2 py-1 text-xl rounded text-current-400 bg-neutral-900">
@@ -87,14 +107,15 @@ onMounted(() => {
 
       <div class="grid w-full grid-cols-3 gap-3">
         <Transition
-          v-for="(item, index) in activeCategoryPurchasedItems" :key="item.name"
+          v-for="(item, index) in activeCategoryPurchasedItems"
+          :key="item.id"
           :style="{ '--animation-delay': `${getAnimationDelay(index)}ms` }"
           appear
           name="fade"
         >
           <button
-            :disabled="getIsChosen(item)"
-            @click="() => themeStore.setChosenItem(item)"
+            :disabled="isItemSelected(item)"
+            @click="() => storeStore.setSelectedItem(item)"
           >
             <StoreItem :item="item" hide-price />
           </button>
@@ -111,18 +132,19 @@ onMounted(() => {
 
       <div class="grid w-full grid-cols-3 gap-3">
         <Transition
-          v-for="(item, index) in activeCategoryAvailableItems" :key="item.name"
+          v-for="(item, index) in activeCategoryAvailableItems"
+          :key="item.id"
           :style="{ '--animation-delay': `${getAnimationDelay(index + activeCategoryPurchasedItems.length)}ms` }"
           appear
           name="fade"
         >
           <button
-            :disabled="!availableToPurchase(item)"
-            @click="() => storeStore.selectPurchasingItem(item)"
+            :disabled="!isAffordable(item)"
+            @click="() => storeStore.setCheckoutItem(item.id)"
           >
             <StoreItem
               :item="item"
-              :class="availableToPurchase(item)
+              :class="isAffordable(item)
                 ? 'cursor-pointer hover:scale-105'
                 : 'cursor-not-allowed'
               "

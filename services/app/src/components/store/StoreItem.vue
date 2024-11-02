@@ -1,21 +1,25 @@
 <script setup lang="ts">
-import { type TStoreItem, useStoreStore } from '@/stores/store.store'
-import { useThemeStore } from '@/stores/theme.store'
+import { useStoreStore } from '@/stores/store/store.store'
+import { type AnyStoreItemData, StoreItemCategoryData } from 'types.app'
 import { computed } from 'vue'
 import StoreBackgroundItem from './StoreBackgroundItem.vue'
 import StoreFontItem from './StoreFontItem.vue'
 import StoreThemeItem from './StoreThemeItem.vue'
 
 const props = defineProps<{
-  item: TStoreItem
+  item: AnyStoreItemData
   hidePrice?: boolean
 }>()
 
-const bankStore = useStoreStore()
-const themeStore = useThemeStore()
+const storeStore = useStoreStore()
 
-const affordable = computed(() => bankStore.coins >= props.item.price)
-const isChosen = computed(() => themeStore.chosenItemsIds.has(props.item.id))
+const affordable = computed(() => storeStore.coins >= props.item.price)
+const isChosen = computed(() => {
+  if (props.item.category === StoreItemCategoryData.sticker)
+    return
+
+  return storeStore.selectedItems[props.item.category].id === props.item.id
+})
 </script>
 
 <template>
@@ -28,13 +32,13 @@ const isChosen = computed(() => themeStore.chosenItemsIds.has(props.item.id))
     </div>
 
     <div class="w-full h-auto overflow-hidden border-b-2 aspect-square bg-neutral-800 border-neutral-700">
-      <StoreBackgroundItem v-if="item.category === 'background'" :item="item" />
-      <StoreThemeItem v-else-if="item.category === 'theme'" :item="item" />
-      <StoreFontItem v-else-if="item.category === 'font'" :item="item" />
+      <StoreBackgroundItem v-if="item.category === StoreItemCategoryData.background" :item="item" />
+      <StoreThemeItem v-else-if="item.category === StoreItemCategoryData.theme" :item="item" />
+      <StoreFontItem v-else-if="item.category === StoreItemCategoryData.font" :item="item" />
     </div>
 
     <div class="flex flex-col p-2 grow bg-neutral-800">
-      <div :class="{ 'opacity-50': !affordable && !item.purchased }">
+      <div :class="{ 'opacity-50': !affordable }">
         <h2 class="font-bold">
           {{ item.name }}
         </h2>
