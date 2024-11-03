@@ -6,7 +6,7 @@ import CoinWallet from '@/components/wallets/CoinWallet.vue'
 import DollarWallet from '@/components/wallets/DiamondWallet.vue'
 import { useStoreStore } from '@/stores/store/store.store'
 import { type AnyStoreItemData, StoreItemCategoryData, type TStoreItemCategoryData } from 'types.app'
-import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

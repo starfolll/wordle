@@ -8,6 +8,10 @@ const bunHandler = createBunHttpHandler({
   router: appRouter,
 
   createContext,
+
+  onError({ error }) {
+    console.error(error)
+  },
 })
 
 const server = Bun.serve({

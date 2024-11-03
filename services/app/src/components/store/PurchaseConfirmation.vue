@@ -13,7 +13,7 @@ const storeStore = useStoreStore()
         v-on-click-outside="storeStore.cancelCheckout"
         class="relative grid w-full grid-cols-2 gap-8 p-6 rounded max-w-[400px] backdrop-blur bg-neutral-900/90"
       >
-        <StoreItem :item="{ ...storeStore.purchasingItem, price: 0 }" />
+        <StoreItem :hide-price="true" :item="{ ...storeStore.purchasingItem, price: 0 }" />
 
         <div class="flex flex-col gap-2">
           <div class="flex justify-between gap-2">
@@ -34,10 +34,16 @@ const storeStore = useStoreStore()
             <span class="text-current-100">{{ storeStore.purchasingItem.category }}</span>?
           </p>
 
-          <p class="text-2xl text-amber-400">
+          <p class="text-2xl font-bold text-amber-400">
             <span class="text-base text-current-400">for</span>
-            {{ storeStore.purchasingItem.price }}
-            <font-awesome-icon :icon="['fas', 'coins']" />
+
+            <span v-if="storeStore.purchasingItem.price">
+              {{ storeStore.purchasingItem.price }}
+              <font-awesome-icon :icon="['fas', 'coins']" />
+            </span>
+            <span v-else class="font-bold animate-pulse">
+              Free!
+            </span>
           </p>
         </div>
 

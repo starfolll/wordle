@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server'
 import { prismaClient } from 'prisma-client'
 import { z } from 'zod'
-import { authorizedProcedure } from '../procedures/authorized.prcdr'
+import { authorizedProcedure } from '../../procedures/authorized.prcdr'
 
 export const purchaseStoreItem = authorizedProcedure
   .input(z.object({

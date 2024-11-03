@@ -1,8 +1,8 @@
 import { type AnyStoreItemData, type AnyUniquelySelectableStoreItemData, StoreItemCategoryData, type TStoreItemCategoryData } from 'types.app'
 
 export const storeItemsPurchasedDefault = {
-  background_default: {
-    id: 'background_default',
+  background: {
+    id: '',
     category: StoreItemCategoryData.background,
     name: 'Dark',
     price: 0,
@@ -12,8 +12,8 @@ export const storeItemsPurchasedDefault = {
     },
   },
 
-  theme_default: {
-    id: 'theme_default',
+  theme: {
+    id: '',
     subCategory: StoreItemCategoryData.theme,
     name: 'Default',
     price: 0,
@@ -33,8 +33,8 @@ export const storeItemsPurchasedDefault = {
     },
   },
 
-  font_default: {
-    id: 'font_default',
+  font: {
+    id: '',
     category: StoreItemCategoryData.font,
     name: 'Default',
     price: 0,
@@ -45,8 +45,8 @@ export const storeItemsPurchasedDefault = {
     },
   },
 } satisfies {
-  [_key in AnyUniquelySelectableStoreItemData as AnyStoreItemData['id']]: Extract<
+  [_key in AnyUniquelySelectableStoreItemData['category']]: Extract<
     AnyStoreItemData,
-    { category: TStoreItemCategoryData[_key['category']] }
+    { category: TStoreItemCategoryData[_key] }
   >
 }

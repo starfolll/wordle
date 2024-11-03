@@ -47,10 +47,15 @@ const isChosen = computed(() => {
           {{ item.subCategory }}
         </h3>
 
-        <p v-if="!hidePrice && item.price" class="mt-2 font-bold text-amber-400">
-          {{ item.price }}
-          <font-awesome-icon :icon="['fas', 'coins']" />
-        </p>
+        <template v-if="!hidePrice">
+          <p v-if="item.price" class="mt-2 font-bold text-amber-400">
+            {{ item.price }}
+            <font-awesome-icon :icon="['fas', 'coins']" />
+          </p>
+          <p v-else class="mt-2 font-bold animate-pulse text-amber-300">
+            Free!
+          </p>
+        </template>
       </div>
     </div>
   </div>

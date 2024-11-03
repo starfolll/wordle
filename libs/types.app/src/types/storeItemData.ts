@@ -54,6 +54,12 @@ export interface StoreItemStickerData extends StoreItemData {
   }
 }
 
+export const UniquelySelectableStoreItemCategory = [
+  StoreItemCategoryData.background,
+  StoreItemCategoryData.theme,
+  StoreItemCategoryData.font,
+] as const
+
 export type AnyUniquelySelectableStoreItemData =
   | StoreItemBackgroundData
   | StoreItemThemeData

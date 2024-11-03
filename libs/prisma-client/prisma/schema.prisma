@@ -67,7 +67,6 @@ model User {
   coins   Int @default(0)
 
   purchasedStoreItems StoreItem[]
-  selectedStoreItems SelectedStoreItemByUser[]
 
   classicFourLettersGameProgress ClassicFourLettersGameProgress @relation(fields: [classicFourLettersGameProgressId], references: [id], onDelete: Cascade)
   classicFourLettersGameProgressId Int @unique
@@ -178,16 +177,4 @@ model StoreItem {
   inStore Boolean @default(true)
 
   usersPurchased User[]
-
-  selectedByUsers SelectedStoreItemByUser[]
-}
-
-model SelectedStoreItemByUser {
-  id Int @id @default(autoincrement())
-
-  user User @relation(fields: [userId], references: [id])
-  userId String
-
-  storeItem StoreItem @relation(fields: [storeItemId], references: [id])
-  storeItemId String
 }
