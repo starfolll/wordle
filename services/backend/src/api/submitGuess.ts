@@ -15,7 +15,7 @@ type AllowedGameTypes = Extract<GameProgressData, { gameType: typeof allowedGame
 export const submitGuess = authorizedProcedure
   .input(z.object({
     gameType: z.enum(allowedGameTypes),
-    guess: z.string(),
+    guess: z.string().regex(/^[a-z]+$/),
   }))
   .mutation(async (opts): Promise<{
     isGameOver: boolean

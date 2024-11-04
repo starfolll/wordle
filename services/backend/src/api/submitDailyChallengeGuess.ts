@@ -7,12 +7,11 @@ import { dailyChallengeSelect } from './getGamesProgress'
 
 export const submitDailyChallengeGuess = authorizedProcedure
   .input(z.object({
-    guess: z.string(),
+    guess: z.string().regex(/^[a-z]+$/),
   }))
   .mutation(async (opts): Promise<Pick<DailyChallengeWordGameProgress, 'isCompleted' | 'isWon'>> => {
-    const user = opts.ctx.user
     const { guess } = opts.input
-
+    const user = opts.ctx.user
     const today = getToday()
 
     const gameProgress = await prismaClient.dailyChallengeWordGameProgress.findFirst({
