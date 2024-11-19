@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CircleButton from '@/components/CircleButton.vue'
 import HowToPlay from '@/components/HowToPlay.vue'
 import Keyboard from '@/components/keyboard/Keyboard.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
@@ -21,8 +22,16 @@ const wordleStore = useWordleStore()
 const gamesProgressStore = useGamesProgressStore()
 
 const loading = ref(false)
+
 const isShowingHowToPlay = ref(false)
 const closeHowToPlay = () => isShowingHowToPlay.value = false
+
+const gameProgressNameToDisplay = {
+  [GameProgressType.classicFourLettersGameProgress]: 'Classic 4 Letters',
+  [GameProgressType.classicFiveLettersGameProgress]: 'Classic 5 Letters',
+  [GameProgressType.dailyChallengeGameProgress]: 'Daily Challenge',
+  [GameProgressType.withHintGameProgress]: 'With Hint',
+}
 
 async function submitGuess() {
   if (!wordleStore.gameProgress)
@@ -55,79 +64,79 @@ watchEffect(() => {
 </script>
 
 <template>
-  <main class="flex flex-col items-center justify-center h-full gap-12">
-    <nav class="flex items-center justify-between w-full gap-2 p-2 rounded-lg bg-neutral-900">
-      <button class="w-12 rounded-full bg-current-800 aspect-square" @click="router.go(-1)">
+  <main class="flex flex-col items-center justify-center h-full gap-4 p-2 pb-0">
+    <nav class="flex items-center justify-between w-full gap-2 p-2 rounded-lg">
+      <CircleButton @click="router.go(-1)">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
-      </button>
+      </CircleButton>
 
-      <div class="flex flex-col justify-center gap-2 text-xl">
-        <h1>
-          <template v-if="!wordleStore.isGameOver">
-            Try to guess the word!
-          </template>
-          <template v-else>
-            <template v-if="wordleStore.isWon">
-              Congratulations! You WON!
-            </template>
-            <template v-else>
-              The word was:
-              <span class="text-green-400">{{ wordleStore.word?.toUpperCase() }}</span>
-            </template>
-          </template>
-        </h1>
-
-        <div class="flex items-center justify-center gap-4">
-          <Streak v-if="wordleStore.streak" :streak="wordleStore.streak" />
-          <MiniWallet />
-        </div>
+      <div class="flex items-center justify-center gap-4 text-xl">
+        <Streak v-if="wordleStore.streak" :streak="wordleStore.streak" />
+        <MiniWallet />
       </div>
 
-      <button class="w-12 rounded-full bg-current-800 aspect-square" @click="isShowingHowToPlay = true">
+      <CircleButton @click="isShowingHowToPlay = true">
         <font-awesome-icon :icon="['fas', 'question']" />
-      </button>
+      </CircleButton>
 
-      <HowToPlay v-if="isShowingHowToPlay" :close="closeHowToPlay" />
+      <HowToPlay v-model:open="isShowingHowToPlay" :close="closeHowToPlay" />
     </nav>
 
-    <div class="grow">
-      <div class="flex flex-col gap-2 p-2 rounded-lg bg-neutral-900">
-        <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
-        <GuessingRow v-if="!wordleStore.isGameOver" :submit-guess="submitGuess" />
-        <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
+    <section class="relative flex flex-col gap-2 p-2 m-auto rounded-lg bg-neutral-900/70 backdrop-blur">
+      <div class="absolute px-4 py-1 -mb-1 font-semibold -translate-x-1/2 rounded-full text-md left-1/2 bottom-full text-nowrap bg-neutral-800">
+        <template v-if="!wordleStore.isGameOver">
+          {{ wordleStore.gameType ? gameProgressNameToDisplay[wordleStore.gameType] : '' }}
+        </template>
+        <template v-else>
+          <template v-if="wordleStore.isWon">
+            Congratulations! You Won!
+          </template>
+          <template v-else>
+            The word was
+            <span class="text-green-400">{{ wordleStore.word?.toUpperCase() }}</span>
+          </template>
+        </template>
       </div>
-    </div>
 
-    <Keyboard />
+      <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
+      <GuessingRow v-if="!wordleStore.isGameOver" :submit-guess="submitGuess" />
+      <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
+    </section>
 
-    <button
-      v-if="!wordleStore.isGameOver"
-      v-squash-on-click
-      v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
-      :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver || false"
-      class="primary"
-      @click="submitGuess"
-    >
-      Submit
-    </button>
-    <button
-      v-else-if="wordleStore.gameProgress?.gameType === GameProgressType.dailyChallengeGameProgress"
-      class="primary"
-      @click="router.push('/')"
-    >
-      <font-awesome-icon :icon="['fas', 'home']" />
-    </button>
-    <LoadingBox v-else :loading="loading">
+    <section>
+      <Keyboard />
+    </section>
+
+    <section class="py-8">
       <button
-        ref="nextWordButton"
+        v-if="!wordleStore.isGameOver"
         v-squash-on-click
         v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
+        :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver || false"
         class="primary"
-        :disabled="loading"
-        @click="nextWord"
+        @click="submitGuess"
       >
-        {{ wordleStore.isWon ? 'Next word' : 'Restart' }}
+        Submit
       </button>
-    </LoadingBox>
+      <button
+        v-else-if="wordleStore.gameProgress?.gameType === GameProgressType.dailyChallengeGameProgress"
+        class="primary"
+        @click="router.push('/')"
+      >
+        <font-awesome-icon :icon="['fas', 'home']" />
+      </button>
+      <LoadingBox v-else :loading="loading">
+        <button
+          ref="nextWordButton"
+          v-squash-on-click
+          v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
+          class="primary"
+          :disabled="loading"
+          @click="nextWord"
+        >
+          {{ wordleStore.isWon ? 'Next word' : 'Restart' }}
+        </button>
+      </LoadingBox>
+    </section>
   </main>
 </template>

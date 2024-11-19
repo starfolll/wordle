@@ -1,11 +1,16 @@
 <script setup lang="ts">
-defineProps<{
+import { h } from 'vue'
+
+const props = defineProps<{
+  is?: string
   loading?: boolean
 }>()
+
+const container = h(props.is ?? 'div')
 </script>
 
 <template>
-  <div class="relative">
+  <component :is="container" class="relative">
     <slot :class="{ 'pointer-events-none': loading }" />
 
     <div
@@ -14,5 +19,5 @@ defineProps<{
     >
       <font-awesome-icon class="text-green-400 spin" :icon="['fas', 'circle-notch']" size="2xl" />
     </div>
-  </div>
+  </component>
 </template>

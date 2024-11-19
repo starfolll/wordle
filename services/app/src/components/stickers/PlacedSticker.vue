@@ -1,0 +1,42 @@
+<script setup lang="ts">
+import type { TPlacedSticker } from '@/stores/store/placedStickers.store'
+import type { StoreItemStickerData } from 'libs/types.app'
+import Sticker from './Sticker.vue'
+
+defineProps<{
+  placement: TPlacedSticker
+  sticker: StoreItemStickerData
+}>()
+</script>
+
+<template>
+  <Sticker
+    :sticker="sticker"
+    class="fixed placedSticker"
+    :style="{
+      'width': `calc(5rem * ${placement.scale})`,
+      'height': `calc(5rem * ${placement.scale})`,
+      '--sticker-placement-top': placement.y,
+      '--sticker-placement-left': placement.x,
+      '--sticker-placement-rotation': placement.rotation,
+    }"
+  />
+</template>
+
+<style lang="scss">
+.placedSticker {
+  top: calc((
+    var(--sticker-placement-top) * (1 - var(--is-editing-sticker, 0))
+    + var(--sticker-editing-placement-top, 0) * var(--is-editing-sticker, 0)
+  ) * 1%);
+
+  left: calc((
+    var(--sticker-placement-left) * (1 - var(--is-editing-sticker, 0))
+    + var(--sticker-editing-placement-left, 0) * var(--is-editing-sticker, 0)
+  ) * 1%);
+
+  translate: -50% -50%;
+
+  rotate: calc(var(--sticker-placement-rotation) * 1deg);
+}
+</style>

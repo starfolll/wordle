@@ -1,23 +1,42 @@
 <script setup lang="ts">
 import { useStoreStore } from '@/stores/store/store.store'
 import { vOnClickOutside } from '@vueuse/components'
+import { ref, watch } from 'vue'
+import Dialog from '../Dialog.vue'
 import StoreItem from './StoreItem.vue'
 
 const storeStore = useStoreStore()
+
+const dialogRef = ref<InstanceType<typeof Dialog>>()
+
+const cachedPurchasingItem = ref(storeStore.purchasingItem)
+
+watch(() => storeStore.purchasingItem, (item) => {
+  if (item) {
+    dialogRef.value?.openDialog()
+    cachedPurchasingItem.value = item
+  }
+  else {
+    dialogRef.value?.closeDialog()
+  }
+})
 </script>
 
 <template>
-  <section v-if="storeStore.purchasingItem" class="fixed top-0 left-0 z-50 grid bg-neutral-900/90 w-dvw h-dvh">
-    <div class="flex flex-col items-center justify-center">
+  <Dialog ref="dialogRef" :show-title="false">
+    <div v-if="cachedPurchasingItem" class="flex flex-col items-center justify-center">
       <div
         v-on-click-outside="storeStore.cancelCheckout"
-        class="relative grid w-full grid-cols-2 gap-8 p-6 rounded max-w-[400px] backdrop-blur bg-neutral-900/90"
+        class="relative grid w-full grid-cols-2 rounded gap-x-4 gap-y-8 backdrop-blur bg-neutral-900/90"
       >
-        <StoreItem :hide-price="true" :item="{ ...storeStore.purchasingItem, price: 0 }" />
+        <StoreItem
+          :purchased="true"
+          :item="cachedPurchasingItem"
+        />
 
         <div class="flex flex-col gap-2">
-          <div class="flex justify-between gap-2">
-            <p class="text-2xl">
+          <div class="flex items-center justify-between gap-2">
+            <p class="text-xl">
               Checkout
             </p>
 
@@ -31,14 +50,14 @@ const storeStore = useStoreStore()
 
           <p class="text-current-400">
             Are you sure you want to purchase this
-            <span class="text-current-100">{{ storeStore.purchasingItem.category }}</span>?
+            <span class="text-current-100">{{ cachedPurchasingItem.category }}</span>?
           </p>
 
-          <p class="text-2xl font-bold text-amber-400">
+          <p class="flex items-end gap-2 text-2xl font-bold text-amber-400">
             <span class="text-base text-current-400">for</span>
 
-            <span v-if="storeStore.purchasingItem.price">
-              {{ storeStore.purchasingItem.price }}
+            <span v-if="cachedPurchasingItem.price">
+              {{ cachedPurchasingItem.price }}
               <font-awesome-icon :icon="['fas', 'coins']" />
             </span>
             <span v-else class="font-bold animate-pulse">
@@ -62,5 +81,5 @@ const storeStore = useStoreStore()
         </button>
       </div>
     </div>
-  </section>
+  </Dialog>
 </template>

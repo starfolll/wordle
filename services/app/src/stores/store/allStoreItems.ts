@@ -1,55 +1,55 @@
-// import type { TStoreItem, TStoreItemTheme } from './store/store.store'
-// import twColors from 'tailwindcss/colors'
-// import { ref } from 'vue'
+import type { TStoreItem, TStoreItemTheme } from './store/store.store'
+import twColors from 'tailwindcss/colors'
+import { ref } from 'vue'
 
-// const tailwindColors = ['slate', 'gray', 'zinc', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+const tailwindColors = ['slate', 'gray', 'zinc', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
 
-// function hexToRgb(hex: string) {
-//   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-//   return result
-//     ? [Number.parseInt(result[1], 16), Number.parseInt(result[2], 16), Number.parseInt(result[3], 16)]
-//     : null
-// }
+function hexToRgb(hex: string) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+  return result
+    ? [Number.parseInt(result[1], 16), Number.parseInt(result[2], 16), Number.parseInt(result[3], 16)]
+    : null
+}
 
-// function twColorsToThemeVariables(colors: Record<string, string>) {
-//   return Object.entries(colors).reduce((acc, [key, value]) => {
-//     acc[`--color-current-${key}`] = hexToRgb(value)?.join(' ') ?? value
-//     return acc
-//   }, {} as Record<string, string>)
-// }
+function twColorsToThemeVariables(colors: Record<string, string>) {
+  return Object.entries(colors).reduce((acc, [key, value]) => {
+    acc[`--color-current-${key}`] = hexToRgb(value)?.join(' ') ?? value
+    return acc
+  }, {} as Record<string, string>)
+}
 
-// const allThemes = tailwindColors.reduce((acc, color) => {
-//   acc[`theme_${color}`] = {
-//     id: `theme_${color}`,
-//     name: color.charAt(0).toUpperCase() + color.slice(1),
-//     price: 10,
-//     category: 'theme',
-//     subCategory: 'tailwind',
-//     purchased: false,
-//     themeVariables: twColorsToThemeVariables(Object.fromEntries(Object.entries((twColors as any)[color]).map(([key, value]) => [key, value as string]))),
-//   }
+export const allThemes = tailwindColors.reduce((acc, color) => {
+  acc[`theme_${color}`] = {
+    id: `theme_${color}`,
+    name: color.charAt(0).toUpperCase() + color.slice(1),
+    price: 10,
+    category: 'theme',
+    subCategory: 'tailwind',
+    purchased: false,
+    themeVariables: twColorsToThemeVariables(Object.fromEntries(Object.entries((twColors as any)[color]).map(([key, value]) => [key, value as string]))),
+  }
 
-//   return acc
-// }, {
-//   theme_default: {
-//     id: 'theme_default',
-//     name: 'Default',
-//     price: 0,
-//     category: 'theme',
-//     purchased: true,
-//     themeVariables: twColorsToThemeVariables({
-//       100: '245 245 245',
-//       200: '229 229 229',
-//       300: '212 212 212',
-//       400: '163 163 163',
-//       500: '115 115 115',
-//       600: '82 82 82',
-//       700: '64 64 64',
-//       800: '38 38 38',
-//       900: '23 23 23',
-//     }),
-//   },
-// } as Record<string, Extract<TStoreItem, { category: 'theme' }>>)
+  return acc
+}, {
+  theme_default: {
+    id: 'theme_default',
+    name: 'Default',
+    price: 0,
+    category: 'theme',
+    purchased: true,
+    themeVariables: twColorsToThemeVariables({
+      100: '245 245 245',
+      200: '229 229 229',
+      300: '212 212 212',
+      400: '163 163 163',
+      500: '115 115 115',
+      600: '82 82 82',
+      700: '64 64 64',
+      800: '38 38 38',
+      900: '23 23 23',
+    }),
+  },
+} as Record<string, Extract<TStoreItem, { category: 'theme' }>>)
 
 // const allBackgrounds: Record<string, Extract<TStoreItem, { category: 'background' }>> = {
 //   background_default: {

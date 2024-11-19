@@ -4,5 +4,5 @@ button.primary {
   @apply hover:bg-green-300 hover:duration-75;
   @apply focus:outline-none focus:outline-green-300;
   @apply active:bg-green-500;
-  @apply disabled:cursor-not-allowed disabled:opacity-40
+  @apply disabled:cursor-not-allowed disabled:bg-green-400/40 disabled:backdrop-blur;
 }

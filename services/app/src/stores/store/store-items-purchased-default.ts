@@ -14,10 +14,10 @@ export const storeItemsPurchasedDefault = {
 
   theme: {
     id: '',
-    subCategory: StoreItemCategoryData.theme,
+    category: StoreItemCategoryData.theme,
     name: 'Default',
     price: 0,
-    category: 'theme',
+    subCategory: 'tail',
     data: {
       themeVariables: {
         '--color-current-100': '245 245 245',

@@ -27,6 +27,11 @@ const router = createRouter({
       component: () => import('@/views/Store.view.vue'),
     },
     {
+      path: '/stickers-editor',
+      name: 'stickers-editor',
+      component: () => import('@/views/StickersEditor.view.vue'),
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('@/views/NotFound.view.vue'),

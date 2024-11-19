@@ -1,0 +1,11 @@
+.scrollbar-width-0 {
+  &::-webkit-scrollbar {
+    @apply w-0;
+  }
+}
+
+.scrollbar-height-0 {
+  &::-webkit-scrollbar {
+    @apply h-0;
+  }
+}

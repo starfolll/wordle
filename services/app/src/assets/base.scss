@@ -1,5 +1,7 @@
 @import url('./components/buttons.scss');
 
+@import url('./utils/scroll.scss');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -27,14 +29,14 @@ html {
 }
 
 ::-webkit-scrollbar {
-  @apply w-2;
+  @apply w-2 h-2;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-transparent rounded;
+  @apply bg-transparent rounded m-4;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-neutral-700 rounded;
+  @apply bg-neutral-800 rounded;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-neutral-500;
+  @apply bg-neutral-700;
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CircleButton from '@/components/CircleButton.vue'
-import PurchaseConfirmation from '@/components/store/PurchaseConfirmation.vue'
+import PurchaseConfirmationDialog from '@/components/store/PurchaseConfirmationDialog.vue'
 import StoreItem from '@/components/store/StoreItem.vue'
 import CoinWallet from '@/components/wallets/CoinWallet.vue'
 import DollarWallet from '@/components/wallets/DiamondWallet.vue'
@@ -58,10 +58,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="flex flex-col h-full gap-4">
-    <PurchaseConfirmation v-if="storeStore.purchasingItem" />
+  <main class="flex flex-col h-full p-2 pb-0 backdrop-blur">
+    <PurchaseConfirmationDialog />
 
-    <div class="sticky z-10 grid gap-8 p-4 rounded-lg top-4 bg-neutral-900">
+    <section class="sticky z-10 grid gap-8 p-4 rounded-t-lg bg-neutral-900">
       <nav class="flex items-center w-full gap-4">
         <CircleButton @click="router.push('/')">
           <font-awesome-icon :icon="['fas', 'arrow-left']" />
@@ -69,14 +69,13 @@ onMounted(() => {
 
         <h1 class="flex items-center gap-4 text-left grow">
           <font-awesome-icon :icon="['fas', 'store']" size="xl" />
-          <span class="text-3xl">Store</span>
         </h1>
 
         <DollarWallet />
         <CoinWallet />
       </nav>
 
-      <div class="flex justify-between gap-4">
+      <div class="flex flex-wrap justify-between gap-4">
         <button
           v-for="category in StoreItemCategoryData"
           :key="category"
@@ -91,21 +90,35 @@ onMounted(() => {
           {{ category }}
         </button>
       </div>
-    </div>
+    </section>
 
-    <div
+    <section
       v-if="storeStore.isStoreLoaded"
-      class="relative flex flex-col items-start gap-4 pt-4 pb-16 pl-4 pr-2 overflow-x-visible overflow-y-scroll grow"
+      class="flex flex-col items-start gap-4 pt-4 pb-16 overflow-x-visible overflow-y-scroll scrollbar-width-0 grow"
     >
-      <div class="flex items-center w-full gap-4">
-        <hr class="border-2 rounded-full grow border-neutral-800">
-        <p class="px-2 py-1 text-xl rounded text-current-400 bg-neutral-900">
-          Purchased
-        </p>
-        <hr class="border-2 rounded-full grow border-neutral-800">
+      <button
+        v-if="activeCategory === StoreItemCategoryData.sticker"
+        class="p-2 px-4 m-auto mt-8 mb-8 text-lg font-semibold rounded-full text-balance text-current-200 bg-current-800 disabled:opacity-50"
+        :disabled="activeCategoryPurchasedItems.length === 0"
+        @click="router.push('/stickers-editor')"
+      >
+        <font-awesome-icon :icon="['fas', 'pen']" class="mr-2" />
+        Edit background stickers
+      </button>
+
+      <div class="w-full p-2 pl-4 text-xl rounded-lg text-current-400 bg-neutral-900">
+        <div v-if="activeCategoryPurchasedItems.length === 0">
+          You don't have any purchased {{ activeCategory }}
+        </div>
+        <span v-else>
+          Your Items
+        </span>
       </div>
 
-      <div class="grid w-full grid-cols-3 gap-3">
+      <div
+        v-if="activeCategoryPurchasedItems.length !== 0"
+        class="grid w-full grid-cols-3 gap-2"
+      >
         <Transition
           v-for="(item, index) in activeCategoryPurchasedItems"
           :key="item.id"
@@ -117,20 +130,19 @@ onMounted(() => {
             :disabled="isItemSelected(item)"
             @click="() => storeStore.setSelectedItem(item)"
           >
-            <StoreItem :item="item" hide-price />
+            <StoreItem :item="item" purchased />
           </button>
         </Transition>
       </div>
 
-      <div v-if="activeCategoryAvailableItems.length" class="flex items-center w-full gap-4">
-        <hr class="border-2 rounded-full grow border-neutral-800">
-        <p class="px-2 py-1 text-xl rounded text-current-400 bg-neutral-900">
-          Offers
-        </p>
-        <hr class="border-2 rounded-full grow border-neutral-800">
+      <div
+        v-if="activeCategoryAvailableItems.length"
+        class="w-full p-2 pl-4 mt-8 text-xl rounded-lg text-current-400 bg-neutral-900"
+      >
+        Available Store Items
       </div>
 
-      <div class="grid w-full grid-cols-3 gap-3">
+      <div class="grid w-full grid-cols-3 gap-2">
         <Transition
           v-for="(item, index) in activeCategoryAvailableItems"
           :key="item.id"
@@ -145,13 +157,13 @@ onMounted(() => {
             <StoreItem
               :item="item"
               :class="isAffordable(item)
-                ? 'cursor-pointer hover:scale-105'
+                ? 'cursor-pointer'
                 : 'cursor-not-allowed'
               "
             />
           </button>
         </Transition>
       </div>
-    </div>
+    </section>
   </main>
 </template>

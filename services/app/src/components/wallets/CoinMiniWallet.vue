@@ -8,7 +8,7 @@ const storeStore = useStoreStore()
 <template>
   <span
     v-bounce="storeStore.coins"
-    class="px-4 font-bold text-amber-400"
+    class="px-4 py-1 font-bold rounded text-amber-400 bg-neutral-900"
   >
     {{ storeStore.coins }}
     <font-awesome-icon :icon="['fas', 'coins']" />

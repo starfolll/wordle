@@ -4,21 +4,22 @@ import { type AnyStoreItemData, StoreItemCategoryData } from 'types.app'
 import { computed } from 'vue'
 import StoreBackgroundItem from './StoreBackgroundItem.vue'
 import StoreFontItem from './StoreFontItem.vue'
+import StoreStickerItem from './StoreStickerItem.vue'
 import StoreThemeItem from './StoreThemeItem.vue'
 
-const props = defineProps<{
+const { item, purchased = false } = defineProps<{
   item: AnyStoreItemData
-  hidePrice?: boolean
+  purchased?: boolean
 }>()
 
 const storeStore = useStoreStore()
 
-const affordable = computed(() => storeStore.coins >= props.item.price)
+const affordable = computed(() => storeStore.coins >= item.price)
 const isChosen = computed(() => {
-  if (props.item.category === StoreItemCategoryData.sticker)
+  if (item.category === StoreItemCategoryData.sticker)
     return
 
-  return storeStore.selectedItems[props.item.category].id === props.item.id
+  return storeStore.selectedItems[item.category].id === item.id
 })
 </script>
 
@@ -35,28 +36,30 @@ const isChosen = computed(() => {
       <StoreBackgroundItem v-if="item.category === StoreItemCategoryData.background" :item="item" />
       <StoreThemeItem v-else-if="item.category === StoreItemCategoryData.theme" :item="item" />
       <StoreFontItem v-else-if="item.category === StoreItemCategoryData.font" :item="item" />
+      <StoreStickerItem v-else-if="item.category === StoreItemCategoryData.sticker" :item="item" />
     </div>
 
-    <div class="flex flex-col p-2 grow bg-neutral-800">
-      <div :class="{ 'opacity-50': !affordable }">
-        <h2 class="font-bold">
-          {{ item.name }}
-        </h2>
+    <div
+      class="flex flex-col gap-2 p-2 grow bg-neutral-800"
+      :class="{ 'opacity-50': !affordable && !purchased }"
+    >
+      <h2 class="mb-auto font-semibold leading-5">
+        {{ item.name }}
+      </h2>
 
-        <h3 class="text-sm text-neutral-400">
-          {{ item.subCategory }}
-        </h3>
+      <template v-if="!purchased">
+        <p v-if="item.price" class="mb-2 font-bold text-amber-400">
+          {{ item.price }}
+          <font-awesome-icon :icon="['fas', 'coins']" />
+        </p>
+        <p v-else class="mb-2 font-bold animate-pulse text-amber-300">
+          Free!
+        </p>
+      </template>
 
-        <template v-if="!hidePrice">
-          <p v-if="item.price" class="mt-2 font-bold text-amber-400">
-            {{ item.price }}
-            <font-awesome-icon :icon="['fas', 'coins']" />
-          </p>
-          <p v-else class="mt-2 font-bold animate-pulse text-amber-300">
-            Free!
-          </p>
-        </template>
-      </div>
+      <h3 class="text-sm text-neutral-400">
+        {{ item.subCategory }}
+      </h3>
     </div>
   </div>
 </template>
