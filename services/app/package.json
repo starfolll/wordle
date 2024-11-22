@@ -3,15 +3,15 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "type-check": "vue-tsc --build --force",
-    "dates": "workspace:*",
-    "encryption": "workspace:*"
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun vite build",
+    "preview": "bunx --bun vite preview",
+    "type-check": "vue-tsc --build --force"
   },
   "devDependencies": {
     "types.app": "workspace:*",
+    "dates": "workspace:*",
+    "encryption": "workspace:*",
     "types.utility": "workspace:*",
     "vue-component-type-helpers": "^2.1.10"
   },
