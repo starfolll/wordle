@@ -3,7 +3,7 @@ import { useStoreStore } from '@/stores/store/store.store'
 import { vOnClickOutside } from '@vueuse/components'
 import { ref, watch } from 'vue'
 import Dialog from '../Dialog.vue'
-import StoreItem from './StoreItem.vue'
+import StoreItem from './store-item.vue'
 
 const storeStore = useStoreStore()
 

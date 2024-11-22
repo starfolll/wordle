@@ -2,10 +2,10 @@
 import { useStoreStore } from '@/stores/store/store.store'
 import { type AnyStoreItemData, StoreItemCategoryData } from 'types.app'
 import { computed } from 'vue'
-import StoreBackgroundItem from './StoreBackgroundItem.vue'
-import StoreFontItem from './StoreFontItem.vue'
-import StoreStickerItem from './StoreStickerItem.vue'
-import StoreThemeItem from './StoreThemeItem.vue'
+import StoreItemBackground from './store-background-item.vue'
+import StoreItemFont from './store-item-font.vue'
+import StoreItemSticker from './store-item-sticker.vue'
+import StoreItemTheme from './store-item-theme.vue'
 
 const { item, purchased = false } = defineProps<{
   item: AnyStoreItemData
@@ -21,6 +21,13 @@ const isChosen = computed(() => {
 
   return storeStore.selectedItems[item.category].id === item.id
 })
+
+const storeItemComponent = {
+  [StoreItemCategoryData.background]: StoreItemBackground,
+  [StoreItemCategoryData.theme]: StoreItemTheme,
+  [StoreItemCategoryData.font]: StoreItemFont,
+  [StoreItemCategoryData.sticker]: StoreItemSticker,
+} as const satisfies Record<keyof typeof StoreItemCategoryData, any>
 </script>
 
 <template>
@@ -33,10 +40,7 @@ const isChosen = computed(() => {
     </div>
 
     <div class="w-full h-auto overflow-hidden border-b-2 aspect-square bg-neutral-800 border-neutral-700">
-      <StoreBackgroundItem v-if="item.category === StoreItemCategoryData.background" :item="item" />
-      <StoreThemeItem v-else-if="item.category === StoreItemCategoryData.theme" :item="item" />
-      <StoreFontItem v-else-if="item.category === StoreItemCategoryData.font" :item="item" />
-      <StoreStickerItem v-else-if="item.category === StoreItemCategoryData.sticker" :item="item" />
+      <component :is="storeItemComponent[item.category]" :item="(item as any)" />
     </div>
 
     <div
