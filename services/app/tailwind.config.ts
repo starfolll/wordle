@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss'
-import { tailwindExtend } from './src/tailwind-extend/tailwind-extend'
+import { tailwindExtend, tailwindPlugins } from './src/tailwind-extend/tailwind-extend'
 
 export default {
   content: [
@@ -9,5 +9,5 @@ export default {
   theme: {
     extend: tailwindExtend,
   },
-  plugins: [],
+  plugins: tailwindPlugins,
 } satisfies Config
