@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { TShopItemStickerData } from 'types.app'
-import Sticker from '@/components/stickers/sticker.vue'
 import StickerControls from '@/components/stickers/sticker-controls.vue'
 import StickerHighlighter from '@/components/stickers/sticker-highlighter.vue'
+import Sticker from '@/components/stickers/sticker.vue'
 import ButtonCircle from '@/components/ui/buttons/button-circle.vue'
 import TooltipContainer from '@/components/ui/tooltip-container.vue'
 import { usePlacedStickersStore } from '@/stores/placed-stickers/placed-stickers.store'

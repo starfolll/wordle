@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <img
-    :src="`/stickers/${sticker.data.stickerUrl}.png`"
+    :src="`/stickers/${sticker.data.stickerUrl}`"
     :alt="sticker.name"
     class="object-contain h-full"
   >
