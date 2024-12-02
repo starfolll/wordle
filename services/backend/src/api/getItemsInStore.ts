@@ -1,9 +1,9 @@
-import type { AnyShopItemData } from 'types.app'
+import type { TAnyShopItemData } from 'types.app'
 import { prismaClient } from 'prisma-client'
 import { authorizedProcedure } from '../procedures/authorized.prcdr'
 
 export const getItemsInShop = authorizedProcedure
-  .query(async (): Promise<AnyShopItemData[]> => {
+  .query(async (): Promise<TAnyShopItemData[]> => {
     return await prismaClient.shopItem.findMany({
       where: {
         inShop: true,
@@ -18,5 +18,5 @@ export const getItemsInShop = authorizedProcedure
 
         data: true,
       },
-    }) as unknown as AnyShopItemData[]
+    }) as unknown as TAnyShopItemData[]
   })

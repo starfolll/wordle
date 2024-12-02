@@ -1,14 +1,14 @@
 import type { User } from 'prisma-client'
-import type { Prettify } from 'types.utility'
-import type { AnyShopItemData } from './shopItemData'
+import type { TPrettify } from 'types.utility'
+import type { TAnyShopItemData } from './shopItemData'
 
-export type UserLoginData = Prettify<Pick<
+export type TUserLoginData = TPrettify<Pick<
   User,
  'id' | 'token' | 'name'
 >>
 
-export type UserInventoryData =
-  Prettify<Pick<User, 'coins' | 'diamonds'>> &
+export type TUserInventoryData =
+  TPrettify<Pick<User, 'coins' | 'diamonds'>> &
   {
-    purchasedShopItems: AnyShopItemData[]
+    purchasedShopItems: TAnyShopItemData[]
   }

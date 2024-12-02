@@ -21,7 +21,7 @@ export interface ShopItemData {
   data: Prisma.JsonValue
 }
 
-export interface ShopItemBackgroundData extends ShopItemData {
+export interface TShopItemBackgroundData extends ShopItemData {
   category: TShopItemCategoryData['background']
 
   data: {
@@ -29,7 +29,7 @@ export interface ShopItemBackgroundData extends ShopItemData {
   }
 }
 
-export interface ShopItemThemeData extends ShopItemData {
+export interface TShopItemThemeData extends ShopItemData {
   category: TShopItemCategoryData['theme']
 
   data: {
@@ -37,7 +37,7 @@ export interface ShopItemThemeData extends ShopItemData {
   }
 }
 
-export interface ShopItemFontData extends ShopItemData {
+export interface TShopItemFontData extends ShopItemData {
   category: TShopItemCategoryData['font']
 
   data: {
@@ -46,7 +46,7 @@ export interface ShopItemFontData extends ShopItemData {
   }
 }
 
-export interface ShopItemStickerData extends ShopItemData {
+export interface TShopItemStickerData extends ShopItemData {
   category: TShopItemCategoryData['sticker']
 
   data: {
@@ -60,13 +60,13 @@ export const UniquelySelectableShopItemCategory = [
   ShopItemCategoryData.font,
 ] as const
 
-export type AnyUniquelySelectableShopItemData =
-  | ShopItemBackgroundData
-  | ShopItemThemeData
-  | ShopItemFontData
+export type TAnyUniquelySelectableShopItemData =
+  | TShopItemBackgroundData
+  | TShopItemThemeData
+  | TShopItemFontData
 
-export type AnyShopItemData =
-  | ShopItemBackgroundData
-  | ShopItemThemeData
-  | ShopItemFontData
-  | ShopItemStickerData
+export type TAnyShopItemData =
+  | TShopItemBackgroundData
+  | TShopItemThemeData
+  | TShopItemFontData
+  | TShopItemStickerData

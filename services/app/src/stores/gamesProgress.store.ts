@@ -1,7 +1,7 @@
 import { trpcClient } from '@/api/trpcClient'
 import { getWeek } from 'dates'
 import { defineStore } from 'pinia'
-import { type DailyChallengeGameProgressData, type GameProgressData, GameProgressType, type GamesProgressData, type TGameProgressType } from 'types.app'
+import { type DailyChallengeGameProgressData, type TGameProgressData, GameProgressType, type GamesProgressData, type TGameProgressType } from 'types.app'
 import { ref } from 'vue'
 
 export const useGamesProgressStore = defineStore('gamesProgress', () => {
@@ -31,7 +31,7 @@ export const useGamesProgressStore = defineStore('gamesProgress', () => {
   }
 
   const submitGuess = async (
-    gameProgress: Extract<GameProgressData, { gameType: TGameProgressType['classicFourLettersGameProgress']
+    gameProgress: Extract<TGameProgressData, { gameType: TGameProgressType['classicFourLettersGameProgress']
       | TGameProgressType['classicFiveLettersGameProgress']
       | TGameProgressType['withHintGameProgress'] }>,
     guess: string,

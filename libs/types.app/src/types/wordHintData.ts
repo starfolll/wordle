@@ -1,4 +1,4 @@
 import type { WordHint } from 'prisma-client'
-import type { Prettify } from 'types.utility'
+import type { TPrettify } from 'types.utility'
 
-export type WordHintData = Prettify<Pick<WordHint, 'hint'>>
+export type TWordHintData = TPrettify<Pick<WordHint, 'hint'>>

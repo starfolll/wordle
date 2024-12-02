@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ShopItemStickerData } from 'types.app'
+import type { TShopItemStickerData } from 'types.app'
 import Sticker from '@/components/stickers/sticker.vue'
 import StickerControls from '@/components/stickers/sticker-controls.vue'
 import StickerHighlighter from '@/components/stickers/sticker-highlighter.vue'
@@ -18,7 +18,7 @@ const shopStore = useShopStore()
 const purchasedStickers = computed(() => {
   return Object
     .values(shopStore.purchasedItems)
-    .filter(item => item.category === 'sticker') as ShopItemStickerData[]
+    .filter(item => item.category === 'sticker') as TShopItemStickerData[]
 })
 
 const stickersScrollableAreaRef = ref<null | HTMLDivElement>(null)
@@ -38,7 +38,7 @@ function focusStickerAtIndex(index: number, behavior?: ScrollBehavior) {
   })
 }
 
-function addSticker(stickerId: ShopItemStickerData['id']) {
+function addSticker(stickerId: TShopItemStickerData['id']) {
   const sticker = placedStickersStore.placeStickerRandomly(stickerId)
 
   if (sticker === null)

@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server'
 import { prismaClient } from 'prisma-client'
-import { type GameProgressData, GameProgressType } from 'types.app'
+import { type TGameProgressData, GameProgressType } from 'types.app'
 import { z } from 'zod'
 import { authorizedProcedure } from '../procedures/authorized.prcdr'
 
@@ -10,7 +10,7 @@ const allowedGameTypes = [
   GameProgressType.withHintGameProgress,
 ] as const
 
-type AllowedGameTypes = Extract<GameProgressData, { gameType: typeof allowedGameTypes[number] }>
+type AllowedGameTypes = Extract<TGameProgressData, { gameType: typeof allowedGameTypes[number] }>
 
 export const submitGuess = authorizedProcedure
   .input(z.object({

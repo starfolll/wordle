@@ -1,14 +1,14 @@
 import { TMatchingLetterTag } from '@/helpers/class-names/matching-letter'
 import { decryptWord } from 'encryption'
 import { defineStore } from 'pinia'
-import { type GameProgressData, GameProgressType, type TGameProgressType, type WordHintData } from 'types.app'
+import { type TGameProgressData, GameProgressType, type TGameProgressType, type TWordHintData } from 'types.app'
 import { computed, ref } from 'vue'
 import { useUserStore } from './userStore'
 
 export const useWordleStore = defineStore('wordle', () => {
   const userStore = useUserStore()
 
-  const gameProgressRef = ref<GameProgressData | null>(null)
+  const gameProgressRef = ref<TGameProgressData | null>(null)
 
   const gameType = computed<keyof TGameProgressType | null>(() => gameProgressRef.value?.gameType ?? null)
 
@@ -19,18 +19,18 @@ export const useWordleStore = defineStore('wordle', () => {
     return null
   })
 
-  const word = computed<GameProgressData['word']['word'] | null>(() => {
+  const word = computed<TGameProgressData['word']['word'] | null>(() => {
     if (!gameProgressRef.value?.word.word || !userStore.userData?.token)
       return null
 
     return decryptWord(gameProgressRef.value.word.word, userStore.userData.token)
   })
-  const wordLength = computed<GameProgressData['word']['length']>(() => gameProgressRef.value?.word.length ?? 0)
-  const wordLearnLevel = computed<GameProgressData['word']['learnLevel'] | null>(() => gameProgressRef.value?.word.learnLevel ?? null)
+  const wordLength = computed<TGameProgressData['word']['length']>(() => gameProgressRef.value?.word.length ?? 0)
+  const wordLearnLevel = computed<TGameProgressData['word']['learnLevel'] | null>(() => gameProgressRef.value?.word.learnLevel ?? null)
 
-  const wordHint = computed<WordHintData['hint'] | null>(() => gameProgressRef.value?.hint?.hint ?? null)
+  const wordHint = computed<TWordHintData['hint'] | null>(() => gameProgressRef.value?.hint?.hint ?? null)
 
-  const maxGuesses = computed<GameProgressData['maxGuesses']>(() => gameProgressRef.value?.maxGuesses ?? 0)
+  const maxGuesses = computed<TGameProgressData['maxGuesses']>(() => gameProgressRef.value?.maxGuesses ?? 0)
 
   const guesses = computed<string[]>(() => gameProgressRef.value?.guesses ?? [])
   const getClearGuess = (length: number) => Array.from<null>({ length }).fill(null)
@@ -104,7 +104,7 @@ export const useWordleStore = defineStore('wordle', () => {
     }, {} as Record<string, number>)
   })
 
-  const setGameProgress = (newGameProgressRef: GameProgressData | null) => {
+  const setGameProgress = (newGameProgressRef: TGameProgressData | null) => {
     gameProgressRef.value = newGameProgressRef
     guessedLettersAppearAnimation.value = getRandomAnimation(guessedLettersAppearAnimations)
     clearGuessingWord()

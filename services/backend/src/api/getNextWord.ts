@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server'
 import { encryptWord } from 'encryption'
 import { prismaClient } from 'prisma-client'
-import { type GameProgressData, GameProgressType, type TGameProgressType } from 'types.app'
+import { type TGameProgressData, GameProgressType, type TGameProgressType } from 'types.app'
 import { z } from 'zod'
 import { authorizedProcedure } from '../procedures/authorized.prcdr'
 import { defaultWordLength, getDefaultMaxGuesses } from '../utils/defaultWordLength'
@@ -14,7 +14,7 @@ const allowedGameTypes = [
   GameProgressType.withHintGameProgress,
 ] as const
 
-type AllowedGameType = Extract<GameProgressData, { gameType: typeof allowedGameTypes[number] }>
+type AllowedGameType = Extract<TGameProgressData, { gameType: typeof allowedGameTypes[number] }>
 
 export const getNextWord = authorizedProcedure
   .input(z.object({

@@ -1,7 +1,7 @@
-import type { ShopItemStickerData } from 'types.app'
+import type { TShopItemStickerData } from 'types.app'
 
 export interface TPlacedSticker {
-  stickerId: ShopItemStickerData['id']
+  stickerId: TShopItemStickerData['id']
   placementId: string
   x: number
   y: number

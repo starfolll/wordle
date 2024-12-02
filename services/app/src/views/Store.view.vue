@@ -6,7 +6,7 @@ import ButtonToggle from '@/components/ui/buttons/button-toggle.vue'
 import WalletCoin from '@/components/wallets/wallet-coin.vue'
 import WalletDiamond from '@/components/wallets/wallet-diamond.vue'
 import { useShopStore } from '@/stores/shop/shop.store'
-import { type AnyShopItemData, ShopItemCategoryData, type TShopItemCategoryData } from 'types.app'
+import { type TAnyShopItemData, ShopItemCategoryData, type TShopItemCategoryData } from 'types.app'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -15,19 +15,19 @@ const shopStore = useShopStore()
 
 const activeCategory = ref<keyof TShopItemCategoryData>('background')
 
-const activeCategoryPurchasedItems = computed<AnyShopItemData[]>(() => {
+const activeCategoryPurchasedItems = computed<TAnyShopItemData[]>(() => {
   return Object.values(shopStore.purchasedItems)
     .filter(item => item.category === activeCategory.value)
     .sort((a, b) => a.name.localeCompare(b.name))
 })
-const activeCategoryAvailableItems = computed<AnyShopItemData[]>(() => {
+const activeCategoryAvailableItems = computed<TAnyShopItemData[]>(() => {
   return shopStore.availableItems
     .filter(item => item.category === activeCategory.value)
     .sort((a, b) => a.name.localeCompare(b.name))
 })
 
-const isAffordable = (item: AnyShopItemData) => shopStore.coins >= item.price
-function isItemSelected(item: AnyShopItemData) {
+const isAffordable = (item: TAnyShopItemData) => shopStore.coins >= item.price
+function isItemSelected(item: TAnyShopItemData) {
   if (item.category === ShopItemCategoryData.sticker)
     return
 

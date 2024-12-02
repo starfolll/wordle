@@ -1,4 +1,4 @@
-import type { ShopItemStickerData } from 'types.app'
+import type { TShopItemStickerData } from 'types.app'
 import { useDebounceFn, useRefHistory } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { computed, readonly, ref, watch } from 'vue'
@@ -49,7 +49,7 @@ export const usePlacedStickersStore = defineStore('placed-stickers', () => {
     placedStickers.value[placementId] = stickerPlacement
     return stickerPlacement
   }
-  const placeStickerRandomly = (stickerId: ShopItemStickerData['id']) => {
+  const placeStickerRandomly = (stickerId: TShopItemStickerData['id']) => {
     return placeSticker({
       stickerId,
       x: Math.random() * 100,
@@ -71,7 +71,7 @@ export const usePlacedStickersStore = defineStore('placed-stickers', () => {
     placedStickers.value = {}
   }
 
-  const getStickerFromId = (stickerId: ShopItemStickerData['id']) => shopStore.purchasedItems[stickerId] as ShopItemStickerData | null
+  const getStickerFromId = (stickerId: TShopItemStickerData['id']) => shopStore.purchasedItems[stickerId] as TShopItemStickerData | null
   const placementAndSticker = computed(() => placedStickersArray.value.reduce((acc, placement) => {
     const sticker = getStickerFromId(placement.stickerId)
 
@@ -79,7 +79,7 @@ export const usePlacedStickersStore = defineStore('placed-stickers', () => {
       acc.push({ sticker, placement })
 
     return acc
-  }, [] as { sticker: ShopItemStickerData, placement: TPlacedSticker }[]))
+  }, [] as { sticker: TShopItemStickerData, placement: TPlacedSticker }[]))
 
   return {
     isStickersEditorOpen,

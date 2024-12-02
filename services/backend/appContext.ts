@@ -4,4 +4,4 @@ export function createContext(opts: CreateBunContextOptions) {
   return opts
 }
 
-export type AppContext = ReturnType<typeof createContext>
+export type TAppContext = ReturnType<typeof createContext>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { GameProgressData } from 'types.app'
+import type { TGameProgressData } from 'types.app'
 import DailyChallengeWeek from '@/components/daily-challenge.vue/daily-challenge-week.vue'
 import HowToPlay from '@/components/how-to-play/how-to-play.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
@@ -24,7 +24,7 @@ const loading = ref(false)
 const isShowingHowToPlay = ref(false)
 const closeHowToPlay = () => isShowingHowToPlay.value = false
 
-async function startGame(progress: GameProgressData) {
+async function startGame(progress: TGameProgressData) {
   loading.value = true
 
   wordleStore.setGameProgress(progress)

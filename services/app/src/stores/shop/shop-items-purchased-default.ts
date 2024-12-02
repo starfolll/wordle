@@ -1,4 +1,4 @@
-import { type AnyShopItemData, type AnyUniquelySelectableShopItemData, ShopItemCategoryData, type TShopItemCategoryData } from 'types.app'
+import { ShopItemCategoryData, type TAnyShopItemData, type TAnyUniquelySelectableShopItemData, type TShopItemCategoryData } from 'types.app'
 
 export const shopItemsPurchasedDefault = {
   background: {
@@ -45,8 +45,8 @@ export const shopItemsPurchasedDefault = {
     },
   },
 } satisfies {
-  [_key in AnyUniquelySelectableShopItemData['category']]: Extract<
-    AnyShopItemData,
+  [_key in TAnyUniquelySelectableShopItemData['category']]: Extract<
+    TAnyShopItemData,
     { category: TShopItemCategoryData[_key] }
   >
 }

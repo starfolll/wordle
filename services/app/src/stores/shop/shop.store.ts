@@ -1,7 +1,7 @@
 import { trpcClient } from '@/api/trpcClient'
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
-import { type AnyShopItemData, type AnyUniquelySelectableShopItemData, ShopItemCategoryData } from 'types.app'
+import { type TAnyShopItemData, type TAnyUniquelySelectableShopItemData, ShopItemCategoryData } from 'types.app'
 import { computed, readonly, ref } from 'vue'
 import { shopItemsPurchasedDefault } from './shop-items-purchased-default'
 
@@ -11,14 +11,14 @@ export const useShopStore = defineStore('shop', () => {
   const coins = ref(0)
   const diamonds = ref(0)
 
-  const shopItems = ref<Record<AnyShopItemData['id'], AnyShopItemData>>({})
-  const purchasedItems = ref<Record<AnyShopItemData['id'], AnyShopItemData>>({ ...shopItemsPurchasedDefault })
-  const addPurchasedItem = (item: AnyShopItemData) => purchasedItems.value[item.id] = item
+  const shopItems = ref<Record<TAnyShopItemData['id'], TAnyShopItemData>>({})
+  const purchasedItems = ref<Record<TAnyShopItemData['id'], TAnyShopItemData>>({ ...shopItemsPurchasedDefault })
+  const addPurchasedItem = (item: TAnyShopItemData) => purchasedItems.value[item.id] = item
   const resetPurchasedItems = () => purchasedItems.value = { ...shopItemsPurchasedDefault }
-  const availableItems = computed<AnyShopItemData[]>(() => Object.values(shopItems.value).filter(item => !purchasedItems.value[item.id]))
+  const availableItems = computed<TAnyShopItemData[]>(() => Object.values(shopItems.value).filter(item => !purchasedItems.value[item.id]))
 
-  const purchasingItemId = ref<AnyShopItemData['id'] | null>(null)
-  const setCheckoutItem = (itemId: AnyShopItemData['id']) => purchasingItemId.value = itemId
+  const purchasingItemId = ref<TAnyShopItemData['id'] | null>(null)
+  const setCheckoutItem = (itemId: TAnyShopItemData['id']) => purchasingItemId.value = itemId
   const cancelCheckout = () => purchasingItemId.value = null
   const purchasingItem = computed(() => purchasingItemId.value ? shopItems.value[purchasingItemId.value] : null)
   const purchaseItem = async () => {
@@ -33,15 +33,15 @@ export const useShopStore = defineStore('shop', () => {
   }
 
   const selectedItemsId = useLocalStorage<{
-    [_key in AnyUniquelySelectableShopItemData as AnyUniquelySelectableShopItemData['category']]: AnyUniquelySelectableShopItemData['id'] | null
+    [_key in TAnyUniquelySelectableShopItemData as TAnyUniquelySelectableShopItemData['category']]: TAnyUniquelySelectableShopItemData['id'] | null
   }>('selectedShopItemsId', {
     background: null,
     theme: null,
     font: null,
   })
-  const getItemWithDefault = <T extends AnyUniquelySelectableShopItemData['category']>(
+  const getItemWithDefault = <T extends TAnyUniquelySelectableShopItemData['category']>(
     category: T,
-  ): Extract<AnyUniquelySelectableShopItemData, { category: T }> => {
+  ): Extract<TAnyUniquelySelectableShopItemData, { category: T }> => {
     const itemId = selectedItemsId.value[category]
     const item = itemId ? purchasedItems.value[itemId] : null
     return item as any ?? shopItemsPurchasedDefault[category]
@@ -51,9 +51,9 @@ export const useShopStore = defineStore('shop', () => {
     theme: getItemWithDefault(ShopItemCategoryData.theme),
     font: getItemWithDefault(ShopItemCategoryData.font),
   } satisfies {
-    [_key in AnyUniquelySelectableShopItemData as AnyUniquelySelectableShopItemData['category']]: Extract<AnyShopItemData, { category: _key['category'] }>
+    [_key in TAnyUniquelySelectableShopItemData as TAnyUniquelySelectableShopItemData['category']]: Extract<TAnyShopItemData, { category: _key['category'] }>
   }))
-  const setSelectedItem = async (item: AnyShopItemData) => {
+  const setSelectedItem = async (item: TAnyShopItemData) => {
     if (item.category === ShopItemCategoryData.sticker)
       return
 
@@ -67,7 +67,7 @@ export const useShopStore = defineStore('shop', () => {
     shopItems.value = allItems.reduce((acc, item) => {
       acc[item.id] = item
       return acc
-    }, {} as Record<AnyShopItemData['id'], AnyShopItemData>)
+    }, {} as Record<TAnyShopItemData['id'], TAnyShopItemData>)
 
     isShopLoaded.value = true
   }

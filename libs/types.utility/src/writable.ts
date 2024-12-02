@@ -1,1 +1,1 @@
-export type Writable<T> = { -readonly [P in keyof T]: T[P] }
+export type TWritable<T> = { -readonly [P in keyof T]: T[P] }

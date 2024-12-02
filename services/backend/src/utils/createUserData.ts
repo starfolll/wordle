@@ -1,8 +1,8 @@
-import type { UserLoginData } from 'types.app'
+import type { TUserLoginData } from 'types.app'
 import { TRPCError } from '@trpc/server'
 import { prismaClient } from 'prisma-client'
 
-export async function createUserData(): Promise<UserLoginData> {
+export async function createUserData(): Promise<TUserLoginData> {
   const [wordWithLength4, wordWithLength5, anyRandomWord] = await Promise.all([
     await prismaClient.word.findRandom({ where: { length: 4 } }),
     await prismaClient.word.findRandom({ where: { length: 5 } }),

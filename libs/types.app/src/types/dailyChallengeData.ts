@@ -1,7 +1,7 @@
-import type { Prettify } from 'types.utility'
-import type { GuessingWordData } from './wordData'
+import type { TPrettify } from 'types.utility'
+import type { TGuessingWordData } from './wordData'
 
-export type DailyChallengeData = Prettify<{
+export type TDailyChallengeData = TPrettify<{
   date: Date
-  word: GuessingWordData
+  word: TGuessingWordData
 }>

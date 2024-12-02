@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useShopStore } from '@/stores/shop/shop.store'
-import { type AnyShopItemData, ShopItemCategoryData } from 'types.app'
+import { type TAnyShopItemData, ShopItemCategoryData } from 'types.app'
 import { computed } from 'vue'
 import StoreItemBackground from './shop-background-item.vue'
 import StoreItemFont from './shop-item-font.vue'
@@ -8,7 +8,7 @@ import StoreItemSticker from './shop-item-sticker.vue'
 import StoreItemTheme from './shop-item-theme.vue'
 
 const { item, purchased = false } = defineProps<{
-  item: AnyShopItemData
+  item: TAnyShopItemData
   purchased?: boolean
 }>()
 

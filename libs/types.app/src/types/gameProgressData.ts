@@ -1,5 +1,5 @@
-import type { GuessingWordData } from './wordData'
-import type { WordHintData } from './wordHintData'
+import type { TGuessingWordData } from './wordData'
+import type { TWordHintData } from './wordHintData'
 
 export const GameProgressType = {
   classicFourLettersGameProgress: 'classicFourLettersGameProgress',
@@ -23,8 +23,8 @@ export interface ClassicFourLettersGameProgressData {
 
   streak: number
 
-  word: GuessingWordData
-  hint: WordHintData | null
+  word: TGuessingWordData
+  hint: TWordHintData | null
 
   guesses: string[]
   maxGuesses: number
@@ -36,8 +36,8 @@ export interface ClassicFiveLettersGameProgressData {
 
   streak: number
 
-  word: GuessingWordData
-  hint: WordHintData | null
+  word: TGuessingWordData
+  hint: TWordHintData | null
 
   guesses: string[]
   maxGuesses: number
@@ -52,8 +52,8 @@ export interface DailyChallengeGameProgressData {
   isCompleted: boolean
   isWon: boolean
 
-  word: GuessingWordData
-  hint: WordHintData | null
+  word: TGuessingWordData
+  hint: TWordHintData | null
 
   guesses: string[]
   maxGuesses: number
@@ -65,14 +65,14 @@ export interface WithHintGameProgressData {
 
   streak: number
 
-  word: GuessingWordData
-  hint: WordHintData
+  word: TGuessingWordData
+  hint: TWordHintData
 
   guesses: string[]
   maxGuesses: number
 }
 
-export type GameProgressData =
+export type TGameProgressData =
   | ClassicFourLettersGameProgressData
   | ClassicFiveLettersGameProgressData
   | DailyChallengeGameProgressData

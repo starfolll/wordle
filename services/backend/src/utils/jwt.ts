@@ -1,4 +1,4 @@
-import type { UserLoginData } from 'types.app'
+import type { TUserLoginData } from 'types.app'
 import cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 
@@ -8,7 +8,7 @@ const JWT_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 // @ts-expect-error
 const JWT_SECRET = Bun.env.JWT_SECRET!
 
-export function jwtSign(payload: UserLoginData) {
+export function jwtSign(payload: TUserLoginData) {
   return jwt.sign(
     payload,
     JWT_SECRET,
@@ -19,7 +19,7 @@ export function jwtSign(payload: UserLoginData) {
 }
 
 export function jwtVerify(token: string) {
-  return jwt.verify(token, JWT_SECRET) as UserLoginData
+  return jwt.verify(token, JWT_SECRET) as TUserLoginData
 }
 
 export function getJwtCookie(userJWT: string) {

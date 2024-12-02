@@ -1,11 +1,11 @@
-import type { UserLoginData } from 'types.app'
-import type { AppContext } from '../../appContext'
+import type { TUserLoginData } from 'types.app'
+import type { TAppContext } from '../../appContext'
 import { TRPCError } from '@trpc/server'
 import cookie from 'cookie'
 import { publicProcedure } from '../../trpc'
 import { jwtVerify } from '../utils/jwt'
 
-export function getAuthorizedUser(ctx: AppContext): UserLoginData | null {
+export function getAuthorizedUser(ctx: TAppContext): TUserLoginData | null {
   const unparsedCookies = ctx.req.headers.get('cookie')
 
   if (!unparsedCookies)
