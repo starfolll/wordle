@@ -1,20 +1,9 @@
+import { TMatchingLetterTag } from '@/helpers/class-names/matching-letter'
 import { decryptWord } from 'encryption'
 import { defineStore } from 'pinia'
 import { type GameProgressData, GameProgressType, type TGameProgressType, type WordHintData } from 'types.app'
 import { computed, ref } from 'vue'
 import { useUserStore } from './userStore'
-
-export enum TMatchingLetterTag {
-  EXACT = 'exact',
-  PARTIAL = 'partial',
-  NONE = 'none',
-}
-
-export const letterClassName = {
-  exact: 'bg-lime-400 text-lime-900',
-  partial: 'bg-yellow-400 text-yellow-900',
-  none: '',
-} satisfies Record<TMatchingLetterTag, string>
 
 export const useWordleStore = defineStore('wordle', () => {
   const userStore = useUserStore()
