@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { GameProgressData } from 'types.app'
-import CircleButton from '@/components/CircleButton.vue'
-import DailyChallenge from '@/components/DailyChallenge.vue'
-import HowToPlay from '@/components/HowToPlay.vue'
+import DailyChallengeWeek from '@/components/daily-challenge.vue/daily-challenge-week.vue'
+import HowToPlay from '@/components/how-to-play/how-to-play.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
-import Streak from '@/components/Streak.vue'
-import CoinWallet from '@/components/wallets/CoinWallet.vue'
-import DollarWallet from '@/components/wallets/DiamondWallet.vue'
+import Streak from '@/components/streak.vue'
+import ButtonCircle from '@/components/ui/buttons/button-circle.vue'
+import WalletCoin from '@/components/wallets/wallet-coin.vue'
+import WalletDiamond from '@/components/wallets/wallet-diamond.vue'
 import { vSquashOnClick } from '@/directives/animations/v-squash-on-click'
 import { useGamesProgressStore } from '@/stores/gamesProgress.store'
 import { useWordleStore } from '@/stores/wordle.store'
@@ -60,13 +60,13 @@ async function startDailyChallenge(date: string) {
 <template>
   <main class="grid content-center h-full gap-8 p-2 min-w-72">
     <section class="flex items-center justify-between w-full px-2 border-transparent border-x-2">
-      <div class="px-4 py-2 text-4xl font-semibold rounded-lg text-current-100 bg-neutral-900/70 backdrop-blur">
+      <div class="px-4 py-2 text-4xl font-semibold rounded-lg text-current-100 bg-neutral-900/90">
         Wordle Plus
       </div>
 
-      <CircleButton @click="(e) => isShowingHowToPlay = !isShowingHowToPlay">
+      <ButtonCircle @click="(e) => isShowingHowToPlay = !isShowingHowToPlay">
         <font-awesome-icon :icon="['fas', 'question']" />
-      </CircleButton>
+      </ButtonCircle>
 
       <HowToPlay v-model:open="isShowingHowToPlay" :close="closeHowToPlay" />
     </section>
@@ -74,7 +74,7 @@ async function startDailyChallenge(date: string) {
     <LoadingBox
       is="section"
       :loading="loading"
-      class="grid w-full gap-2 p-2 overflow-hidden rounded-lg bg-neutral-900/70 backdrop-blur"
+      class="grid w-full gap-2 p-2 overflow-hidden rounded-lg bg-neutral-900/90"
     >
       <h2 class="mb-2 text-2xl text-current-400">
         Classic
@@ -131,24 +131,20 @@ async function startDailyChallenge(date: string) {
       class="grid w-full gap-2 p-2 overflow-hidden grow"
     >
       <div class="flex items-center gap-2">
-        <h2 class="px-4 py-2 text-2xl rounded-lg text-current-400 bg-neutral-900/70 backdrop-blur">
+        <h2 class="px-4 py-2 text-2xl rounded-lg text-current-400 bg-neutral-900/90">
           Daily challenge
         </h2>
 
-        <DollarWallet class="ml-auto" />
-
-        <CircleButton>
-          <font-awesome-icon :icon="['fas', 'question']" />
-        </CircleButton>
+        <WalletDiamond class="ml-auto" />
       </div>
 
-      <DailyChallenge :start-daily-challenge="startDailyChallenge" />
+      <DailyChallengeWeek :start-daily-challenge="startDailyChallenge" />
     </LoadingBox>
 
     <section class="flex gap-8">
       <LoadingBox
         :loading="loading"
-        class="grid w-full gap-2 p-2 overflow-hidden rounded-lg grow bg-neutral-900/70 backdrop-blur"
+        class="grid w-full gap-2 p-2 overflow-hidden rounded-lg grow bg-neutral-900/90"
       >
         <h2 class="mb-2 text-2xl text-current-400">
           With hint
@@ -184,7 +180,7 @@ async function startDailyChallenge(date: string) {
       >
         <div class="flex flex-col items-center justify-center h-full gap-4 transition-colors rounded-lg bg-amber-400 group-hover:bg-amber-500">
           <font-awesome-icon class="text-amber-800" :icon="['fas', 'store']" size="lg" />
-          <CoinWallet class="transition-colors group-hover:border-amber-500" />
+          <WalletCoin class="transition-colors group-hover:border-amber-500" />
         </div>
       </button>
     </section>

@@ -1,33 +1,33 @@
 <script setup lang="ts">
-import { useStoreStore } from '@/stores/store/store.store'
-import { type AnyStoreItemData, StoreItemCategoryData } from 'types.app'
+import { useShopStore } from '@/stores/shop/shop.store'
+import { type AnyShopItemData, ShopItemCategoryData } from 'types.app'
 import { computed } from 'vue'
-import StoreItemBackground from './store-background-item.vue'
-import StoreItemFont from './store-item-font.vue'
-import StoreItemSticker from './store-item-sticker.vue'
-import StoreItemTheme from './store-item-theme.vue'
+import StoreItemBackground from './shop-background-item.vue'
+import StoreItemFont from './shop-item-font.vue'
+import StoreItemSticker from './shop-item-sticker.vue'
+import StoreItemTheme from './shop-item-theme.vue'
 
 const { item, purchased = false } = defineProps<{
-  item: AnyStoreItemData
+  item: AnyShopItemData
   purchased?: boolean
 }>()
 
-const storeStore = useStoreStore()
+const shopStore = useShopStore()
 
-const affordable = computed(() => storeStore.coins >= item.price)
+const affordable = computed(() => shopStore.coins >= item.price)
 const isChosen = computed(() => {
-  if (item.category === StoreItemCategoryData.sticker)
+  if (item.category === ShopItemCategoryData.sticker)
     return
 
-  return storeStore.selectedItems[item.category].id === item.id
+  return shopStore.selectedItems[item.category].id === item.id
 })
 
 const storeItemComponent = {
-  [StoreItemCategoryData.background]: StoreItemBackground,
-  [StoreItemCategoryData.theme]: StoreItemTheme,
-  [StoreItemCategoryData.font]: StoreItemFont,
-  [StoreItemCategoryData.sticker]: StoreItemSticker,
-} as const satisfies Record<keyof typeof StoreItemCategoryData, any>
+  [ShopItemCategoryData.background]: StoreItemBackground,
+  [ShopItemCategoryData.theme]: StoreItemTheme,
+  [ShopItemCategoryData.font]: StoreItemFont,
+  [ShopItemCategoryData.sticker]: StoreItemSticker,
+} as const satisfies Record<keyof typeof ShopItemCategoryData, any>
 </script>
 
 <template>

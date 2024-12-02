@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { StoreItemThemeData } from 'libs/types.app'
+import type { ShopItemThemeData } from 'libs/types.app'
 
 const props = defineProps<{
-  item: StoreItemThemeData
+  item: ShopItemThemeData
 }>()
 </script>
 

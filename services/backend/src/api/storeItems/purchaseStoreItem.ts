@@ -11,7 +11,7 @@ export const purchaseStoreItem = authorizedProcedure
     const user = opts.ctx.user
     const { itemId } = opts.input
 
-    const item = await prismaClient.storeItem.findUnique({
+    const item = await prismaClient.shopItem.findUnique({
       where: {
         id: itemId,
         usersPurchased: {
@@ -56,7 +56,7 @@ export const purchaseStoreItem = authorizedProcedure
         coins: {
           decrement: item.price,
         },
-        purchasedStoreItems: {
+        purchasedShopItems: {
           connect: {
             id: item.id,
           },

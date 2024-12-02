@@ -1,24 +1,24 @@
 <script lang="ts" setup>
-import type { StoreItemStickerData } from 'types.app'
-import CircleButton from '@/components/CircleButton.vue'
-import ContainsTooltip from '@/components/ContainsTooltip.vue'
-import PlacedStickerControls from '@/components/stickers/PlacedStickerControls.vue'
-import PlacedStickerHighlighter from '@/components/stickers/PlacedStickerHighlighter.vue'
-import Sticker from '@/components/stickers/Sticker.vue'
-import { usePlacedStickersStore } from '@/stores/store/placedStickers.store'
-import { useStoreStore } from '@/stores/store/store.store'
+import type { ShopItemStickerData } from 'types.app'
+import Sticker from '@/components/stickers/sticker.vue'
+import StickerControls from '@/components/stickers/sticker-controls.vue'
+import StickerHighlighter from '@/components/stickers/sticker-highlighter.vue'
+import ButtonCircle from '@/components/ui/buttons/button-circle.vue'
+import TooltipContainer from '@/components/ui/tooltip-container.vue'
+import { usePlacedStickersStore } from '@/stores/placed-stickers.store'
+import { useShopStore } from '@/stores/shop/shop.store'
 import { vOnLongPress } from '@vueuse/components'
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const placedStickersStore = usePlacedStickersStore()
-const storeStore = useStoreStore()
+const shopStore = useShopStore()
 
 const purchasedStickers = computed(() => {
   return Object
-    .values(storeStore.purchasedItems)
-    .filter(item => item.category === 'sticker') as StoreItemStickerData[]
+    .values(shopStore.purchasedItems)
+    .filter(item => item.category === 'sticker') as ShopItemStickerData[]
 })
 
 const stickersScrollableAreaRef = ref<null | HTMLDivElement>(null)
@@ -38,7 +38,7 @@ function focusStickerAtIndex(index: number, behavior?: ScrollBehavior) {
   })
 }
 
-function addSticker(stickerId: StoreItemStickerData['id']) {
+function addSticker(stickerId: ShopItemStickerData['id']) {
   const sticker = placedStickersStore.placeStickerRandomly(stickerId)
 
   if (sticker === null)
@@ -107,11 +107,11 @@ onMounted(() => {
 <template>
   <div class="h-full">
     <Teleport to="body">
-      <PlacedStickerControls />
+      <StickerControls />
     </Teleport>
 
     <Teleport to="body">
-      <PlacedStickerHighlighter
+      <StickerHighlighter
         v-if="placedStickersStore.editingStickerPlacementId === null"
         class="-z-10"
       />
@@ -130,9 +130,9 @@ onMounted(() => {
           'opacity-0 pointer-events-none': isScrolling,
         }"
       >
-        <CircleButton @click="router.go(-1)">
+        <ButtonCircle @click="router.go(-1)">
           <font-awesome-icon :icon="['fas', 'arrow-left']" />
-        </CircleButton>
+        </ButtonCircle>
       </section>
 
       <section
@@ -176,18 +176,18 @@ onMounted(() => {
           </p>
         </div>
 
-        <CircleButton class="ml-auto" @click="isShowingPurchasedStickers = !isShowingPurchasedStickers">
+        <ButtonCircle class="ml-auto" @click="isShowingPurchasedStickers = !isShowingPurchasedStickers">
           <Transition name="fade" mode="out-in">
             <font-awesome-icon v-if="isShowingPurchasedStickers" :icon="['fas', 'minus']" />
             <font-awesome-icon v-else :icon="['fas', 'plus']" />
           </Transition>
-        </CircleButton>
+        </ButtonCircle>
 
         <Transition name="fade" mode="out-in">
-          <CircleButton @click="isUIVisibleOnScroll = !isUIVisibleOnScroll">
+          <ButtonCircle @click="isUIVisibleOnScroll = !isUIVisibleOnScroll">
             <font-awesome-icon v-if="isUIVisibleOnScroll" :icon="['fas', 'eye']" />
             <font-awesome-icon v-else :icon="['fas', 'eye-slash']" />
-          </CircleButton>
+          </ButtonCircle>
         </Transition>
       </section>
 
@@ -197,21 +197,21 @@ onMounted(() => {
           'opacity-0': isScrolling,
         }"
       >
-        <CircleButton
+        <ButtonCircle
           v-on-long-press="[placedStickersStore.removeAllStickers, { delay: 1000, modifiers: { stop: true, prevent: true } }]"
           :disabled="isScrolling || placedStickersStore.highlightedStickerPlacementId === null"
           class="text-lg text-red-500 border-2 border-red-500 bg-neutral-800 hover:bg-neutral-700 disabled:border-opacity-60"
           @click="removeHightedSticker"
         >
           <font-awesome-icon :icon="['fas', 'trash']" />
-        </CircleButton>
+        </ButtonCircle>
 
-        <ContainsTooltip class="relative flex ml-auto rounded-full bg-neutral-800">
+        <TooltipContainer class="relative flex ml-auto rounded-full bg-neutral-800">
           <template #tooltip>
             move order
           </template>
 
-          <CircleButton
+          <ButtonCircle
             v-on-long-press="[moveStickerLeftEnd, { delay: 500, modifiers: { stop: true, prevent: true } }]"
             :disabled="isScrolling
               || placedStickersStore.highlightedStickerPlacementId === null
@@ -220,8 +220,8 @@ onMounted(() => {
             @click="moveStickerLeft"
           >
             <font-awesome-icon :icon="['fas', 'arrow-left']" />
-          </CircleButton>
-          <CircleButton
+          </ButtonCircle>
+          <ButtonCircle
             v-on-long-press="[moveStickerRightEnd, { delay: 500, modifiers: { stop: true, prevent: true } }]"
             :disabled="isScrolling
               || placedStickersStore.highlightedStickerPlacementId === null
@@ -230,29 +230,29 @@ onMounted(() => {
             @click="moveStickerRight"
           >
             <font-awesome-icon :icon="['fas', 'arrow-right']" />
-          </CircleButton>
-        </ContainsTooltip>
+          </ButtonCircle>
+        </TooltipContainer>
 
-        <ContainsTooltip class="relative flex rounded-full bg-neutral-800">
+        <TooltipContainer class="relative flex rounded-full bg-neutral-800">
           <template #tooltip>
             undo / redo
           </template>
 
-          <CircleButton
+          <ButtonCircle
             class="rounded-r-none"
             :disabled="isScrolling || !placedStickersStore.placedStickersHistory.canUndo"
             @click="placedStickersStore.placedStickersHistory.undo"
           >
             <font-awesome-icon :icon="['fas', 'arrow-rotate-left']" />
-          </CircleButton>
-          <CircleButton
+          </ButtonCircle>
+          <ButtonCircle
             class="rounded-l-none"
             :disabled="isScrolling || !placedStickersStore.placedStickersHistory.canRedo"
             @click="placedStickersStore.placedStickersHistory.redo"
           >
             <font-awesome-icon :icon="['fas', 'arrow-rotate-right']" />
-          </CircleButton>
-        </ContainsTooltip>
+          </ButtonCircle>
+        </TooltipContainer>
       </section>
 
       <Transition name="fade" mode="out-in">
@@ -261,9 +261,9 @@ onMounted(() => {
           class="content-center w-full text-xl text-center rounded-lg h-28 bg-neutral-900 text-neutral-400 text-balance"
         >
           Click on a
-          <CircleButton class="text-base text-current-100">
+          <ButtonCircle class="text-base text-current-100">
             <font-awesome-icon :icon="['fas', 'plus']" />
-          </CircleButton>
+          </ButtonCircle>
           sign to add a sticker
         </section>
 
@@ -280,7 +280,7 @@ onMounted(() => {
           >
             <div class="min-w-[calc(100%/2-5rem/2-0.25rem)]" />
 
-            <ContainsTooltip
+            <TooltipContainer
               v-for="{ sticker, placement }, i in placedStickersStore.placementAndSticker"
               :key="placement.placementId + i"
             >
@@ -296,7 +296,7 @@ onMounted(() => {
               >
                 <Sticker :sticker="sticker" />
               </button>
-            </ContainsTooltip>
+            </TooltipContainer>
 
             <div class="min-w-[calc(100%/2-5rem/2-0.25rem)]" />
           </div>

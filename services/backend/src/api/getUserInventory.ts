@@ -1,4 +1,4 @@
-import type { AnyStoreItemData, UserInventoryData } from 'types.app'
+import type { AnyShopItemData, UserInventoryData } from 'types.app'
 import { TRPCError } from '@trpc/server'
 import { prismaClient } from 'prisma-client'
 import { authorizedProcedure } from '../procedures/authorized.prcdr'
@@ -12,7 +12,7 @@ const anyStoreItemSelect = {
   price: true,
 
   data: true,
-} as const satisfies Record<keyof AnyStoreItemData, true>
+} as const satisfies Record<keyof AnyShopItemData, true>
 
 export const getUserInventory = authorizedProcedure
   .query(async (opts): Promise<UserInventoryData> => {
@@ -24,7 +24,7 @@ export const getUserInventory = authorizedProcedure
         coins: true,
         diamonds: true,
 
-        purchasedStoreItems: { select: anyStoreItemSelect },
+        purchasedShopItems: { select: anyStoreItemSelect },
       },
     })
 
@@ -38,6 +38,6 @@ export const getUserInventory = authorizedProcedure
     return {
       coins: userData.coins,
       diamonds: userData.diamonds,
-      purchasedStoreItems: userData.purchasedStoreItems as AnyStoreItemData[],
+      purchasedShopItems: userData.purchasedShopItems as AnyShopItemData[],
     }
   })

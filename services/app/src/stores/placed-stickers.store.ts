@@ -1,10 +1,11 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-ignore
 import type { StoreItemStickerData } from 'types.app'
 import { useDebounceFn, useRefHistory } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { computed, readonly, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { allThemes } from './allStoreItems'
-import { useStoreStore } from './store.store'
+import { useShopStore } from './shop/shop.store'
 
 export interface TPlacedSticker {
   stickerId: StoreItemStickerData['id']
@@ -14,8 +15,6 @@ export interface TPlacedSticker {
   rotation: number
   scale: number
 }
-
-console.log(allThemes)
 
 const placedStickersLocalStorageKey = 'store_placed-stickers_placed_stickers'
 interface TCompressedPlacedSticker {
@@ -63,7 +62,7 @@ function savePlacedStickers(placedStickers: Record<TPlacedSticker['placementId']
 }
 
 export const usePlacedStickersStore = defineStore('placed-stickers', () => {
-  const storeStore = useStoreStore()
+  const shopStore = useShopStore()
   const route = useRoute()
 
   const isStickersEditorOpen = computed(() => route.name === 'stickers-editor')
@@ -127,7 +126,7 @@ export const usePlacedStickersStore = defineStore('placed-stickers', () => {
     placedStickers.value = {}
   }
 
-  const getStickerFromId = (stickerId: StoreItemStickerData['id']) => storeStore.purchasedItems[stickerId] as StoreItemStickerData | null
+  const getStickerFromId = (stickerId: StoreItemStickerData['id']) => shopStore.purchasedItems[stickerId] as StoreItemStickerData | null
   const placementAndSticker = computed(() => placedStickersArray.value.reduce((acc, placement) => {
     const sticker = getStickerFromId(placement.stickerId)
 

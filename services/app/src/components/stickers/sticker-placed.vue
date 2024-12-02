@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { TPlacedSticker } from '@/stores/store/placedStickers.store'
-import type { StoreItemStickerData } from 'libs/types.app'
+import type { TPlacedSticker } from '@/stores/placed-stickers.store'
+import type { ShopItemStickerData } from 'libs/types.app'
 import Sticker from './sticker.vue'
 
 defineProps<{
   placement: TPlacedSticker
-  sticker: StoreItemStickerData
+  sticker: ShopItemStickerData
 }>()
 </script>
 

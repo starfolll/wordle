@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import CircleButton from '@/components/CircleButton.vue'
-import HowToPlay from '@/components/HowToPlay.vue'
-import Keyboard from '@/components/keyboard/Keyboard.vue'
+import HowToPlay from '@/components/how-to-play/how-to-play.vue'
+import Keyboard from '@/components/keyboard/keyboard.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
-import Streak from '@/components/Streak.vue'
-import MiniWallet from '@/components/wallets/CoinMiniWallet.vue'
-import GuessedRow from '@/components/wordRows/GuessedRow.vue'
-import GuessingRow from '@/components/wordRows/GuessingRow.vue'
-import RemainingRow from '@/components/wordRows/RemainingRow.vue'
+import Streak from '@/components/streak.vue'
+import ButtonCircle from '@/components/ui/buttons/button-circle.vue'
+import WalletCoinMini from '@/components/wallets/wallet-coin-mini.vue'
+import WordRowGuessed from '@/components/word/word-row-guessed.vue'
+import WordRowGuessing from '@/components/word/word-row-guessing.vue'
+import WordRowRemaining from '@/components/word/word-row-remaining.vue'
 import { vGlobalKeyPress } from '@/directives/animations/v-global-key-press'
 import { playSquashAnimation, vSquashOnClick } from '@/directives/animations/v-squash-on-click'
 import { useGamesProgressStore } from '@/stores/gamesProgress.store'
@@ -66,23 +66,23 @@ watchEffect(() => {
 <template>
   <main class="flex flex-col items-center justify-center h-full gap-4 p-2 pb-0">
     <nav class="flex items-center justify-between w-full gap-2 p-2 rounded-lg">
-      <CircleButton @click="router.go(-1)">
+      <ButtonCircle @click="router.go(-1)">
         <font-awesome-icon :icon="['fas', 'arrow-left']" />
-      </CircleButton>
+      </ButtonCircle>
 
       <div class="flex items-center justify-center gap-4 text-xl">
         <Streak v-if="wordleStore.streak" :streak="wordleStore.streak" />
-        <MiniWallet />
+        <WalletCoinMini />
       </div>
 
-      <CircleButton @click="isShowingHowToPlay = true">
+      <ButtonCircle @click="isShowingHowToPlay = true">
         <font-awesome-icon :icon="['fas', 'question']" />
-      </CircleButton>
+      </ButtonCircle>
 
       <HowToPlay v-model:open="isShowingHowToPlay" :close="closeHowToPlay" />
     </nav>
 
-    <section class="relative flex flex-col gap-2 p-2 m-auto rounded-lg bg-neutral-900/70 backdrop-blur">
+    <section class="relative max-w-fit flex flex-col gap-2 w-full p-2 m-auto rounded-lg bg-neutral-900/70">
       <div class="absolute px-4 py-1 -mb-1 font-semibold -translate-x-1/2 rounded-full text-md left-1/2 bottom-full text-nowrap bg-neutral-800">
         <template v-if="!wordleStore.isGameOver">
           {{ wordleStore.gameType ? gameProgressNameToDisplay[wordleStore.gameType] : '' }}
@@ -98,16 +98,16 @@ watchEffect(() => {
         </template>
       </div>
 
-      <GuessedRow v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
-      <GuessingRow v-if="!wordleStore.isGameOver" :submit-guess="submitGuess" />
-      <RemainingRow v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
+      <WordRowGuessed v-for="guess in wordleStore.guesses" :key="guess" :word="guess" />
+      <WordRowGuessing v-if="!wordleStore.isGameOver" :submit-guess="submitGuess" />
+      <WordRowRemaining v-for="i in wordleStore.remainingGuesses - (wordleStore.isGameOver ? 0 : 1)" :key="i" />
     </section>
 
-    <section>
+    <section class="w-full max-w-fit">
       <Keyboard />
     </section>
 
-    <section class="py-8">
+    <section class="py-4">
       <button
         v-if="!wordleStore.isGameOver"
         v-squash-on-click

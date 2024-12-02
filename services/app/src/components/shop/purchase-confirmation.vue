@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useStoreStore } from '@/stores/store/store.store'
+import { useShopStore } from '@/stores/shop/shop.store'
 import { vOnClickOutside } from '@vueuse/components'
 import { ref, watch } from 'vue'
 import Dialog from '../ui/dialog.vue'
-import StoreItem from './store-item.vue'
+import StoreItem from './shop-item.vue'
 
-const storeStore = useStoreStore()
+const shopStore = useShopStore()
 
 const dialogRef = ref<InstanceType<typeof Dialog>>()
 
-const cachedPurchasingItem = ref(storeStore.purchasingItem)
+const cachedPurchasingItem = ref(shopStore.purchasingItem)
 
-watch(() => storeStore.purchasingItem, (item) => {
+watch(() => shopStore.purchasingItem, (item) => {
   if (item) {
     dialogRef.value?.openDialog()
     cachedPurchasingItem.value = item
@@ -23,10 +23,10 @@ watch(() => storeStore.purchasingItem, (item) => {
 </script>
 
 <template>
-  <Dialog ref="dialogRef" :show-title="false" @on-close="storeStore.cancelCheckout">
+  <Dialog ref="dialogRef" :show-title="false" @on-close="shopStore.cancelCheckout">
     <div v-if="cachedPurchasingItem" class="flex flex-col items-center justify-center">
       <div
-        v-on-click-outside="storeStore.cancelCheckout"
+        v-on-click-outside="shopStore.cancelCheckout"
         class="relative grid w-full grid-cols-2 rounded gap-x-4 gap-y-8"
       >
         <StoreItem
@@ -42,7 +42,7 @@ watch(() => storeStore.purchasingItem, (item) => {
 
             <button
               class="w-10 h-10 rounded-full bg-current-800 hover:bg-current-700"
-              @click="storeStore.cancelCheckout"
+              @click="shopStore.cancelCheckout"
             >
               <font-awesome-icon :icon="['fas', 'xmark']" />
             </button>
@@ -68,14 +68,14 @@ watch(() => storeStore.purchasingItem, (item) => {
 
         <button
           class="py-2 font-bold transition-colors border-2 rounded-lg border-rose-400 text-rose-400 hover:bg-rose-900"
-          @click="storeStore.cancelCheckout"
+          @click="shopStore.cancelCheckout"
         >
           Cancel
         </button>
 
         <button
           class="py-2 font-bold transition-colors rounded-lg bg-lime-300 text-lime-900 hover:bg-lime-500"
-          @click="storeStore.purchaseItem"
+          @click="shopStore.purchaseItem"
         >
           Purchase
         </button>

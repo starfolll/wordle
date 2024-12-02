@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePlacedStickersStore } from '@/stores/store/placedStickers.store'
+import { usePlacedStickersStore } from '@/stores/placed-stickers.store'
 import { vOnClickOutside } from '@vueuse/components'
 import { useThrottleFn } from '@vueuse/core'
 import { computed, onBeforeUnmount, ref } from 'vue'

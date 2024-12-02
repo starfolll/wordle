@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import CircleButton from '@/components/CircleButton.vue'
-import PurchaseConfirmationDialog from '@/components/store/PurchaseConfirmationDialog.vue'
-import StoreItem from '@/components/store/StoreItem.vue'
-import CoinWallet from '@/components/wallets/CoinWallet.vue'
-import DollarWallet from '@/components/wallets/DiamondWallet.vue'
-import { useStoreStore } from '@/stores/store/store.store'
-import { type AnyStoreItemData, StoreItemCategoryData, type TStoreItemCategoryData } from 'types.app'
+import PurchaseConfirmation from '@/components/shop/purchase-confirmation.vue'
+import ShopItem from '@/components/shop/shop-item.vue'
+import ButtonCircle from '@/components/ui/buttons/button-circle.vue'
+import ButtonToggle from '@/components/ui/buttons/button-toggle.vue'
+import WalletCoin from '@/components/wallets/wallet-coin.vue'
+import WalletDiamond from '@/components/wallets/wallet-diamond.vue'
+import { useShopStore } from '@/stores/shop/shop.store'
+import { type AnyShopItemData, ShopItemCategoryData, type TShopItemCategoryData } from 'types.app'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const storeStore = useStoreStore()
+const shopStore = useShopStore()
 
-const activeCategory = ref<keyof TStoreItemCategoryData>('background')
-const setActiveCategory = (category: keyof TStoreItemCategoryData) => activeCategory.value = category
+const activeCategory = ref<keyof TShopItemCategoryData>('background')
 
-const activeCategoryPurchasedItems = computed<AnyStoreItemData[]>(() => {
-  return Object.values(storeStore.purchasedItems)
+const activeCategoryPurchasedItems = computed<AnyShopItemData[]>(() => {
+  return Object.values(shopStore.purchasedItems)
     .filter(item => item.category === activeCategory.value)
     .sort((a, b) => a.name.localeCompare(b.name))
 })
-const activeCategoryAvailableItems = computed<AnyStoreItemData[]>(() => {
-  return storeStore.availableItems
+const activeCategoryAvailableItems = computed<AnyShopItemData[]>(() => {
+  return shopStore.availableItems
     .filter(item => item.category === activeCategory.value)
     .sort((a, b) => a.name.localeCompare(b.name))
 })
 
-const isAffordable = (item: AnyStoreItemData) => storeStore.coins >= item.price
-function isItemSelected(item: AnyStoreItemData) {
-  if (item.category === StoreItemCategoryData.sticker)
+const isAffordable = (item: AnyShopItemData) => shopStore.coins >= item.price
+function isItemSelected(item: AnyShopItemData) {
+  if (item.category === ShopItemCategoryData.sticker)
     return
 
-  return storeStore.selectedItems[item.category].id === item.id
+  return shopStore.selectedItems[item.category].id === item.id
 }
 
 let itemsAnimationTimeout: number | null = null
@@ -52,52 +52,48 @@ function startAnimatingItems() {
 watch(activeCategory, startAnimatingItems)
 
 onMounted(() => {
-  if (!storeStore.isStoreLoaded)
-    storeStore.loadStore()
+  if (!shopStore.isShopLoaded)
+    shopStore.loadShop()
 })
 </script>
 
 <template>
   <main class="flex flex-col h-full p-2 pb-0 backdrop-blur">
-    <PurchaseConfirmationDialog />
+    <PurchaseConfirmation />
 
     <section class="sticky z-10 grid gap-8 p-4 rounded-t-lg bg-neutral-900">
       <nav class="flex items-center w-full gap-4">
-        <CircleButton @click="router.push('/')">
+        <ButtonCircle @click="router.push('/')">
           <font-awesome-icon :icon="['fas', 'arrow-left']" />
-        </CircleButton>
+        </ButtonCircle>
 
         <h1 class="flex items-center gap-4 text-left grow">
           <font-awesome-icon :icon="['fas', 'store']" size="xl" />
         </h1>
 
-        <DollarWallet />
-        <CoinWallet />
+        <WalletDiamond />
+        <WalletCoin />
       </nav>
 
       <div class="flex flex-wrap justify-between gap-4">
-        <button
-          v-for="category in StoreItemCategoryData"
+        <ButtonToggle
+          v-for="category in ShopItemCategoryData"
           :key="category"
-          :disabled="category === activeCategory"
-          class="px-4 py-1 text-lg capitalize transition-colors border-2 rounded-full"
-          :class="[category === activeCategory
-            ? ' bg-transparent border-current-800 cursor-not-allowed text-current-400'
-            : 'bg-current-800 text-current-100 hover:bg-current-700 border-current-800 hover:border-current-700',
-          ]"
-          @click="() => setActiveCategory(category)"
+          v-model="activeCategory"
+          :value="category"
+          class="capitalize"
         >
           {{ category }}
-        </button>
+        </ButtonToggle>
       </div>
     </section>
 
     <section
-      v-if="storeStore.isStoreLoaded"
+      v-if="shopStore.isShopLoaded"
       class="flex flex-col items-start gap-4 pt-4 pb-16 overflow-x-visible overflow-y-scroll scrollbar-width-0 grow"
     >
       <button
-        v-if="activeCategory === StoreItemCategoryData.sticker"
+        v-if="activeCategory === ShopItemCategoryData.sticker"
         class="p-2 px-4 m-auto mt-8 mb-8 text-lg font-semibold rounded-full text-balance text-current-200 bg-current-800 disabled:opacity-50"
         :disabled="activeCategoryPurchasedItems.length === 0"
         @click="router.push('/stickers-editor')"
@@ -128,9 +124,9 @@ onMounted(() => {
         >
           <button
             :disabled="isItemSelected(item)"
-            @click="() => storeStore.setSelectedItem(item)"
+            @click="() => shopStore.setSelectedItem(item)"
           >
-            <StoreItem :item="item" purchased />
+            <ShopItem :item="item" purchased />
           </button>
         </Transition>
       </div>
@@ -152,9 +148,9 @@ onMounted(() => {
         >
           <button
             :disabled="!isAffordable(item)"
-            @click="() => storeStore.setCheckoutItem(item.id)"
+            @click="() => shopStore.setCheckoutItem(item.id)"
           >
-            <StoreItem
+            <ShopItem
               :item="item"
               :class="isAffordable(item)
                 ? 'cursor-pointer'

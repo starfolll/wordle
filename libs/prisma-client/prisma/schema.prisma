@@ -66,7 +66,7 @@ model User {
   diamonds Int @default(0)
   coins   Int @default(0)
 
-  purchasedStoreItems StoreItem[]
+  purchasedShopItems ShopItem[]
 
   classicFourLettersGameProgress ClassicFourLettersGameProgress @relation(fields: [classicFourLettersGameProgressId], references: [id], onDelete: Cascade)
   classicFourLettersGameProgressId Int @unique
@@ -154,10 +154,10 @@ model WithHintGameProgress {
 
 
 // ************************
-// *   Store Data Models  *
+// *   Shop Data Models  *
 // ************************
 
-enum StoreItemCategory {
+enum ShopItemCategory {
   background
   theme
   font
@@ -165,16 +165,16 @@ enum StoreItemCategory {
   sticker
 }
 
-model StoreItem {
+model ShopItem {
   id String @id @default(cuid())
-  category StoreItemCategory
+  category ShopItemCategory
 
   name String
   subCategory String
   price Int
   data Json
 
-  inStore Boolean @default(true)
+  inShop Boolean @default(true)
 
   usersPurchased User[]
 }

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { StoreItemFontData } from 'libs/types.app'
+import type { ShopItemFontData } from 'libs/types.app'
 import { computed, h } from 'vue'
 
 const props = defineProps<{
-  item: StoreItemFontData
+  item: ShopItemFontData
 }>()
 
 const content = [

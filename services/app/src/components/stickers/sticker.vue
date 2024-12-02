@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { StoreItemStickerData } from 'types.app'
+import type { ShopItemStickerData } from 'types.app'
 
 defineProps<{
-  sticker: StoreItemStickerData
+  sticker: ShopItemStickerData
 }>()
 </script>
 

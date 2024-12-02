@@ -1,9 +1,9 @@
-import { type AnyStoreItemData, type AnyUniquelySelectableStoreItemData, StoreItemCategoryData, type TStoreItemCategoryData } from 'types.app'
+import { type AnyShopItemData, type AnyUniquelySelectableShopItemData, ShopItemCategoryData, type TShopItemCategoryData } from 'types.app'
 
-export const storeItemsPurchasedDefault = {
+export const shopItemsPurchasedDefault = {
   background: {
     id: '',
-    category: StoreItemCategoryData.background,
+    category: ShopItemCategoryData.background,
     name: 'Dark',
     price: 0,
     subCategory: 'default',
@@ -14,7 +14,7 @@ export const storeItemsPurchasedDefault = {
 
   theme: {
     id: '',
-    category: StoreItemCategoryData.theme,
+    category: ShopItemCategoryData.theme,
     name: 'Default',
     price: 0,
     subCategory: 'tail',
@@ -35,7 +35,7 @@ export const storeItemsPurchasedDefault = {
 
   font: {
     id: '',
-    category: StoreItemCategoryData.font,
+    category: ShopItemCategoryData.font,
     name: 'Default',
     price: 0,
     subCategory: 'default',
@@ -45,8 +45,8 @@ export const storeItemsPurchasedDefault = {
     },
   },
 } satisfies {
-  [_key in AnyUniquelySelectableStoreItemData['category']]: Extract<
-    AnyStoreItemData,
-    { category: TStoreItemCategoryData[_key] }
+  [_key in AnyUniquelySelectableShopItemData['category']]: Extract<
+    AnyShopItemData,
+    { category: TShopItemCategoryData[_key] }
   >
 }
