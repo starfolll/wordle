@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server'
 import { encryptWord } from 'encryption'
 import { prismaClient } from 'prisma-client'
-import { type TGameProgressData, GameProgressType, type TGameProgressType } from 'types.app'
+import { GameProgressType, type TGameProgressData, type TGameProgressType } from 'types.app'
 import { z } from 'zod'
 import { authorizedProcedure } from '../procedures/authorized.prcdr'
 import { defaultWordLength, getDefaultMaxGuesses } from '../utils/defaultWordLength'

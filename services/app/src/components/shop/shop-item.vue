@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useShopStore } from '@/stores/shop/shop.store'
-import { type TAnyShopItemData, ShopItemCategoryData } from 'types.app'
+import { ShopItemCategoryData, type TAnyShopItemData } from 'types.app'
 import { computed } from 'vue'
 import StoreItemBackground from './shop-background-item.vue'
 import StoreItemFont from './shop-item-font.vue'

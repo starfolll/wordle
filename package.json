@@ -13,7 +13,7 @@
     "dev:app": "bun run --cwd services/app dev",
     "dev:server": "bun run --cwd services/backend dev",
     "dev:prisma": "bun run --cwd libs/prisma-client dev",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint"
   },
   "dependencies": {
     "@antfu/eslint-config": "^3.11.2",

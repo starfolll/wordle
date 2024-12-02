@@ -8,14 +8,14 @@
     "preview": "bunx --bun vite preview",
     "type-check": "vue-tsc --build --force"
   },
-  "devDependencies": {
-    "types.app": "workspace:*",
-    "dates": "workspace:*",
-    "encryption": "workspace:*",
-    "types.utility": "workspace:*",
-    "vue-component-type-helpers": "^2.1.10"
-  },
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^6.6.0"
+  },
+  "devDependencies": {
+    "dates": "workspace:*",
+    "encryption": "workspace:*",
+    "types.app": "workspace:*",
+    "types.utility": "workspace:*",
+    "vue-component-type-helpers": "^2.1.10"
   }
 }

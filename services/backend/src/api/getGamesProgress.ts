@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server'
-import { getMonday, getSunday, getToday, getWeek } from 'dates'
+import { getMonday, getSunday, getToday } from 'dates'
 import { encryptWord } from 'encryption'
 import { prismaClient } from 'prisma-client'
 import { GameProgressType, type GamesProgressData } from 'types.app'

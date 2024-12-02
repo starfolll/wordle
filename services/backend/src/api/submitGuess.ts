@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server'
 import { prismaClient } from 'prisma-client'
-import { type TGameProgressData, GameProgressType } from 'types.app'
+import { GameProgressType, type TGameProgressData } from 'types.app'
 import { z } from 'zod'
 import { authorizedProcedure } from '../procedures/authorized.prcdr'
 

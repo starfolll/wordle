@@ -14,7 +14,7 @@
     "libs/types.utility/**/*.ts",
 
     "services/app/env.d.ts",
-    "services/app/src/**/*.ts", 
+    "services/app/src/**/*.ts",
     "services/app/src/**/*.vue"
   ]
 }
