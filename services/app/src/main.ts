@@ -12,7 +12,7 @@ import './assets/base.scss'
 
 import './assets/animations.scss'
 
-library.add(icons)
+library.add(icons as any)
 
 const app = createApp(App)
 
