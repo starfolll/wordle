@@ -2,7 +2,7 @@
 import { useStoreStore } from '@/stores/store/store.store'
 import { vOnClickOutside } from '@vueuse/components'
 import { ref, watch } from 'vue'
-import Dialog from '../Dialog.vue'
+import Dialog from '../ui/dialog.vue'
 import StoreItem from './store-item.vue'
 
 const storeStore = useStoreStore()
@@ -23,11 +23,11 @@ watch(() => storeStore.purchasingItem, (item) => {
 </script>
 
 <template>
-  <Dialog ref="dialogRef" :show-title="false">
+  <Dialog ref="dialogRef" :show-title="false" @on-close="storeStore.cancelCheckout">
     <div v-if="cachedPurchasingItem" class="flex flex-col items-center justify-center">
       <div
         v-on-click-outside="storeStore.cancelCheckout"
-        class="relative grid w-full grid-cols-2 rounded gap-x-4 gap-y-8 backdrop-blur bg-neutral-900/90"
+        class="relative grid w-full grid-cols-2 rounded gap-x-4 gap-y-8"
       >
         <StoreItem
           :purchased="true"
