@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TPlacedSticker } from '@/stores/placed-stickers.store'
+import type { TPlacedSticker } from '@/stores/placed-stickers/placed-stickers-storage'
 import type { ShopItemStickerData } from 'libs/types.app'
 import Sticker from './sticker.vue'
 

@@ -3,7 +3,7 @@ import { computed, h, onMounted, ref, watch } from 'vue'
 import { RouterView } from 'vue-router'
 import StickerPlaced from './components/stickers/sticker-placed.vue'
 import { useGamesProgressStore } from './stores/gamesProgress.store'
-import { usePlacedStickersStore } from './stores/placed-stickers.store'
+import { usePlacedStickersStore } from './stores/placed-stickers/placed-stickers.store'
 import { useShopStore } from './stores/shop/shop.store'
 import { useUserStore } from './stores/userStore'
 

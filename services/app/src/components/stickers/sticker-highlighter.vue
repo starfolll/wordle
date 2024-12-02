@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePlacedStickersStore } from '@/stores/placed-stickers.store'
+import { usePlacedStickersStore } from '@/stores/placed-stickers/placed-stickers.store'
 import { computed, ref } from 'vue'
 
 const placedStickersStore = usePlacedStickersStore()

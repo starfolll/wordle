@@ -10,8 +10,11 @@
     }
   },
   "include": [
+    "libs/types.app/**/*.ts",
+    "libs/types.utility/**/*.ts",
+
     "services/app/env.d.ts",
-    "services/app/src/**/*", 
+    "services/app/src/**/*.ts", 
     "services/app/src/**/*.vue"
   ]
 }
