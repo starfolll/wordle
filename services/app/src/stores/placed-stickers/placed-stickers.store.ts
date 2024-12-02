@@ -1,65 +1,10 @@
-// eslint-disable-next-line ts/ban-ts-comment
-// @ts-ignore
-import type { StoreItemStickerData } from 'types.app'
+import type { ShopItemStickerData } from 'types.app'
 import { useDebounceFn, useRefHistory } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { computed, readonly, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { useShopStore } from './shop/shop.store'
-
-export interface TPlacedSticker {
-  stickerId: StoreItemStickerData['id']
-  placementId: string
-  x: number
-  y: number
-  rotation: number
-  scale: number
-}
-
-const placedStickersLocalStorageKey = 'store_placed-stickers_placed_stickers'
-interface TCompressedPlacedSticker {
-  sId: TPlacedSticker['stickerId']
-  pId: TPlacedSticker['placementId']
-  x: number
-  y: number
-  r: number
-  s: number
-}
-type TStoredPlacedSticker = TCompressedPlacedSticker[]
-const storedInitialPlacedStickers: TStoredPlacedSticker = []
-function compressPlacedSticker(placedSticker: TPlacedSticker): TCompressedPlacedSticker {
-  return {
-    sId: placedSticker.stickerId,
-    pId: placedSticker.placementId,
-    x: Number.parseFloat(placedSticker.x.toFixed(2)),
-    y: Number.parseFloat(placedSticker.y.toFixed(2)),
-    r: Number.parseFloat(placedSticker.rotation.toFixed(1)),
-    s: Number.parseFloat(placedSticker.scale.toFixed(2)),
-  }
-}
-function decompressPlacedSticker(compressedPlacedSticker: TCompressedPlacedSticker): TPlacedSticker {
-  return {
-    stickerId: compressedPlacedSticker.sId,
-    placementId: compressedPlacedSticker.pId,
-    x: compressedPlacedSticker.x,
-    y: compressedPlacedSticker.y,
-    rotation: compressedPlacedSticker.r,
-    scale: compressedPlacedSticker.s,
-  }
-}
-function loadPlacedStickers(): Record<TPlacedSticker['placementId'], TPlacedSticker> {
-  if (!localStorage.getItem(placedStickersLocalStorageKey))
-    localStorage.setItem(placedStickersLocalStorageKey, JSON.stringify(storedInitialPlacedStickers))
-
-  return (JSON.parse(localStorage.getItem(placedStickersLocalStorageKey)!) as TStoredPlacedSticker).reduce((acc, compressedPlacement) => {
-    const placement = decompressPlacedSticker(compressedPlacement)
-    acc[placement.placementId] = placement
-    return acc
-  }, {} as ReturnType<typeof loadPlacedStickers>)
-}
-function savePlacedStickers(placedStickers: Record<TPlacedSticker['placementId'], TPlacedSticker>) {
-  localStorage.setItem(placedStickersLocalStorageKey, JSON.stringify(Object.values(placedStickers).map(compressPlacedSticker)))
-}
+import { useShopStore } from '../shop/shop.store'
+import { loadPlacedStickers, savePlacedStickers, type TPlacedSticker } from './placed-stickers-storage'
 
 export const usePlacedStickersStore = defineStore('placed-stickers', () => {
   const shopStore = useShopStore()
@@ -104,7 +49,7 @@ export const usePlacedStickersStore = defineStore('placed-stickers', () => {
     placedStickers.value[placementId] = stickerPlacement
     return stickerPlacement
   }
-  const placeStickerRandomly = (stickerId: StoreItemStickerData['id']) => {
+  const placeStickerRandomly = (stickerId: ShopItemStickerData['id']) => {
     return placeSticker({
       stickerId,
       x: Math.random() * 100,
@@ -126,7 +71,7 @@ export const usePlacedStickersStore = defineStore('placed-stickers', () => {
     placedStickers.value = {}
   }
 
-  const getStickerFromId = (stickerId: StoreItemStickerData['id']) => shopStore.purchasedItems[stickerId] as StoreItemStickerData | null
+  const getStickerFromId = (stickerId: ShopItemStickerData['id']) => shopStore.purchasedItems[stickerId] as ShopItemStickerData | null
   const placementAndSticker = computed(() => placedStickersArray.value.reduce((acc, placement) => {
     const sticker = getStickerFromId(placement.stickerId)
 
@@ -134,7 +79,7 @@ export const usePlacedStickersStore = defineStore('placed-stickers', () => {
       acc.push({ sticker, placement })
 
     return acc
-  }, [] as { sticker: StoreItemStickerData, placement: TPlacedSticker }[]))
+  }, [] as { sticker: ShopItemStickerData, placement: TPlacedSticker }[]))
 
   return {
     isStickersEditorOpen,
