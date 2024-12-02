@@ -6,7 +6,7 @@ export function playSquashAnimation(el: HTMLElement) {
 }
 
 export const vSquashOnClick: Directive = {
-  mounted(el) {
+  mounted(el: HTMLElement) {
     el.addEventListener('click', () => playSquashAnimation(el))
   },
 }
