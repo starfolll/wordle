@@ -81,7 +81,7 @@ onBeforeUnmount(stopEditing)
   <div
     v-if="editingStickerPlacement" ref="editingControlsRef"
     v-on-click-outside="stopEditing"
-    class="fixed border-2 border-green-400 rounded-lg placedSticker animate-pulse bg-green-400/30"
+    class="fixed border-2 border-green-400 rounded-lg stickerPlaced animate-pulse bg-green-400/30"
     :style="{
       'width': `calc(5rem * ${editingStickerPlacement.scale} + 0.5rem)`,
       'height': `calc(5rem * ${editingStickerPlacement.scale} + 0.5rem)`,

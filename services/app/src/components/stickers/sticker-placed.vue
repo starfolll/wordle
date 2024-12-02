@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TPlacedSticker } from '@/stores/store/placedStickers.store'
 import type { StoreItemStickerData } from 'libs/types.app'
-import Sticker from './Sticker.vue'
+import Sticker from './sticker.vue'
 
 defineProps<{
   placement: TPlacedSticker
@@ -12,7 +12,7 @@ defineProps<{
 <template>
   <Sticker
     :sticker="sticker"
-    class="fixed placedSticker"
+    class="fixed stickerPlaced"
     :style="{
       'width': `calc(5rem * ${placement.scale})`,
       'height': `calc(5rem * ${placement.scale})`,
@@ -24,7 +24,7 @@ defineProps<{
 </template>
 
 <style lang="scss">
-.placedSticker {
+.stickerPlaced {
   top: calc((
     var(--sticker-placement-top) * (1 - var(--is-editing-sticker, 0))
     + var(--sticker-editing-placement-top, 0) * var(--is-editing-sticker, 0)
