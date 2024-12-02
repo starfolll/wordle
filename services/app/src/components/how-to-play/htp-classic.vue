@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { letterClassName } from '@/stores/wordle.store'
-import LetterCell from '../wordRows/LetterCell.vue'
-import WordContainer from '../wordRows/WordContainer.vue'
+import { letterClassName } from '@/helpers/class-names/matching-letter'
+import WordContainer from '../word/word-container.vue'
+import WordLetter from '../word/word-letter.vue'
 </script>
 
 <template>
@@ -31,12 +31,12 @@ import WordContainer from '../wordRows/WordContainer.vue'
 
   <div class="flex flex-col gap-8">
     <WordContainer>
-      <LetterCell :tw-class="letterClassName.exact">
+      <WordLetter :tw-class="letterClassName.exact">
         c
-      </LetterCell>
-      <LetterCell>o</LetterCell>
-      <LetterCell>s</LetterCell>
-      <LetterCell>y</LetterCell>
+      </WordLetter>
+      <WordLetter>o</WordLetter>
+      <WordLetter>s</WordLetter>
+      <WordLetter>y</WordLetter>
     </WordContainer>
 
     <p>
@@ -49,12 +49,12 @@ import WordContainer from '../wordRows/WordContainer.vue'
     </p>
 
     <WordContainer>
-      <LetterCell :tw-class="letterClassName.partial">
+      <WordLetter :tw-class="letterClassName.partial">
         d
-      </LetterCell>
-      <LetterCell>e</LetterCell>
-      <LetterCell>m</LetterCell>
-      <LetterCell>o</LetterCell>
+      </WordLetter>
+      <WordLetter>e</WordLetter>
+      <WordLetter>m</WordLetter>
+      <WordLetter>o</WordLetter>
     </WordContainer>
 
     <p>
