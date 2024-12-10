@@ -48,6 +48,7 @@ const letterClassNameExtended = {
         v-squash-on-click
         v-global-key-press="(el, e) => e.key.toLocaleLowerCase() === letter && playSquashAnimation(el)"
         :class="[letterClassNameExtended[wordleStore.guessedLettersTag[letter]] || '']"
+        class="relative"
         @click="wordleStore.addGuessingWordLetter(letter)"
       >
         {{ letter }}
