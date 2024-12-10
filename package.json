@@ -8,11 +8,12 @@
     "libs/*"
   ],
   "scripts": {
-    "app:dev": "bun run --cwd packages/app dev",
+    "app:dev": "bun --env-file=../../.env run --cwd packages/app dev",
     "backend:dev": "bun --env-file=../../.env run --cwd packages/backend dev",
     "prisma": "bun --env-file=../../.env run --cwd libs/prisma-client with-prisma",
     "prisma:studio": "bun --env-file=../../.env run --cwd libs/prisma-client studio",
-    "dev": "concurrently --names app,server,prisma -c green,blue,cyan 'bun run app:dev' 'bun run backend:dev' 'bun run prisma:studio'",
+    "docker-compose:up": "docker-compose up -d",
+    "dev": "bun docker-compose:up && concurrently --names app,server,prisma -c green,blue,cyan 'bun run app:dev' 'bun run backend:dev' 'bun run prisma:studio'",
     "lint": "eslint --cache",
     "lint:fix": "eslint --cache --fix"
   },

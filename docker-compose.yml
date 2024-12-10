@@ -1,4 +1,14 @@
 services:
+
+  nginx:
+    container_name: wordle_nginx
+    image: nginx:latest
+    volumes:
+      - ./packages/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    restart: always
+
   postgres:
     container_name: wordle_postgres
     image: postgres:latest
