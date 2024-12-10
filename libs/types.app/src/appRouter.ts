@@ -1,3 +1,3 @@
-import type { appRouter } from '../../../services/backend/appRouter'
+import type { appRouter } from '../../../packages/backend/appRouter'
 
 export type TAppRouter = typeof appRouter

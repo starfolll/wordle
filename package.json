@@ -4,14 +4,14 @@
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "services/*",
+    "packages/*",
     "libs/*"
   ],
   "scripts": {
     "env:prepare": "sudo service nginx restart",
     "dev": "concurrently --names app,server,prisma -c green,blue,cyan 'bun run dev:app' 'bun run dev:server' 'bun run dev:prisma'",
-    "dev:app": "bun run --cwd services/app dev",
-    "dev:server": "bun run --cwd services/backend dev",
+    "dev:app": "bun run --cwd packages/app dev",
+    "dev:server": "bun run --cwd packages/backend dev",
     "dev:prisma": "bun run --cwd libs/prisma-client dev",
     "lint": "eslint"
   },

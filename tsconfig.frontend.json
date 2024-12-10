@@ -1,20 +1,24 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
-    "composite": true,
+    "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["services/app/src/*"]
+      "@/*": ["packages/app/src/*"]
     }
   },
   "include": [
     "libs/types.app/**/*.ts",
+    "packages/backend/appRouter.ts",
     "libs/types.utility/**/*.ts",
 
-    "services/app/env.d.ts",
-    "services/app/src/**/*.ts",
-    "services/app/src/**/*.vue"
+    "packages/app/env.d.ts",
+    "packages/app/src/**/*.ts",
+    "packages/app/src/**/*.vue"
+  ],
+  "exclude": [
+    "packages/backend/src/**/*.ts"
   ]
 }

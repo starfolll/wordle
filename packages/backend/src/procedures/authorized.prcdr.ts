@@ -12,8 +12,6 @@ export function getAuthorizedUser(ctx: TAppContext): TUserLoginData | null {
     return null
 
   const cookies = cookie.parse(unparsedCookies) as Record<string, string | undefined>
-  // eslint-disable-next-line ts/ban-ts-comment
-  // @ts-expect-error
   const authCookie = cookies.authorization
 
   if (!authCookie)

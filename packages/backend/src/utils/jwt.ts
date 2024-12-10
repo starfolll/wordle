@@ -4,8 +4,6 @@ import jwt from 'jsonwebtoken'
 
 const JWT_COOKIE_NAME = 'authorization'
 const JWT_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
-// eslint-disable-next-line ts/ban-ts-comment
-// @ts-expect-error
 const JWT_SECRET = Bun.env.JWT_SECRET!
 
 export function jwtSign(payload: TUserLoginData) {
