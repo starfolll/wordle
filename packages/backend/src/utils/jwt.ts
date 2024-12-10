@@ -4,12 +4,12 @@ import jwt from 'jsonwebtoken'
 
 const JWT_COOKIE_NAME = 'authorization'
 const JWT_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
-const JWT_SECRET = Bun.env.JWT_SECRET!
+const BACKEND_JWT_SECRET = Bun.env.BACKEND_JWT_SECRET!
 
 export function jwtSign(payload: TUserLoginData) {
   return jwt.sign(
     payload,
-    JWT_SECRET,
+    BACKEND_JWT_SECRET,
     {
       expiresIn: JWT_COOKIE_MAX_AGE,
     },
@@ -17,7 +17,7 @@ export function jwtSign(payload: TUserLoginData) {
 }
 
 export function jwtVerify(token: string) {
-  return jwt.verify(token, JWT_SECRET) as TUserLoginData
+  return jwt.verify(token, BACKEND_JWT_SECRET) as TUserLoginData
 }
 
 export function getJwtCookie(userJWT: string) {

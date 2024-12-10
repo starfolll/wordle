@@ -2,8 +2,9 @@
   "name": "prisma-client",
   "main": "index.ts",
   "scripts": {
-    "dev": "bunx prisma studio --browser none",
-    "postinstall": "bunx prisma generate"
+    "postinstall": "bunx prisma generate",
+    "with-prisma": "bunx prisma",
+    "studio": "bunx prisma studio --browser none"
   },
   "dependencies": {
     "@prisma/client": "^6.0.1",
