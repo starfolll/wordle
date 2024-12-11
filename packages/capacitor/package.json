@@ -1,0 +1,13 @@
+{
+  "name": "wordle-capacitor",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "assemble-debug": "cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0"
+  }
+}
