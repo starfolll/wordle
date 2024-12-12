@@ -1,0 +1,10 @@
+{
+  "name": "db-prepare",
+  "dependencies": {
+    "types.app": "workspace:*",
+    "prisma-client": "workspace:*"
+  },
+  "scripts": {
+    "populate": "bun run ./db-populate.ts"
+  }
+}
