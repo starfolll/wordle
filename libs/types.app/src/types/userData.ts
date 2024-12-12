@@ -1,6 +1,6 @@
 import type { User } from 'prisma-client'
 import type { TPrettify } from 'types.utility'
-import type { TAnyShopItemData } from './shopItemData'
+import type { TAnyShopItemData } from './shop/shop-item'
 
 export type TUserLoginData = TPrettify<Pick<
   User,

@@ -1,5 +1,8 @@
-import type { Prisma } from '@prisma/client'
-import type { ShopItemCategory } from 'prisma-client'
+import type { Prisma, ShopItemCategory } from 'prisma-client'
+import type { TShopItemBackgroundData } from './items/shop-item-background'
+import type { TShopItemFontData } from './items/shop-item-font'
+import type { TShopItemStickerData } from './items/shop-item-sticker'
+import type { TShopItemThemeData } from './items/shop-item-theme'
 
 export const ShopItemCategoryData = {
   background: 'background',
@@ -19,39 +22,6 @@ export interface ShopItemData {
   price: number
 
   data: Prisma.JsonValue
-}
-
-export interface TShopItemBackgroundData extends ShopItemData {
-  category: TShopItemCategoryData['background']
-
-  data: {
-    background: string
-  }
-}
-
-export interface TShopItemThemeData extends ShopItemData {
-  category: TShopItemCategoryData['theme']
-
-  data: {
-    themeVariables: Record<string, string>
-  }
-}
-
-export interface TShopItemFontData extends ShopItemData {
-  category: TShopItemCategoryData['font']
-
-  data: {
-    fontUrl: string
-    fontName: string
-  }
-}
-
-export interface TShopItemStickerData extends ShopItemData {
-  category: TShopItemCategoryData['sticker']
-
-  data: {
-    stickerUrl: string
-  }
 }
 
 export const UniquelySelectableShopItemCategory = [
