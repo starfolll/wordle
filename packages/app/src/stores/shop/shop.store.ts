@@ -1,9 +1,8 @@
 import { trpcClient } from '@/api/trpcClient'
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
-import { ShopItemCategoryData, type TAnyShopItemData, type TAnyUniquelySelectableShopItemData } from 'types.app'
+import { ShopItemCategoryData, ShopItemDefault, type TAnyShopItemData, type TAnyUniquelySelectableShopItemData } from 'types.app'
 import { computed, readonly, ref } from 'vue'
-import { shopItemsPurchasedDefault } from './shop-items-purchased-default'
 
 export const useShopStore = defineStore('shop', () => {
   const isShopLoaded = ref(false)
@@ -12,9 +11,9 @@ export const useShopStore = defineStore('shop', () => {
   const diamonds = ref(0)
 
   const shopItems = ref<Record<TAnyShopItemData['id'], TAnyShopItemData>>({})
-  const purchasedItems = ref<Record<TAnyShopItemData['id'], TAnyShopItemData>>({ ...shopItemsPurchasedDefault })
+  const purchasedItems = ref<Record<TAnyShopItemData['id'], TAnyShopItemData>>({ ...ShopItemDefault })
   const addPurchasedItem = (item: TAnyShopItemData) => purchasedItems.value[item.id] = item
-  const resetPurchasedItems = () => purchasedItems.value = { ...shopItemsPurchasedDefault }
+  const resetPurchasedItems = () => purchasedItems.value = { ...ShopItemDefault }
   const availableItems = computed<TAnyShopItemData[]>(() => Object.values(shopItems.value).filter(item => !purchasedItems.value[item.id]))
 
   const purchasingItemId = ref<TAnyShopItemData['id'] | null>(null)
@@ -44,7 +43,7 @@ export const useShopStore = defineStore('shop', () => {
   ): Extract<TAnyUniquelySelectableShopItemData, { category: T }> => {
     const itemId = selectedItemsId.value[category]
     const item = itemId ? purchasedItems.value[itemId] : null
-    return item as any ?? shopItemsPurchasedDefault[category]
+    return item as any ?? ShopItemDefault[category]
   }
   const selectedItems = computed(() => ({
     background: getItemWithDefault(ShopItemCategoryData.background),
