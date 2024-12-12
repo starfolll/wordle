@@ -76,7 +76,7 @@ async function startDailyChallenge(date: string) {
       :loading="loading"
       class="grid w-full gap-2 p-2 overflow-hidden rounded-lg bg-neutral-900/90"
     >
-      <h2 class="mb-2 text-2xl text-current-400">
+      <h2 class="text-2xl text-current-400">
         Classic
       </h2>
 
@@ -144,9 +144,9 @@ async function startDailyChallenge(date: string) {
     <section class="flex gap-8">
       <LoadingBox
         :loading="loading"
-        class="grid w-full gap-2 p-2 overflow-hidden rounded-lg grow bg-neutral-900/90"
+        class="grid content-between w-full gap-2 p-2 overflow-hidden rounded-lg grow bg-neutral-900/90"
       >
-        <h2 class="mb-2 text-2xl text-current-400">
+        <h2 class="text-2xl text-current-400">
           With hint
         </h2>
 
@@ -175,13 +175,11 @@ async function startDailyChallenge(date: string) {
 
       <button
         v-squash-on-click
-        class="text-xl aspect-square group"
+        class="text-xl aspect-square group flex flex-col px-1 items-center justify-center h-full gap-4 transition-colors rounded-lg bg-amber-400 hover:bg-amber-500"
         @click="router.push('/store')"
       >
-        <div class="flex flex-col items-center justify-center h-full gap-4 transition-colors rounded-lg bg-amber-400 group-hover:bg-amber-500">
-          <font-awesome-icon class="text-amber-800" :icon="['fas', 'store']" size="lg" />
-          <WalletCoin class="transition-colors group-hover:border-amber-500" />
-        </div>
+        <font-awesome-icon class="text-amber-800" :icon="['fas', 'store']" size="lg" />
+        <WalletCoin class="transition-colors group-hover:border-amber-500" />
       </button>
     </section>
   </main>

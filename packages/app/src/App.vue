@@ -2,6 +2,7 @@
 import { computed, h, onMounted, ref, watch } from 'vue'
 import { RouterView } from 'vue-router'
 import StickerPlaced from './components/stickers/sticker-placed.vue'
+import { fontAvailableAsync } from './fonts/font-available-async'
 import { useGamesProgressStore } from './stores/gamesProgress.store'
 import { usePlacedStickersStore } from './stores/placed-stickers/placed-stickers.store'
 import { useShopStore } from './stores/shop/shop.store'
@@ -12,9 +13,9 @@ const shopStore = useShopStore()
 const gamesProgressStore = useGamesProgressStore()
 const placedStickersStore = usePlacedStickersStore()
 
-const fontStyleComponent = computed(() => h('style', {}, `
-  @import url(${shopStore.selectedItems.font.data.fontUrl});
-  body { font-family: ${shopStore.selectedItems.font.data.fontName}, system-ui; }
+const fontName = computed(() => shopStore.selectedItems.font.data.fontName)
+const overridingFontStyles = computed(() => h('style', {}, `
+  body { font-family: ${shopStore.selectedItems.font.data.fontName} }
 `))
 
 const placedStickersContainerRef = ref<HTMLDivElement>()
@@ -33,6 +34,11 @@ onMounted(async () => {
 </script>
 
 <template>
+  <section>
+    <component :is="fontAvailableAsync[fontName]" />
+    <component :is="overridingFontStyles" />
+  </section>
+
   <section>
     <Transition name="fade">
       <div
@@ -54,8 +60,6 @@ onMounted(async () => {
       :placement="placement"
     />
   </section>
-
-  <component :is="fontStyleComponent" />
 
   <div
     class="flex items-center justify-center h-full"
