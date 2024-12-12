@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { TShopItemFontData } from 'libs/types.app'
-import { computed, h } from 'vue'
+import type { TShopItemFontData } from 'types.app'
+import { fontAvailableAsync } from '@/fonts/font-available-async'
 
 const props = defineProps<{
   item: TShopItemFontData
@@ -24,12 +24,12 @@ const content = [
 
 const randomContent = content[Math.floor(Math.random() * content.length)]
 
-const fontStyle = computed(() => h('style', {}, `@import url(${props.item.data.fontUrl});`))
+const fontAsyncComponent = fontAvailableAsync[props.item.data.fontName]
 </script>
 
 <template>
   <div class="flex items-center justify-center w-full h-full p-2 text-xl text-center text-current-100">
-    <component :is="fontStyle" />
+    <component :is="fontAsyncComponent" />
 
     <span :style="`font-family: ${props.item.data.fontName}, system-ui;`">
       {{ randomContent }}
