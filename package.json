@@ -15,6 +15,7 @@
     "prisma:studio": "bun --env-file=../../.env run --cwd libs/prisma-client studio",
     "docker-compose:up": "docker-compose up -d",
     "dev": "bun docker-compose:up && concurrently --names app,server,prisma -c green,blue,cyan 'bun run app:dev' 'bun run backend:dev' 'bun run prisma:studio'",
+    "db-prepare:populate": "bun --env-file=../../.env run --cwd libs/db-prepare populate",
     "lint": "eslint --cache",
     "lint:fix": "eslint --cache --fix"
   },
