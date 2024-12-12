@@ -4,6 +4,7 @@ import { playSquashAnimation, vSquashOnClick } from '@/directives/animations/v-s
 import { letterClassName } from '@/helpers/class-names/matching-letter'
 import { useWordleStore } from '@/stores/wordle.store'
 import { GameProgressType } from 'types.app'
+import ButtonBase from '../ui/buttons/button-base.vue'
 import Keycap from './keyboard-keycap.vue'
 
 const wordleStore = useWordleStore()
@@ -62,8 +63,7 @@ const letterClassNameExtended = {
       </Keycap>
 
       <template v-if="rowIndex === 2">
-        <button
-          v-squash-on-click
+        <ButtonBase
           v-global-key-press="(el, e) => !(e.shiftKey || e.ctrlKey) && e.key === 'Backspace' && playSquashAnimation(el)"
           class="ml-2"
           @click="wordleStore.removeLastGuessingWordLetter"
@@ -71,18 +71,16 @@ const letterClassNameExtended = {
           <Keycap class="w-10 text-current-400">
             <font-awesome-icon :icon="['fas', 'delete-left']" />
           </Keycap>
-        </button>
+        </ButtonBase>
 
-        <button
-          v-squash-on-click
+        <ButtonBase
           v-global-key-press="(el, e) => (e.shiftKey || e.ctrlKey) && e.key === 'Backspace' && playSquashAnimation(el)"
-
           @click="wordleStore.clearGuessingWord"
         >
           <Keycap class="w-10 text-current-400">
             <font-awesome-icon :icon="['fas', 'eraser']" />
           </Keycap>
-        </button>
+        </ButtonBase>
       </template>
     </div>
   </div>

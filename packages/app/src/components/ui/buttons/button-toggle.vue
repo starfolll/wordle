@@ -21,7 +21,7 @@ function setActive() {
     class="px-4 text-lg text-left transition-colors border-2 rounded-full scrollbar-width-0"
     :class="[isActive
       ? 'bg-transparent border-current-800 cursor-not-allowed text-current-400'
-      : 'bg-current-800 text-current-100 hover:bg-current-700 border-current-800 hover:border-current-700',
+      : 'bg-current-800 text-current-100 border-current-800',
     ]"
     @click="setActive"
   >

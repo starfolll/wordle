@@ -2,6 +2,7 @@
 import { useShopStore } from '@/stores/shop/shop.store'
 import { vOnClickOutside } from '@vueuse/components'
 import { ref, watch } from 'vue'
+import ButtonBase from '../ui/buttons/button-base.vue'
 import Dialog from '../ui/dialog.vue'
 import StoreItem from './shop-item.vue'
 
@@ -40,12 +41,12 @@ watch(() => shopStore.purchasingItem, (item) => {
               Checkout
             </p>
 
-            <button
-              class="w-10 h-10 rounded-full bg-current-800 hover:bg-current-700"
+            <ButtonBase
+              class="w-10 h-10 rounded-full bg-current-800"
               @click="shopStore.cancelCheckout"
             >
               <font-awesome-icon :icon="['fas', 'xmark']" />
-            </button>
+            </ButtonBase>
           </div>
 
           <p class="text-current-400">
@@ -66,19 +67,19 @@ watch(() => shopStore.purchasingItem, (item) => {
           </p>
         </div>
 
-        <button
-          class="py-2 font-bold transition-colors border-2 rounded-lg border-rose-400 text-rose-400 hover:bg-rose-900"
+        <ButtonBase
+          class="py-2 font-bold transition-colors border-2 rounded-lg border-rose-400 text-rose-400"
           @click="shopStore.cancelCheckout"
         >
           Cancel
-        </button>
+        </ButtonBase>
 
-        <button
-          class="py-2 font-bold transition-colors rounded-lg bg-lime-300 text-lime-900 hover:bg-lime-500"
+        <ButtonBase
+          class="py-2 font-bold transition-colors rounded-lg bg-lime-300 text-lime-900"
           @click="shopStore.purchaseItem"
         >
           Purchase
-        </button>
+        </ButtonBase>
       </div>
     </div>
   </Dialog>

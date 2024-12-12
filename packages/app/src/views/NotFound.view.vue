@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ButtonBase from '@/components/ui/buttons/button-base.vue'
 import WordLetter from '@/components/word/word-letter.vue'
 import { useRouter } from 'vue-router'
 
@@ -19,11 +20,11 @@ const router = useRouter()
       </p>
     </div>
 
-    <button
-      class="rounded-full min-w-12 bg-current-800 aspect-square hover:bg-current-700"
+    <ButtonBase
+      class="rounded-full min-w-12 bg-current-800 aspect-square"
       @click="router.push('/')"
     >
       <font-awesome-icon :icon="['fas', 'home']" />
-    </button>
+    </ButtonBase>
   </main>
 </template>

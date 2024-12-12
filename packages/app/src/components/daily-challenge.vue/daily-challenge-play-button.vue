@@ -2,6 +2,7 @@
 import type { DailyChallengeGameProgressData } from 'types.app'
 import { getDateShort, getToday, isSameDay } from 'dates'
 import { computed } from 'vue'
+import ButtonBase from '../ui/buttons/button-base.vue'
 
 const props = defineProps<{
   gameProgress: DailyChallengeGameProgressData | null
@@ -15,12 +16,12 @@ const isActiveDate = computed(() => isSameDay(today, new Date(props.date)))
 </script>
 
 <template>
-  <button
+  <ButtonBase
     :disabled="!isActiveDate"
     class="flex flex-col items-center gap-2 py-2 transition-colors border-2 rounded-lg grow"
     :class="[
       isActiveDate && !gameProgress?.isCompleted
-        ? 'border-current-700 bg-current-700 hover:bg-current-600 hover:border-current-600'
+        ? 'border-current-700 bg-current-700'
         : 'border-neutral-700 bg-neutral-900',
       isActiveDate || gameProgress?.isCompleted
         ? 'text-current-100'
@@ -41,5 +42,5 @@ const isActiveDate = computed(() => isSameDay(today, new Date(props.date)))
       class="border-2 border-dashed rounded-full size-6"
       :class="isActiveDate ? 'border-current-100' : 'border-neutral-600'"
     />
-  </button>
+  </ButtonBase>
 </template>

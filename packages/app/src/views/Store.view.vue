@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PurchaseConfirmation from '@/components/shop/purchase-confirmation.vue'
 import ShopItem from '@/components/shop/shop-item.vue'
+import ButtonBase from '@/components/ui/buttons/button-base.vue'
 import ButtonCircle from '@/components/ui/buttons/button-circle.vue'
 import ButtonToggle from '@/components/ui/buttons/button-toggle.vue'
 import WalletCoin from '@/components/wallets/wallet-coin.vue'
@@ -92,7 +93,7 @@ onMounted(() => {
       v-if="shopStore.isShopLoaded"
       class="flex flex-col items-start gap-4 pt-4 pb-16 overflow-x-visible overflow-y-scroll scrollbar-width-0 grow"
     >
-      <button
+      <ButtonBase
         v-if="activeCategory === ShopItemCategoryData.sticker"
         class="p-2 px-4 m-auto mt-8 mb-8 text-lg font-semibold rounded-full text-balance text-current-200 bg-current-800 disabled:opacity-50"
         :disabled="activeCategoryPurchasedItems.length === 0"
@@ -100,7 +101,7 @@ onMounted(() => {
       >
         <font-awesome-icon :icon="['fas', 'pen']" class="mr-2" />
         Edit background stickers
-      </button>
+      </ButtonBase>
 
       <div class="w-full p-2 pl-4 text-xl rounded-lg text-current-400 bg-neutral-900">
         <div v-if="activeCategoryPurchasedItems.length === 0">
@@ -122,12 +123,12 @@ onMounted(() => {
           appear
           name="fade"
         >
-          <button
+          <ButtonBase
             :disabled="isItemSelected(item)"
             @click="() => shopStore.setSelectedItem(item)"
           >
             <ShopItem :item="item" purchased />
-          </button>
+          </ButtonBase>
         </Transition>
       </div>
 
@@ -146,7 +147,7 @@ onMounted(() => {
           appear
           name="fade"
         >
-          <button
+          <ButtonBase
             :disabled="!isAffordable(item)"
             @click="() => shopStore.setCheckoutItem(item.id)"
           >
@@ -157,7 +158,7 @@ onMounted(() => {
                 : 'cursor-not-allowed'
               "
             />
-          </button>
+          </ButtonBase>
         </Transition>
       </div>
     </section>

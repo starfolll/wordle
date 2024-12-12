@@ -3,6 +3,7 @@ import type { TShopItemStickerData } from 'types.app'
 import StickerControls from '@/components/stickers/sticker-controls.vue'
 import StickerHighlighter from '@/components/stickers/sticker-highlighter.vue'
 import Sticker from '@/components/stickers/sticker.vue'
+import ButtonBase from '@/components/ui/buttons/button-base.vue'
 import ButtonCircle from '@/components/ui/buttons/button-circle.vue'
 import TooltipContainer from '@/components/ui/tooltip-container.vue'
 import { usePlacedStickersStore } from '@/stores/placed-stickers/placed-stickers.store'
@@ -149,7 +150,7 @@ onMounted(() => {
         </p>
 
         <div class="grid grid-cols-4 gap-1">
-          <button
+          <ButtonBase
             v-for="sticker in purchasedStickers"
             :key="sticker.id"
             :disabled="placedStickersStore.isStickersLimitReached"
@@ -157,7 +158,7 @@ onMounted(() => {
             @click="addSticker(sticker.id)"
           >
             <Sticker :sticker="sticker" />
-          </button>
+          </ButtonBase>
         </div>
       </section>
 
@@ -200,7 +201,7 @@ onMounted(() => {
         <ButtonCircle
           v-on-long-press="[placedStickersStore.removeAllStickers, { delay: 1000, modifiers: { stop: true, prevent: true } }]"
           :disabled="isScrolling || placedStickersStore.highlightedStickerPlacementId === null"
-          class="text-lg text-red-500 border-2 border-red-500 bg-neutral-800 hover:bg-neutral-700 disabled:border-opacity-60"
+          class="text-lg text-red-500 border-2 border-red-500 bg-neutral-800 disabled:border-opacity-60"
           @click="removeHightedSticker"
         >
           <font-awesome-icon :icon="['fas', 'trash']" />
@@ -290,12 +291,12 @@ onMounted(() => {
                 </span>
               </template>
 
-              <button
+              <ButtonBase
                 class="p-2 rounded-lg justify-items-center snap-center min-w-20 size-20 bg-neutral-800"
                 @click="placedStickersStore.setEditingStickerPlacementId(placement.placementId)"
               >
                 <Sticker :sticker="sticker" />
-              </button>
+              </ButtonBase>
             </TooltipContainer>
 
             <div class="min-w-[calc(100%/2-5rem/2-0.25rem)]" />

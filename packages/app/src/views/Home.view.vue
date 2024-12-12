@@ -4,10 +4,10 @@ import DailyChallengeWeek from '@/components/daily-challenge.vue/daily-challenge
 import HowToPlay from '@/components/how-to-play/how-to-play.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
 import Streak from '@/components/streak.vue'
+import ButtonBase from '@/components/ui/buttons/button-base.vue'
 import ButtonCircle from '@/components/ui/buttons/button-circle.vue'
 import WalletCoin from '@/components/wallets/wallet-coin.vue'
 import WalletDiamond from '@/components/wallets/wallet-diamond.vue'
-import { vSquashOnClick } from '@/directives/animations/v-squash-on-click'
 import { useGamesProgressStore } from '@/stores/gamesProgress.store'
 import { useWordleStore } from '@/stores/wordle.store'
 import { getToday } from 'dates'
@@ -80,10 +80,10 @@ async function startDailyChallenge(date: string) {
         Classic
       </h2>
 
-      <button
+      <ButtonBase
         v-if="gamesProgressStore.classicFourLetters"
         :disabled="loading"
-        class="flex items-center justify-between py-1 pl-3 pr-1 text-2xl transition-colors rounded bg-neutral-700 hover:bg-neutral-600"
+        class="flex items-center justify-between py-1 pl-3 pr-1 text-2xl transition-colors rounded bg-neutral-700"
         @click="startGame(gamesProgressStore.classicFourLetters)"
       >
         4 letters
@@ -100,12 +100,12 @@ async function startDailyChallenge(date: string) {
           :icon="['fas', 'arrow-right']"
           size="sm"
         />
-      </button>
+      </ButtonBase>
 
-      <button
+      <ButtonBase
         v-if="gamesProgressStore.classicFiveLetters"
         :disabled="loading"
-        class="flex items-center justify-between py-1 pl-3 pr-1 text-2xl transition-colors rounded bg-neutral-700 hover:bg-neutral-600"
+        class="flex items-center justify-between py-1 pl-3 pr-1 text-2xl transition-colors rounded bg-neutral-700"
         @click="startGame(gamesProgressStore.classicFiveLetters)"
       >
         5 letters
@@ -122,7 +122,7 @@ async function startDailyChallenge(date: string) {
           :icon="['fas', 'arrow-right']"
           size="sm"
         />
-      </button>
+      </ButtonBase>
     </LoadingBox>
 
     <LoadingBox
@@ -150,10 +150,10 @@ async function startDailyChallenge(date: string) {
           With hint
         </h2>
 
-        <button
+        <ButtonBase
           v-if="gamesProgressStore.withHint"
           :disabled="loading"
-          class="flex items-center justify-between py-1 pl-3 pr-1 text-2xl transition-colors rounded bg-neutral-700 hover:bg-neutral-600"
+          class="flex items-center justify-between py-1 pl-3 pr-1 text-2xl transition-colors rounded bg-neutral-700"
           @click="startGame(gamesProgressStore.withHint)"
         >
           Play
@@ -170,17 +170,16 @@ async function startDailyChallenge(date: string) {
             :icon="['fas', 'arrow-right']"
             size="sm"
           />
-        </button>
+        </ButtonBase>
       </LoadingBox>
 
-      <button
-        v-squash-on-click
-        class="text-xl aspect-square group flex flex-col px-1 items-center justify-center h-full gap-4 transition-colors rounded-lg bg-amber-400 hover:bg-amber-500"
+      <ButtonBase
+        class="text-xl aspect-square group flex flex-col px-1 items-center justify-center h-full gap-4 transition-colors rounded-lg bg-amber-400"
         @click="router.push('/store')"
       >
         <font-awesome-icon class="text-amber-800" :icon="['fas', 'store']" size="lg" />
-        <WalletCoin class="transition-colors group-hover:border-amber-500" />
-      </button>
+        <WalletCoin class="transition-colors" />
+      </ButtonBase>
     </section>
   </main>
 </template>

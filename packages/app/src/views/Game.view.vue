@@ -3,13 +3,14 @@ import HowToPlay from '@/components/how-to-play/how-to-play.vue'
 import Keyboard from '@/components/keyboard/keyboard.vue'
 import LoadingBox from '@/components/LoadingBox.vue'
 import Streak from '@/components/streak.vue'
+import ButtonBase from '@/components/ui/buttons/button-base.vue'
 import ButtonCircle from '@/components/ui/buttons/button-circle.vue'
 import WalletCoinMini from '@/components/wallets/wallet-coin-mini.vue'
 import WordRowGuessed from '@/components/word/word-row-guessed.vue'
 import WordRowGuessing from '@/components/word/word-row-guessing.vue'
 import WordRowRemaining from '@/components/word/word-row-remaining.vue'
 import { vGlobalKeyPress } from '@/directives/animations/v-global-key-press'
-import { playSquashAnimation, vSquashOnClick } from '@/directives/animations/v-squash-on-click'
+import { playSquashAnimation } from '@/directives/animations/v-squash-on-click'
 import { useGamesProgressStore } from '@/stores/gamesProgress.store'
 import { useWordleStore } from '@/stores/wordle.store'
 import { GameProgressType } from 'types.app'
@@ -108,34 +109,32 @@ watchEffect(() => {
     </section>
 
     <section class="py-4">
-      <button
+      <ButtonBase
         v-if="!wordleStore.isGameOver"
-        v-squash-on-click
         v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
         :disabled="!wordleStore.isGuessSubmittable || wordleStore.isGameOver || false"
         class="primary"
         @click="submitGuess"
       >
         Submit
-      </button>
-      <button
+      </ButtonBase>
+      <ButtonBase
         v-else-if="wordleStore.gameProgress?.gameType === GameProgressType.dailyChallengeGameProgress"
         class="primary"
         @click="router.push('/')"
       >
         <font-awesome-icon :icon="['fas', 'home']" />
-      </button>
+      </ButtonBase>
       <LoadingBox v-else :loading="loading">
-        <button
+        <ButtonBase
           ref="nextWordButton"
-          v-squash-on-click
           v-global-key-press="(el, e) => !(el as HTMLButtonElement).disabled && e.key === 'Enter' && playSquashAnimation(el)"
           class="primary"
           :disabled="loading"
           @click="nextWord"
         >
           {{ wordleStore.isWon ? 'Next word' : 'Restart' }}
-        </button>
+        </ButtonBase>
       </LoadingBox>
     </section>
   </main>
