@@ -11,6 +11,7 @@
     "app:dev": "bun --env-file=../../.env run --cwd packages/app dev",
     "app:build": "bun --env-file=../../.env run --cwd packages/app build",
     "backend:dev": "bun --env-file=../../.env run --cwd packages/backend dev",
+    "backend:start:prod": "bun --env-file=../../.env run --cwd packages/backend start",
     "prisma": "bun --env-file=../../.env run --cwd libs/prisma-client with-prisma",
     "prisma:studio": "bun --env-file=../../.env run --cwd libs/prisma-client studio",
     "docker-compose:up": "docker-compose up -d",

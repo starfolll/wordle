@@ -2,7 +2,8 @@
   "name": "encryption",
   "main": "index.ts",
   "dependencies": {
-    "@trpc/client": "^10.45.2"
+    "@trpc/client": "^10.45.2",
+    "crypto-js": "^4.2.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2"

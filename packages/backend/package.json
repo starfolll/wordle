@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --watch main.ts",
-    "parser:start": "bun parser.ts",
-    "db:prepare": "bun db.prepare.ts"
+    "start": "bun main.ts"
   },
   "dependencies": {
     "@trpc/server": "^10.45.2",

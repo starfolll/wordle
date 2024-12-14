@@ -2,7 +2,6 @@
   "name": "prisma-client",
   "main": "index.ts",
   "scripts": {
-    "postinstall": "bunx prisma generate",
     "with-prisma": "bunx prisma",
     "studio": "bunx prisma studio --browser none"
   },
