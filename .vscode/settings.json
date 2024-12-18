@@ -3,5 +3,6 @@
     "source.fixAll": "explicit"
   },
   "typescript.tsdk": "node_modules/typescript/lib",
+  "ansible.validation.lint.enabled": false,
   "java.configuration.updateBuildConfiguration": "automatic"
 }
