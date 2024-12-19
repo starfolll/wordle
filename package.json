@@ -15,6 +15,8 @@
     "prisma": "bun --env-file=../../.env run --cwd libs/prisma-client with-prisma",
     "prisma:studio": "bun --env-file=../../.env run --cwd libs/prisma-client studio",
     "docker-compose:up": "docker-compose up -d",
+    "capacitor:sync": "bun --env-file=../../.env run --cwd packages/capacitor sync",
+    "capacitor:assemble-debug": "bun app:build && bun capacitor:sync && bun --env-file=../../.env run --cwd packages/capacitor assemble-debug",
     "dev": "bun docker-compose:up && concurrently --names app,server,prisma -c green,blue,cyan 'bun run app:dev' 'bun run backend:dev' 'bun run prisma:studio'",
     "db-prepare:populate": "bun --env-file=../../.env run --cwd libs/db-prepare populate",
     "lint": "eslint --cache",
