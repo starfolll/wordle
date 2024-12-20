@@ -104,6 +104,7 @@ web_modules/
 
 .env*
 !.env.example.*
+terraform/.tfvars
 
 # parcel-bundler cache (https://parceljs.org/)
 
