@@ -1,0 +1,14 @@
+---
+- name: Prepare backend server
+  hosts: all
+  remote_user: ubuntu
+
+  vars:
+    MODE: prod
+    REPO_DEST: ~/wordle
+
+  tasks:
+  - name: Start pm2 backend
+    ansible.builtin.shell: |
+      cd {{ REPO_DEST }} &&
+      bun backend:start:{{ MODE }}

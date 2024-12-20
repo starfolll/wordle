@@ -1,0 +1,44 @@
+---
+- name: Prepare backend server
+  hosts: all
+  remote_user: ubuntu
+
+  vars:
+    NODEJS_VERSION: 22
+    REPO_DEST: ~/wordle
+
+  tasks:
+  - name: Install node
+    ansible.builtin.shell: |
+      curl -fsSL https://deb.nodesource.com/setup_{{ NODEJS_VERSION }}.x -o nodesource_setup.sh &&
+      sudo -E bash nodesource_setup.sh &&
+      sudo apt-get install -y nodejs &&
+      node -v
+
+  - name: Install bun
+    become: true
+    ansible.builtin.shell: |
+      npm install -g bun
+
+  - name: Install pm2
+    become: true
+    ansible.builtin.shell: |
+      npm install -g pm2
+
+  - name: Clone a repo
+    ansible.builtin.git:
+      repo: 'https://github.com/starfolll/wordle.git'
+      dest: "{{ REPO_DEST }}"
+      clone: true
+      update: true
+      force: true
+
+  - name: Copy .env file
+    ansible.builtin.copy:
+      src: ../../.env.production
+      dest: "{{ REPO_DEST }}/.env.production"
+
+  - name: Install dependencies
+    ansible.builtin.shell: |
+      cd {{ REPO_DEST }} &&
+      bun install
