@@ -1,4 +1,6 @@
-export const a2 = [
+import type { TWordInfo } from '../db-populate/db-populate-words'
+
+export const a2: TWordInfo[] = [
   {
     word: 'absence',
     hint: 'the state of being absent',

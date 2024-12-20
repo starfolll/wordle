@@ -1,4 +1,6 @@
-export const b1 = [
+import type { TWordInfo } from '../db-populate/db-populate-words'
+
+export const b1: TWordInfo[] = [
   {
     word: 'abandon',
     hint: 'forsake, leave behind',

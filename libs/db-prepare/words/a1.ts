@@ -1,4 +1,6 @@
-export const a1 = [
+import type { TWordInfo } from '../db-populate/db-populate-words'
+
+export const a1: TWordInfo[] = [
   {
     word: 'ability',
     hint: 'the quality of being able to perform; a quality that permits or facilitates achievement or accomplishment',

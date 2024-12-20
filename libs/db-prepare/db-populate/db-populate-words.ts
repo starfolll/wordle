@@ -1,59 +1,62 @@
-// import { type LearnLevel, PrismaClient, type Word } from '@prisma/client'
+/* eslint-disable no-console */
+import type { LearnLevel, Word } from '@prisma/client'
+import { prismaClient } from 'prisma-client'
 
-// /* eslint-disable no-console */
-// import { a1 } from './words/a1'
-// import { a2 } from './words/a2'
-// import { b1 } from './words/b1'
-// import { b2 } from './words/b2'
-// import { c1 } from './words/c1'
-// import { c2 } from './words/c2'
+import { a1 } from '../words/a1'
+import { a2 } from '../words/a2'
+import { b1 } from '../words/b1'
+import { b2 } from '../words/b2'
+import { c1 } from '../words/c1'
+import { c2 } from '../words/c2'
 
-// const prisma = new PrismaClient()
+export type TWordInfo = {
+  word: string
+  hint: string
+  length: number
+  learnLevel: LearnLevel
+}
 
-// const bannedWords = ['sex']
-// function isAppropriateWord(wordInfo: Word): boolean {
-//   return !bannedWords.some(bannedWord => wordInfo.word.includes(bannedWord))
-// }
+async function upsertWord(word: Word) {
+  await prismaClient.word.upsert({
+    where: { word: word.word },
+    update: word,
+    create: {
+      ...word,
+      hints: {
+        create: {
+          hint: 'No hints yet',
+        },
+      },
+    },
+  })
+}
 
-// function extendWordInfo(learnLevel: LearnLevel, words: Word[]): Word[] {
-//   return words.map(word => ({ ...word, learnLevel, length: word.word.length }))
-// }
-// const allWords = [
-//   extendWordInfo('a1', a1 as Word[]),
-//   extendWordInfo('a2', a2 as Word[]),
-//   extendWordInfo('b1', b1 as Word[]),
-//   extendWordInfo('b2', b2 as Word[]),
-//   extendWordInfo('c1', c1 as Word[]),
-//   extendWordInfo('c2', c2 as Word[]),
-// ].flat().filter(isAppropriateWord)
+async function upsertWords(wordsInfo: TWordInfo[]) {
+  console.log(`Populating words ${wordsInfo.length}...`)
 
-// console.log(`Inserting words into the database... ${allWords.length}`)
-// const logInsertion = (index: number) => console.log(`Inserted ${index.toString().padStart(allWords.length.toString().length, ' ')}/${allWords.length} words`);
+  for (let i = 0; i < wordsInfo.length; i++) {
+    const word = wordsInfo[i]
+    const percent = ((i + 1) / wordsInfo.length) * 100
 
-// (async () => {
-//   for (let index = 0; index < allWords.length; index++) {
-//     const { word, learnLevel } = allWords[index]
+    if (i % 100 === 0) {
+      console.log(`Progress: ${percent.toFixed(2)}%`)
+    }
 
-//     if (index % 100 === 0)
-//       logInsertion(index)
+    await upsertWord({
+      word: word.word,
+      length: word.length,
+      learnLevel: word.learnLevel,
+    })
+  }
+}
 
-//     const wordInfo = {
-//       word,
-//       length: word.length,
-//       learnLevel,
-//     }
-
-//     await prisma.word.upsert({
-//       where: { word },
-//       update: wordInfo,
-//       create: {
-//         ...wordInfo,
-//         hints: {
-//           create: {
-//             hint: 'temp',
-//           },
-//         },
-//       },
-//     })
-//   }
-// }) ()
+export async function dbPopulateWords() {
+  await upsertWords([
+    a1,
+    a2,
+    b1,
+    b2,
+    c1,
+    c2,
+  ].flat())
+}

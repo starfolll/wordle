@@ -1,4 +1,6 @@
-export const c1 = [
+import type { TWordInfo } from '../db-populate/db-populate-words'
+
+export const c1: TWordInfo[] = [
   {
     word: 'abnormal',
     hint: 'not normal; not typical or usual or regular or conforming to a norm',

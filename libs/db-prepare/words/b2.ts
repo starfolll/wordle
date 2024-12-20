@@ -1,4 +1,6 @@
-export const b2 = [
+import type { TWordInfo } from '../db-populate/db-populate-words'
+
+export const b2: TWordInfo[] = [
   {
     word: 'abbreviation',
     hint: 'An abbreviation is a shorter way of a word or phrase.',

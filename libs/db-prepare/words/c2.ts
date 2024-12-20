@@ -1,4 +1,6 @@
-export const c2 = [
+import type { TWordInfo } from '../db-populate/db-populate-words'
+
+export const c2: TWordInfo[] = [
   {
     word: 'abdomen',
     hint: 'the region of the body of a vertebrate between the thorax and the pelvis',
