@@ -174,7 +174,7 @@ async function startDailyChallenge(date: string) {
       </LoadingBox>
 
       <ButtonBase
-        class="text-xl aspect-square group flex flex-col px-1 items-center justify-center h-full gap-4 transition-colors rounded-lg bg-amber-400"
+        class="text-xl aspect-square group flex flex-col px-1 py-2 items-center justify-center h-full gap-4 transition-colors rounded-lg bg-amber-400"
         @click="router.push('/store')"
       >
         <font-awesome-icon class="text-amber-800" :icon="['fas', 'store']" size="lg" />
