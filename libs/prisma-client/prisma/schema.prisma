@@ -42,11 +42,15 @@ model Word {
 
 model WordHint {
   id Int @id @default(autoincrement())
+  hash String @unique
   
   word Word @relation(fields: [wordId], references: [word])
   wordId String
   
   hint String
+  length Int
+
+  source String?
 
   classicFourLettersGameProgress ClassicFourLettersGameProgress[]
   classicFiveLettersGameProgress ClassicFiveLettersGameProgress[]
