@@ -11,8 +11,8 @@
   },
   "include": [
     "libs/types.app/**/*.ts",
+    "libs/utility/**/*.ts",
     "packages/backend/appRouter.ts",
-    "libs/types.utility/**/*.ts",
 
     "packages/app/env.d.ts",
     "packages/app/src/**/*.ts",

@@ -15,7 +15,7 @@
     "dates": "workspace:*",
     "encryption": "workspace:*",
     "types.app": "workspace:*",
-    "types.utility": "workspace:*",
+    "utility": "workspace:*",
     "vue-component-type-helpers": "^2.1.10"
   }
 }

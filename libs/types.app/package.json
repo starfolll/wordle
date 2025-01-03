@@ -3,6 +3,6 @@
   "main": "index.ts",
   "dependencies": {
     "prisma-client": "workspace:*",
-    "types.utility": "workspace:*"
+    "utility": "workspace:*"
   }
 }

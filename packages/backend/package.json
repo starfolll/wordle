@@ -16,7 +16,7 @@
     "prisma-client": "workspace:*",
     "trpc-bun-adapter": "^1.2.2",
     "types.app": "workspace:*",
-    "types.utility": "workspace:*"
+    "utility": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "^1.1.14",
