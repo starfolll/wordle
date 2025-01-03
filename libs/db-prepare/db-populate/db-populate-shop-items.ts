@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { prismaClient } from 'prisma-client'
 import { shopItemsBackgrounds } from '../shop-items/backgrounds'
 import { shopItemsFonts } from '../shop-items/fonts'
@@ -12,14 +13,13 @@ const allShopItems = [
 ]
 
 export async function dbPopulateShopItems() {
-  allShopItems.forEach(async (shopItem) => {
+  for (const shopItem of allShopItems) {
     await prismaClient.shopItem.upsert({
       where: { id: shopItem.id },
       update: shopItem,
       create: shopItem,
     })
 
-    // eslint-disable-next-line no-console
     console.log(`Inserted ${shopItem.id}`)
-  })
+  }
 }

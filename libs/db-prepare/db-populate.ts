@@ -1,7 +1,8 @@
-import { dbPopulateShopItems } from './db-populate/db-populate-shop-items'
-import { dbPopulateWords } from './db-populate/db-populate-words'
+import { dbPopulateHints } from './db-populate/db-populate-hints'
 
 (async () => {
-  await dbPopulateShopItems()
-  await dbPopulateWords()
+  // await dbPopulateShopItems()
+
+  // await dbPopulateWords()
+  await dbPopulateHints()
 })()

@@ -1,4 +1,4 @@
-import type { TPrettify } from 'types.utility'
+import type { TPrettify } from 'utility'
 import type { TGuessingWordData } from './wordData'
 
 export type TDailyChallengeData = TPrettify<{
