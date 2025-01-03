@@ -1,4 +1,4 @@
-import type { TShopItemBackgroundData } from 'types.app'
+import type { TShopItemBackgroundData } from '../../types'
 import { ShopItemCategory } from 'prisma-client'
 
 export const shopItemsBackgrounds: TShopItemBackgroundData[] = [{

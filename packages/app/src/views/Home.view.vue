@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TGameProgressData } from 'types.app'
+import type { TGameProgressData } from 'types'
 import DailyChallengeWeek from '@/components/daily-challenge.vue/daily-challenge-week.vue'
 import HowToPlay from '@/components/how-to-play/how-to-play.vue'
 import LoadingBox from '@/components/LoadingBox.vue'

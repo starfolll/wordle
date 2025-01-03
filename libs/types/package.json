@@ -1,5 +1,5 @@
 {
-  "name": "types.app",
+  "name": "types",
   "main": "index.ts",
   "dependencies": {
     "prisma-client": "workspace:*",

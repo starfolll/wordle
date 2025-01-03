@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TShopItemBackgroundData } from 'types.app'
+import type { TShopItemBackgroundData } from 'types'
 import { computed, type StyleValue } from 'vue'
 
 const props = defineProps<{

@@ -3,7 +3,7 @@ import { vGlobalKeyPress } from '@/directives/animations/v-global-key-press'
 import { playSquashAnimation, vSquashOnClick } from '@/directives/animations/v-squash-on-click'
 import { letterClassName } from '@/helpers/class-names/matching-letter'
 import { useWordleStore } from '@/stores/wordle.store'
-import { GameProgressType } from 'types.app'
+import { GameProgressType } from 'types'
 import ButtonBase from '../ui/buttons/button-base.vue'
 import Keycap from './keyboard-keycap.vue'
 

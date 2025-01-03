@@ -1,4 +1,4 @@
-import type { TUserLoginData } from 'types.app'
+import type { TUserLoginData } from 'types'
 import { trpcClient } from '@/api/trpcClient'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'

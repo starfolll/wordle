@@ -1,4 +1,4 @@
-import type { TShopItemThemeData } from 'types.app'
+import type { TShopItemThemeData } from '../../types'
 import { ShopItemCategory } from 'prisma-client'
 
 export const shopItemsThemes: TShopItemThemeData[] = [{

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TShopItemStickerData } from 'types.app'
+import type { TShopItemStickerData } from 'types'
 
 defineProps<{
   sticker: TShopItemStickerData

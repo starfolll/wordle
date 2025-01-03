@@ -1,4 +1,4 @@
-import { ShopItemFontName } from 'types.app'
+import { ShopItemFontName } from 'types'
 import { defineAsyncComponent } from 'vue'
 
 import DefaultFont from './in-public/_default-font'

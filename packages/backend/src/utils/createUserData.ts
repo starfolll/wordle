@@ -1,4 +1,4 @@
-import type { TUserLoginData } from 'types.app'
+import type { TUserLoginData } from '../../../../libs/types'
 import { TRPCError } from '@trpc/server'
 import { prismaClient } from 'prisma-client'
 

@@ -1,4 +1,4 @@
-import type { TShopItemFontName } from 'types.app'
+import type { TShopItemFontName } from 'types'
 import { h } from 'vue'
 
 export interface TLocalFont {

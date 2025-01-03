@@ -1,4 +1,4 @@
-import type { TAppRouter } from 'types.app'
+import type { TAppRouter } from 'types'
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
 
 export const trpcClient = createTRPCProxyClient<TAppRouter>({

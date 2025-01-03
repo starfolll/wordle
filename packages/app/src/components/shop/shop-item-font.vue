@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TShopItemFontData } from 'types.app'
+import type { TShopItemFontData } from 'types'
 import { fontAvailableAsync } from '@/fonts/font-available-async'
 
 const props = defineProps<{

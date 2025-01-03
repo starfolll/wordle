@@ -1,7 +1,7 @@
 import { trpcClient } from '@/api/trpcClient'
 import { getWeek } from 'dates'
 import { defineStore } from 'pinia'
-import { type DailyChallengeGameProgressData, GameProgressType, type GamesProgressData, type TGameProgressData, type TGameProgressType } from 'types.app'
+import { type DailyChallengeGameProgressData, GameProgressType, type GamesProgressData, type TGameProgressData, type TGameProgressType } from 'types'
 import { ref } from 'vue'
 
 export const useGamesProgressStore = defineStore('gamesProgress', () => {

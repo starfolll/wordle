@@ -1,4 +1,4 @@
-import type { TShopItemFontData } from 'types.app'
+import type { TShopItemFontData } from '../../types'
 
 export const shopItemsFonts: TShopItemFontData[] = [{
   id: 'font_bubbles',

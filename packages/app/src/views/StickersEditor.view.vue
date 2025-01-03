@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TShopItemStickerData } from 'types.app'
+import type { TShopItemStickerData } from 'types'
 import StickerControls from '@/components/stickers/sticker-controls.vue'
 import StickerHighlighter from '@/components/stickers/sticker-highlighter.vue'
 import Sticker from '@/components/stickers/sticker.vue'

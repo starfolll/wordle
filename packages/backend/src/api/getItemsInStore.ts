@@ -1,4 +1,4 @@
-import type { TAnyShopItemData } from 'types.app'
+import type { TAnyShopItemData } from '../../../../libs/types'
 import { prismaClient } from 'prisma-client'
 import { authorizedProcedure } from '../procedures/authorized.prcdr'
 

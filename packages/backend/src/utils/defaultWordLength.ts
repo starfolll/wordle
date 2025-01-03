@@ -1,4 +1,4 @@
-import type { TGameProgressType } from 'types.app'
+import type { TGameProgressType } from '../../../../libs/types'
 
 export const defaultWordLength = {
   classicFourLettersGameProgress: 4,

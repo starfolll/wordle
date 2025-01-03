@@ -1,4 +1,4 @@
-import type { TUserLoginData } from 'types.app'
+import type { TUserLoginData } from '../../../../libs/types'
 import type { TAppContext } from '../../appContext'
 import { TRPCError } from '@trpc/server'
 import cookie from 'cookie'

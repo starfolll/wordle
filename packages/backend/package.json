@@ -15,7 +15,7 @@
     "jsonwebtoken": "^9.0.2",
     "prisma-client": "workspace:*",
     "trpc-bun-adapter": "^1.2.2",
-    "types.app": "workspace:*",
+    "types": "workspace:*",
     "utility": "workspace:*"
   },
   "devDependencies": {

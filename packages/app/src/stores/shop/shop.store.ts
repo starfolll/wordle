@@ -1,7 +1,7 @@
 import { trpcClient } from '@/api/trpcClient'
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
-import { ShopItemCategoryData, ShopItemDefault, type TAnyShopItemData, type TAnyUniquelySelectableShopItemData } from 'types.app'
+import { ShopItemCategoryData, ShopItemDefault, type TAnyShopItemData, type TAnyUniquelySelectableShopItemData } from 'types'
 import { computed, readonly, ref } from 'vue'
 
 export const useShopStore = defineStore('shop', () => {

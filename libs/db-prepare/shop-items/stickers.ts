@@ -1,4 +1,4 @@
-import type { TShopItemStickerData } from 'types.app'
+import type { TShopItemStickerData } from '../../types'
 import { ShopItemCategory } from 'prisma-client'
 
 export const shopItemsStickers: TShopItemStickerData[] = [{

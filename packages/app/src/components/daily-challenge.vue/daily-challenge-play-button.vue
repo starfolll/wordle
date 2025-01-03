@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DailyChallengeGameProgressData } from 'types.app'
+import type { DailyChallengeGameProgressData } from 'types'
 import { getDateShort, getToday, isSameDay } from 'dates'
 import { computed } from 'vue'
 import ButtonBase from '../ui/buttons/button-base.vue'

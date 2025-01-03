@@ -1,4 +1,4 @@
-import type { TUserLoginData } from 'types.app'
+import type { TUserLoginData } from '../../../../libs/types'
 import cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 

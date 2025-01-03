@@ -1,4 +1,4 @@
-import type { TShopItemStickerData } from 'types.app'
+import type { TShopItemStickerData } from 'types'
 import { useDebounceFn, useRefHistory } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { computed, readonly, ref, watch } from 'vue'

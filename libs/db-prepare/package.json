@@ -1,7 +1,7 @@
 {
   "name": "db-prepare",
   "dependencies": {
-    "types.app": "workspace:*",
+    "types": "workspace:*",
     "prisma-client": "workspace:*",
     "utility": "workspace:*"
   },

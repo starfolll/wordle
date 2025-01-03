@@ -1,4 +1,4 @@
-import type { TShopItemStickerData } from 'types.app'
+import type { TShopItemStickerData } from 'types'
 
 export interface TPlacedSticker {
   stickerId: TShopItemStickerData['id']

@@ -13,7 +13,7 @@ import { vGlobalKeyPress } from '@/directives/animations/v-global-key-press'
 import { playSquashAnimation } from '@/directives/animations/v-squash-on-click'
 import { useGamesProgressStore } from '@/stores/gamesProgress.store'
 import { useWordleStore } from '@/stores/wordle.store'
-import { GameProgressType } from 'types.app'
+import { GameProgressType } from 'types'
 import { ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 

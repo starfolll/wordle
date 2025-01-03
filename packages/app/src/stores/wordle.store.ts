@@ -1,7 +1,7 @@
 import { TMatchingLetterTag } from '@/helpers/class-names/matching-letter'
 import { decryptWord } from 'encryption'
 import { defineStore } from 'pinia'
-import { GameProgressType, type TGameProgressData, type TGameProgressType, type TWordHintData } from 'types.app'
+import { GameProgressType, type TGameProgressData, type TGameProgressType, type TWordHintData } from 'types'
 import { computed, ref } from 'vue'
 import { useUserStore } from './userStore'
 

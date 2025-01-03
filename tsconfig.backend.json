@@ -28,7 +28,7 @@
     "libs/prisma-client/**/*.ts",
     "libs/db-prepare/**/*.ts",
     "libs/encryption/**/*.ts",
-    "libs/types.app/**/*.ts",
+    "libs/types/**/*.ts",
     "libs/utility/**/*.ts",
 
     "packages/app/vite.config.ts",

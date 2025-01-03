@@ -10,7 +10,7 @@
     }
   },
   "include": [
-    "libs/types.app/**/*.ts",
+    "libs/types/**/*.ts",
     "libs/utility/**/*.ts",
     "packages/backend/appRouter.ts",
 

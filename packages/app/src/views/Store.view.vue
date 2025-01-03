@@ -7,7 +7,7 @@ import ButtonToggle from '@/components/ui/buttons/button-toggle.vue'
 import WalletCoin from '@/components/wallets/wallet-coin.vue'
 import WalletDiamond from '@/components/wallets/wallet-diamond.vue'
 import { useShopStore } from '@/stores/shop/shop.store'
-import { ShopItemCategoryData, type TAnyShopItemData, type TShopItemCategoryData } from 'types.app'
+import { ShopItemCategoryData, type TAnyShopItemData, type TShopItemCategoryData } from 'types'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 

@@ -1,4 +1,4 @@
-import type { TAnyShopItemData, TUserInventoryData } from 'types.app'
+import type { TAnyShopItemData, TUserInventoryData } from '../../../../libs/types'
 import { TRPCError } from '@trpc/server'
 import { prismaClient } from 'prisma-client'
 import { authorizedProcedure } from '../procedures/authorized.prcdr'

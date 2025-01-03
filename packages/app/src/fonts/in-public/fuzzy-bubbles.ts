@@ -1,4 +1,4 @@
-import { ShopItemFontName } from 'types.app'
+import { ShopItemFontName } from 'types'
 import { fontGetLocalPath } from '../font-get-local-path'
 import { fontGetStyleComponent } from '../font-get-style-component'
 

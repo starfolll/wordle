@@ -1,4 +1,4 @@
-import type { TUserLoginData } from 'types.app'
+import type { TUserLoginData } from '../../../../libs/types'
 import { publicProcedure } from '../../trpc'
 import { getAuthorizedUser } from '../procedures/authorized.prcdr'
 import { createUserData } from '../utils/createUserData'
